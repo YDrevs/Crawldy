@@ -1,0 +1,39 @@
+# Корпус для калібрування. Формат поблажливий: рядок з адресою — це вже
+# валідний запис, решта полів необовʼязкова.
+#
+# `segment` і `tags` — ГІПОТЕЗА людини, а не виміряна властивість сайту.
+# Вивести їх із домену не можна, і жоден чек їх не бачить: вони існують
+# лише як розріз в аналізі.
+#
+# Це стартовий набір для перевірки самої інфраструктури. Повний корпус
+# на ~1000 сайтів збирається окремо.
+sites:
+  - url: https://www.python.org
+    segment: documentation
+    tags: [static, multilingual]
+    note: велика документація, багато сторінок
+
+  - url: https://ka-dent.com.ua
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес, українська
+
+  - url: https://www.aldg.org
+    segment: local
+    tags: [ssr]
+    note: без стиснення й на HTTP/1.1 — перевірка транспорту
+
+  - url: https://crustula.com.ua
+    segment: ecommerce
+    tags: [wordpress]
+    note: магазин, індекс карти сайту з дітьми
+
+  - url: https://auditlensapp.com
+    segment: saas
+    tags: [spa, nextjs]
+    note: клієнтський рендеринг — перевірка JS-відкриття
+
+  - url: https://this-domain-does-not-resolve-crawldy.test
+    segment: other
+    enabled: true
+    note: свідомо неробоча адреса — перевірка ізоляції збоїв

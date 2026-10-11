@@ -1,0 +1,3438 @@
+{
+  "manifest": "phase1-v2-model-comparison",
+  "live": true,
+  "generated_at": "2026-08-25T04:30:31.446235+00:00",
+  "routing_version": "1",
+  "pricing_version": "2026-08-24-anthropic-first-party+openai-standard",
+  "execution_budgets": {
+    "site_understanding": {
+      "max_output_tokens": 3000,
+      "timeout_s": 45.0
+    },
+    "root_cause_grouping": {
+      "max_output_tokens": 8000,
+      "timeout_s": 120.0
+    },
+    "remediation_plan": {
+      "max_output_tokens": 8000,
+      "timeout_s": 120.0
+    }
+  },
+  "rows": [
+    {
+      "model_key": "opus-5",
+      "site": "rightpricerooter.com",
+      "task": "site_understanding",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "1",
+      "input_hash": "5caebdae2974355015d4bd2af7507ccd1fb12cb389cab2372e7568d80b526b59",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T01:46:15.611083+00:00",
+          "finished_at": "2026-08-25T01:46:32.720649+00:00",
+          "latency_ms": 17109,
+          "request_id": "req_011CeNd4Xjwt5aciJdqBTyLi",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1441,
+          "cache_write_tokens": 7789,
+          "cache_read_tokens": 0,
+          "total_tokens": 9232,
+          "cost_usd": 0.08471625,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard",
+          "requested_model": "claude-opus-5",
+          "pricing_key": "claude-opus-5"
+        }
+      ],
+      "result": {
+        "site_kind": "Local service business site — a plumbing contractor's brochure site with a service-request form",
+        "name": "Right Price Rooter & Plumbing",
+        "tagline": "A family-owned, licensed plumbing contractor in Glendale, CA offering rooter service, drain cleaning, copper re-piping and full plumbing service across the Los Angeles area.",
+        "description": "Right Price Rooter (Right Price Rooter & Plumbing) is a family owned and operated plumbing contractor based at 540 N Central Ave Unit B318, Glendale, CA, stating it has served customers since 1992 and describing itself as licensed, bonded and insured (License #645613). The pages read say its plumbers are trained for households, businesses and industries, that service is available 24/7 including holidays, that a price is given before work starts, and that a 25 year warranty applies to major jobs. The site advertises free estimates over the phone, free estimates on any remodel, monthly discount coupons and a Hydro Jet special, and offers a form to schedule service.",
+        "offerings": [
+          "Rooter service",
+          "Drain & Sewer Cleaning",
+          "Hydro Jetting",
+          "Copper re-piping / Copper Pipe Repair with Minimal Cost",
+          "Installation and Repair of Kitchen and Bathroom Sinks, Shower Heads, Toilets, Showers, and Tubs",
+          "Water Heaters Repaired/Replaced",
+          "Tankless Water Heaters",
+          "Storm Drain System Cleaning and Repair",
+          "Removal of Tree Roots and Sludge",
+          "Trenchless Technology / Trenchless Pipe Bursting Method",
+          "Parma-Lines Lateral Lining System",
+          "Grease Traps",
+          "Gas Lines Construction",
+          "New Construction Plumbing for Kitchen, Bathrooms, Showers, Tubs, Sinks and Disposals",
+          "Kitchen and Bathroom Remodel",
+          "Certified tests and detections: Sewer Line Location, In-Line Sewer Video Camera, Pressure Testing, Leak Detection, Dye Testing (Sewer and Water), Back Flow Testing, Complete Plumbing Inspection",
+          "Safety & cost efficiency work: Detection for Underground Leaks, Installation of Safety Devices, Earthquake Protection, Energy Efficient Methods",
+          "Water Lines & Leak Detection (as listed on the service request form)"
+        ],
+        "audience": "The pages state the plumbers serve households, businesses and industries, with over 20 years of experience in commercial, residential and industrial services; geographically the site lists dozens of Los Angeles–area cities (Glendale, La Crescenta, Los Angeles, Pasadena, Burbank, Long Beach and many more). No narrower customer profile is stated.",
+        "page_roles": [
+          {
+            "url": "https://rightpricerooter.com/",
+            "role": "Homepage introducing the company, its credentials, headline services and service-area city list"
+          },
+          {
+            "url": "https://rightpricerooter.com/about-us/",
+            "role": "Company background: family owned, training and screening, pricing promise, license number and Glendale address"
+          },
+          {
+            "url": "https://rightpricerooter.com/services/",
+            "role": "Full list of plumbing services, tests/detections and safety/efficiency offerings"
+          },
+          {
+            "url": "https://rightpricerooter.com/service-request/",
+            "role": "Form to schedule a service appointment with problem type and preferred date/time"
+          },
+          {
+            "url": "https://rightpricerooter.com/contact-us/",
+            "role": "Phone, email and general contact message form"
+          },
+          {
+            "url": "https://rightpricerooter.com/testimonials/",
+            "role": "Customer quotes about pricing transparency and professionalism"
+          },
+          {
+            "url": "https://rightpricerooter.com/43/",
+            "role": "Dated 2013 blog post repeating the company pitch, selling points and service-area cities"
+          },
+          {
+            "url": "https://rightpricerooter.com/category/plumber/",
+            "role": "Blog category archive listing the 'plumber' post"
+          }
+        ],
+        "source_urls": [
+          "https://rightpricerooter.com/",
+          "https://rightpricerooter.com/about-us/",
+          "https://rightpricerooter.com/services/",
+          "https://rightpricerooter.com/service-request/",
+          "https://rightpricerooter.com/contact-us/",
+          "https://rightpricerooter.com/testimonials/",
+          "https://rightpricerooter.com/43/",
+          "https://rightpricerooter.com/category/plumber/"
+        ]
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "latency_ms": 17109,
+        "input_tokens": 2,
+        "output_tokens": 1441,
+        "cost_usd": 0.08471625,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "sonnet-5",
+      "site": "rightpricerooter.com",
+      "task": "site_understanding",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "1",
+      "input_hash": "5caebdae2974355015d4bd2af7507ccd1fb12cb389cab2372e7568d80b526b59",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T01:46:32.750052+00:00",
+          "finished_at": "2026-08-25T01:46:45.094551+00:00",
+          "latency_ms": 12344,
+          "request_id": "req_011CeNd5ibLEmLoBKiuj7uzT",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1182,
+          "cache_write_tokens": 7789,
+          "cache_read_tokens": 0,
+          "total_tokens": 8973,
+          "cost_usd": 0.0312965,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard",
+          "requested_model": "claude-sonnet-5",
+          "pricing_key": "claude-sonnet-5"
+        }
+      ],
+      "result": {
+        "site_kind": "local service (plumbing contractor)",
+        "name": "Right Price Rooter",
+        "tagline": "Plumbing contractor providing rooter, drain, and full plumbing services in Glendale and the greater Los Angeles area since 1992.",
+        "description": "Right Price Rooter is a family-owned plumbing company based in Glendale, CA, licensed, bonded, and insured, offering residential, commercial, and industrial plumbing services. The site emphasizes honest, upfront pricing, 24/7 service including holidays, and a 25-year warranty on major jobs, along with a long list of cities served across the Los Angeles area.",
+        "offerings": [
+          "Installation and Repair of Kitchen and Bathroom Sinks, Shower Heads, Toilets, Showers, and Tubs",
+          "Water Heaters Repaired/Replaced",
+          "Storm Drain System Cleaning and Repair",
+          "Tankless Water Heaters",
+          "Copper Pipe Repair with Minimal Cost Construction",
+          "Removal of Tree Roots and Sludge",
+          "Drain & Sewer Cleaning",
+          "Hydro Jetting",
+          "Trenchless Technology",
+          "Trenchless Pipe Bursting Method",
+          "Parma-Lines Lateral Lining System",
+          "Grease Traps",
+          "Gas Lines Construction",
+          "New Construction Plumbing for Kitchen, Bathrooms, Showers, Tubs, Sinks and Disposals",
+          "Kitchen and Bathroom Remodel",
+          "Sewer Line Location",
+          "In-Line Sewer Video Camera",
+          "Pressure Testing",
+          "Leak Detection",
+          "Dye Testing (Sewer and Water)",
+          "Back Flow Testing",
+          "Complete Plumbing Inspection",
+          "Detection for Underground Leaks",
+          "Installation of Safety Devices",
+          "Earthquake Protection"
+        ],
+        "audience": "The pages do not explicitly state a target audience beyond noting service for 'households, businesses, and industries' and 'Commercial, Residential and Industrial services' across Glendale and many listed Los Angeles-area cities.",
+        "page_roles": [
+          {
+            "url": "https://rightpricerooter.com/",
+            "role": "Homepage introducing the company, its guarantees, and a summary list of services and service areas"
+          },
+          {
+            "url": "https://rightpricerooter.com/about-us/",
+            "role": "Describes company history, credentials, and contact/location details"
+          },
+          {
+            "url": "https://rightpricerooter.com/services/",
+            "role": "Lists detailed plumbing services and specialty offerings"
+          },
+          {
+            "url": "https://rightpricerooter.com/service-request/",
+            "role": "Form for visitors to schedule a service appointment"
+          },
+          {
+            "url": "https://rightpricerooter.com/contact-us/",
+            "role": "Contact form and phone/email details for general inquiries"
+          },
+          {
+            "url": "https://rightpricerooter.com/testimonials/",
+            "role": "Displays customer testimonials praising service quality and pricing honesty"
+          },
+          {
+            "url": "https://rightpricerooter.com/43/",
+            "role": "Blog-style post duplicating homepage introduction and service area list"
+          },
+          {
+            "url": "https://rightpricerooter.com/category/plumber/",
+            "role": "Archive page listing blog posts categorized under 'plumber'"
+          }
+        ],
+        "source_urls": [
+          "https://rightpricerooter.com/",
+          "https://rightpricerooter.com/about-us/",
+          "https://rightpricerooter.com/services/",
+          "https://rightpricerooter.com/service-request/",
+          "https://rightpricerooter.com/contact-us/",
+          "https://rightpricerooter.com/testimonials/",
+          "https://rightpricerooter.com/43/",
+          "https://rightpricerooter.com/category/plumber/"
+        ]
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "latency_ms": 12344,
+        "input_tokens": 2,
+        "output_tokens": 1182,
+        "cost_usd": 0.0312965,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "gpt-5.4-mini",
+      "site": "rightpricerooter.com",
+      "task": "site_understanding",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "1",
+      "input_hash": "5caebdae2974355015d4bd2af7507ccd1fb12cb389cab2372e7568d80b526b59",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "openai",
+          "model": "gpt-5.4-mini-2026-03-17",
+          "outcome": "ok",
+          "started_at": "2026-08-25T01:46:45.125292+00:00",
+          "finished_at": "2026-08-25T01:46:51.521064+00:00",
+          "latency_ms": 6395,
+          "request_id": "resp_0b80736109f90734006a8cf40aea3487d18a7c0616fa0eec25",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 4052,
+          "output_tokens": 607,
+          "cache_write_tokens": null,
+          "cache_read_tokens": 0,
+          "total_tokens": 4659,
+          "cost_usd": 0.0057705,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard",
+          "requested_model": "gpt-5.4-mini",
+          "pricing_key": "gpt-5.4-mini"
+        }
+      ],
+      "result": {
+        "site_kind": "local service",
+        "name": "Right Price Rooter",
+        "tagline": "Plumbing contractor in Glendale, CA providing rooter service, drain cleaning, copper re-piping, and full plumbing service.",
+        "description": "Right Price Rooter is a family owned plumbing contractor in Glendale, CA that says it has been serving customers since 1992. The pages describe it as licensed, bonded, and insured, with services for commercial, residential, and industrial jobs, and emphasize upfront pricing, warranties, and 24/7 service including holidays. The site also highlights highly trained plumbers and field managers, monthly discount coupons, free estimates over the phone, and OSHA-certified plumbers.",
+        "offerings": [
+          "Rooter service",
+          "Drain cleaning",
+          "Copper re-piping",
+          "Full plumbing service",
+          "Installation and repair of kitchen and bathroom sinks, shower heads, toilets, showers, and tubs",
+          "Water heater repair/replacement",
+          "Storm drain system cleaning and repair",
+          "Tankless water heaters",
+          "Copper pipe repair",
+          "New construction plumbing",
+          "Kitchen and bathroom remodel plumbing",
+          "Sewer line location",
+          "In-line sewer video camera inspection",
+          "Pressure testing",
+          "Leak detection",
+          "Dye testing (sewer and water)",
+          "Removal of tree roots and sludge",
+          "Hydro jetting",
+          "Trenchless technology",
+          "Trenchless pipe bursting method",
+          "Parma-Lines lateral lining system",
+          "Grease traps",
+          "Gas lines construction",
+          "Back flow testing",
+          "Complete plumbing inspection",
+          "Detection for underground leaks",
+          "Installation of safety devices",
+          "Earthquake protection",
+          "Energy efficient methods"
+        ],
+        "audience": "The pages state that services are provided for households, businesses, industries, and commercial, residential, and industrial customers, but they do not narrow the audience further.",
+        "page_roles": [
+          {
+            "url": "https://rightpricerooter.com/",
+            "role": "Home page summarizing services and service area"
+          },
+          {
+            "url": "https://rightpricerooter.com/about-us/",
+            "role": "Company background and trust/credentials"
+          },
+          {
+            "url": "https://rightpricerooter.com/services/",
+            "role": "Detailed services list"
+          },
+          {
+            "url": "https://rightpricerooter.com/service-request/",
+            "role": "Service request form"
+          },
+          {
+            "url": "https://rightpricerooter.com/contact-us/",
+            "role": "Contact details and inquiry form"
+          },
+          {
+            "url": "https://rightpricerooter.com/testimonials/",
+            "role": "Customer testimonials"
+          },
+          {
+            "url": "https://rightpricerooter.com/43/",
+            "role": "Blog post repeating company introduction and service area"
+          },
+          {
+            "url": "https://rightpricerooter.com/category/plumber/",
+            "role": "Blog archive for plumber posts"
+          }
+        ],
+        "source_urls": [
+          "https://rightpricerooter.com/",
+          "https://rightpricerooter.com/about-us/",
+          "https://rightpricerooter.com/services/",
+          "https://rightpricerooter.com/service-request/",
+          "https://rightpricerooter.com/contact-us/",
+          "https://rightpricerooter.com/testimonials/",
+          "https://rightpricerooter.com/43/",
+          "https://rightpricerooter.com/category/plumber/"
+        ]
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "latency_ms": 6395,
+        "input_tokens": 4052,
+        "output_tokens": 607,
+        "cost_usd": 0.0057705,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "gpt-5.4-mini",
+      "site": "rightpricerooter.com",
+      "task": "remediation_plan",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "ea7318f9d936ccd27218ebb6b7703ed9956913a9c568f7a2864deb7b0abb66dc",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "openai",
+          "model": "gpt-5.4-mini-2026-03-17",
+          "outcome": "ok",
+          "started_at": "2026-08-25T03:16:43.789655+00:00",
+          "finished_at": "2026-08-25T03:16:53.862386+00:00",
+          "requested_model": "gpt-5.4-mini",
+          "pricing_key": "gpt-5.4-mini",
+          "latency_ms": 10072,
+          "request_id": "resp_01bb794456514a66006a8d091eb99c87d18ac10a633b9f82f9",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 1341,
+          "output_tokens": 1025,
+          "cache_write_tokens": null,
+          "cache_read_tokens": 0,
+          "total_tokens": 2366,
+          "cost_usd": 0.00561825,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Restore basic mobile and safety foundations",
+            "why_now": "These are the highest-priority sitewide issues and they share implementation surfaces in the global page template and server configuration. Fixing the missing viewport, adding security headers, and enabling HSTS can be done before page-specific content work and they establish safer, mobile-correct rendering for the rest of the crawl.",
+            "finding_refs": [
+              "seo.viewport",
+              "tech.security_headers",
+              "seo.https:no_hsts"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Fix the broken internal URL and confirm the remaining unread pages",
+            "why_now": "The broken link is a direct navigation issue and should be resolved before relying on the crawl map or sitemap-related checks. Because 3 of 12 known pages were never read, this step also keeps the coverage limitation visible and reduces the chance of missing related errors on unread pages.",
+            "finding_refs": [
+              "seo.broken_links",
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 3,
+            "title": "Remove accessibility barriers that prevent use of the site",
+            "why_now": "The blocking accessibility issue is high priority and should be handled before lower-severity accessibility remarks. It shares the same UI and interaction surfaces as the phone-link and heading-structure findings, so addressing it first creates a cleaner baseline for later fixes.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures",
+              "cro.phone_not_tappable",
+              "seo.heading_hierarchy",
+              "seo.h1:multiple"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1,
+              2
+            ]
+          },
+          {
+            "order": 4,
+            "title": "Set document language and align page metadata for sharing and discovery",
+            "why_now": "These are template-level metadata changes that are easiest to do after the core shell is stable. They also prepare the page for consistent indexing and link previews, and they can be updated alongside title and description cleanup.",
+            "finding_refs": [
+              "ai.lang",
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long",
+              "seo.title:too_long",
+              "ai.opengraph:image",
+              "ai.opengraph:tags"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Reduce render delay and layout instability on mobile",
+            "why_now": "LCP and CLS are the main performance outcomes here, and the reported resource issues are likely contributing factors. This step should follow the template and metadata work because it focuses on the shared head/body delivery path: render-blocking resources, image sizing, lazy loading, responsive image delivery, and lighter formats.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.render_blocking",
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy",
+              "perf.responsive_images",
+              "perf.images:legacy_format",
+              "perf.lighthouse_score"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1,
+              4
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Trim third-party payload and add caching rules",
+            "why_now": "These changes target the delivery layer after the main rendering path is understood. They can complement the performance work above by reducing repeated transfer and script overhead, and they fit naturally with other server and asset optimization tasks.",
+            "finding_refs": [
+              "perf.third_party",
+              "tech.caching"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Complete image and text accessibility/SEO cleanup",
+            "why_now": "Once the primary UX, metadata, and performance issues are addressed, the remaining content refinements can be cleaned up together because they touch the same page content and media inventory. This includes alt text, email exposure in source, and thin-content review.",
+            "finding_refs": [
+              "seo.image_alt",
+              "tech.email_exposed",
+              "seo.thin_content"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Add structured entity and content-discovery signals",
+            "why_now": "These are lower-priority discoverability improvements that depend on the page identity and metadata being stable first. They can be implemented after the broader content and metadata cleanup without blocking core usability.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "llm.stale_content",
+              "ai.llms_txt:missing",
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              2,
+              4,
+              7
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Add behavior analytics and revisit the oldest content after updates",
+            "why_now": "Behavior analytics is informational and fits last because it depends on having the major UX, content, and performance fixes in place so the data is more useful. The stale-content finding should be checked after any updates, since the audit shows nothing has changed for two years but the site-wide content state may evolve once the earlier remediation is done.",
+            "finding_refs": [
+              "tech.analytics:no_behaviour",
+              "llm.stale_content"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              7,
+              8
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0,
+        "lowered_causal_basis": 0
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "latency_ms": 10072,
+        "input_tokens": 1341,
+        "output_tokens": 1025,
+        "cost_usd": 0.00561825,
+        "input_findings": 33,
+        "referenced_findings": 33,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "opus-5",
+      "site": "rightpricerooter.com",
+      "task": "root_cause_grouping",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "3a4c917dd66d3dd2bc526585b3afc6ff8828b7d370c5346703d3966b4d6affd2",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T03:35:36.812408+00:00",
+          "finished_at": "2026-08-25T03:36:56.848209+00:00",
+          "requested_model": "claude-opus-5",
+          "pricing_key": "claude-opus-5",
+          "latency_ms": 80035,
+          "request_id": "req_011CeNmQBkeiiqQtrhvW23we",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 6521,
+          "cache_write_tokens": 5621,
+          "cache_read_tokens": 0,
+          "total_tokens": 12144,
+          "cost_usd": 0.19816625,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "groups": [
+          {
+            "id": "shared-page-shell-9",
+            "cluster_summary": "Five findings each recur on all 9 pages read with identical values: no meta viewport, no <html lang>, the same 249-character title string, the same heading jump (H3 → H5 at \"Licensed & Bonded! #645613\"), and the same 9 render-blocking head resources (4 scripts, 5 styles). The repeated markup is head/shell-level rather than page-specific.",
+            "finding_refs": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.title:too_long",
+              "seo.heading_hierarchy",
+              "perf.render_blocking"
+            ],
+            "cluster_evidence": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.title:too_long",
+              "seo.heading_hierarchy",
+              "perf.render_blocking"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The identical missing attributes, identical title text and identical head resource counts on every one of the 9 pages read point to one shared page shell/template emitting the same <html>/<head> markup, rather than 9 independent authoring mistakes.",
+            "cause_evidence": [
+              "seo.title:too_long",
+              "seo.heading_hierarchy",
+              "perf.render_blocking",
+              "seo.viewport",
+              "ai.lang"
+            ]
+          },
+          {
+            "id": "image-markup-attributes",
+            "cluster_summary": "All image findings concern missing delivery/描述 attributes on the same asset class across the pages read: 9 images with no width/height (9 pages), 8 of 20 images with no alt (9 pages), 19 images in png/jpg/gif legacy formats (9 pages), no lazy loading on 5 pages, and 0 of 7 raster images with srcset on 3 pages.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "seo.image_alt",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy",
+              "perf.responsive_images"
+            ],
+            "cluster_evidence": [
+              "perf.images:no_dimensions",
+              "seo.image_alt",
+              "perf.images:legacy_format",
+              "perf.responsive_images",
+              "perf.images:no_lazy"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "Every measured image attribute (dimensions, alt, srcset, loading) is absent and formats are all unconverted originals, which is consistent with images being embedded as-is with no image-processing/markup pipeline adding these attributes on the pages read.",
+            "cause_evidence": [
+              "perf.images:no_dimensions",
+              "perf.responsive_images",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy"
+            ]
+          },
+          {
+            "id": "homepage-mobile-lab",
+            "cluster_summary": "Four performance findings all come from the same measurement target and mode — the homepage, mobile, lab/PSI: LCP 4.4 s (poor), CLS 0.234 (needs-improvement), Lighthouse performance 70, and third-party code at 57% of the page (1311 KB of 2312 KB, heaviest www.youtube.com at 1057 KB).",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.lighthouse_score",
+              "perf.third_party"
+            ],
+            "cluster_evidence": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.lighthouse_score",
+              "perf.third_party"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "The measured 1311 KB of third-party payload (mostly YouTube) on the same homepage load could plausibly be part of what depresses LCP and the Lighthouse score, but the evidence does not attribute the LCP element or the layout shifts to that payload.",
+            "cause_evidence": [
+              "perf.third_party",
+              "perf.core_web_vitals:lcp"
+            ]
+          },
+          {
+            "id": "absent-response-headers",
+            "cluster_summary": "Three findings all report HTTP response headers absent on the same origin (https://rightpricerooter.com): security headers present=[] with CSP/X-Frame-Options/X-Content-Type-Options missing, no Cache-Control across the 9 pages checked, and no Strict-Transport-Security.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ],
+            "cluster_evidence": [
+              "tech.security_headers",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "All three are header fields that would be emitted by the same server/edge layer, and none of them is present on any response observed, which points to one origin response-header configuration that simply sets no optional headers.",
+            "cause_evidence": [
+              "tech.security_headers",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ]
+          },
+          {
+            "id": "meta-description-field",
+            "cluster_summary": "Both findings concern the same meta description field being mishandled on the pages read: absent on 6 pages (service-request, contact-us, testimonials …) even though og:description content exists there, and 203 characters (truncated at 160) on the homepage.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long"
+            ],
+            "cluster_evidence": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "The field is populated inconsistently per page — filled and over-length on the homepage, empty elsewhere while og:description is populated — which suggests manual per-page entry rather than a generated value, though no shared mechanism was observed.",
+            "cause_evidence": [
+              "seo.meta_description:missing"
+            ]
+          },
+          {
+            "id": "opengraph-gaps",
+            "cluster_summary": "Two findings show partial Open Graph tag sets on different page groups read: og:image absent on 5 pages that do have og:description/locale/site_name/title, and og:description absent on the 2 category pages.",
+            "finding_refs": [
+              "ai.opengraph:image",
+              "ai.opengraph:tags"
+            ],
+            "cluster_evidence": [
+              "ai.opengraph:image",
+              "ai.opengraph:tags"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "OG output exists but is incomplete in different ways per page type, consistent with tags being emitted from per-page fields that are only partly filled; the generating mechanism was not observed.",
+            "cause_evidence": [
+              "ai.opengraph:image"
+            ]
+          },
+          {
+            "id": "lighthouse-a11y-run",
+            "cluster_summary": "Both accessibility findings come from the same mobile Lighthouse measurement with score 73.0 and split its audit list: blocking (link-name, frame-title, meta-viewport) and remarks (landmark-one-main, color-contrast). The meta-viewport audit matches the separately reported missing viewport tag.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "cluster_evidence": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "plaintext-contact-details",
+            "cluster_summary": "Two findings show contact details rendered as plain text in the page source rather than as actionable/protected markup: phone numbers printed on multiple pages with tel_links=0, and one email address (userc22b8e12@d591bfe88.invalid) exposed in source.",
+            "finding_refs": [
+              "cro.phone_not_tappable",
+              "tech.email_exposed"
+            ],
+            "cluster_evidence": [
+              "cro.phone_not_tappable",
+              "tech.email_exposed"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "Both are the same contact block being output as literal text with no link or obfuscation, which could come from one shared contact snippet, but no shared source was observed in the evidence.",
+            "cause_evidence": [
+              "cro.phone_not_tappable"
+            ]
+          },
+          {
+            "id": "machine-facing-signals",
+            "cluster_summary": "Three findings show gaps in crawler/machine-readable signals: 8 of the crawled pages are absent from a sitemap that lists 12 URLs, llms.txt returns 404, and homepage structured data (BreadcrumbList, ImageObject, WebPage, WebSite) carries no sameAs property.",
+            "finding_refs": [
+              "seo.sitemap:coverage",
+              "ai.llms_txt:missing",
+              "ai.entity.sameas"
+            ],
+            "cluster_evidence": [
+              "seo.sitemap:coverage",
+              "ai.llms_txt:missing",
+              "ai.entity.sameas"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          }
+        ],
+        "ungrouped_refs": [
+          "seo.broken_links",
+          "seo.h1:multiple",
+          "seo.thin_content",
+          "llm.stale_content",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "latency_ms": 80035,
+        "input_tokens": 2,
+        "output_tokens": 6521,
+        "cost_usd": 0.19816625,
+        "input_findings": 33,
+        "referenced_findings": 33,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 9,
+        "duplicate_reduction": 0.6785714285714286,
+        "cause_confidence": {
+          "supported": 0,
+          "likely": 3,
+          "possible": 4,
+          "unknown": 2
+        },
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "opus-5",
+      "site": "rightpricerooter.com",
+      "task": "remediation_plan",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "1c3b422768cfd95b3ba07471612f3406f03c18dd7696ea8c7b28d032764a2243",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T03:36:56.870241+00:00",
+          "finished_at": "2026-08-25T03:37:27.755931+00:00",
+          "requested_model": "claude-opus-5",
+          "pricing_key": "claude-opus-5",
+          "latency_ms": 30885,
+          "request_id": "req_011CeNmW1SD3p23XBFLVJg2w",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 2517,
+          "cache_write_tokens": 3940,
+          "cache_read_tokens": 0,
+          "total_tokens": 6459,
+          "cost_usd": 0.08756,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix the shared page shell: viewport, html lang, title length, heading order and head resources",
+            "why_now": "Five findings recur identically on all 9 pages read, and the repeated markup is head/shell-level rather than page-specific, so this is likely a single shared template surface. Doing it first means later per-page and accessibility work is measured against a corrected shell. Note the missing viewport also appears as a blocking Lighthouse accessibility audit, so this step feeds step 4. Coverage caveat: 3 of 12 known pages were never read, so confirm the same shell applies there before assuming it is fixed everywhere.",
+            "finding_refs": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.title:too_long",
+              "seo.heading_hierarchy",
+              "perf.render_blocking"
+            ],
+            "group_ids": [
+              "shared-page-shell-9"
+            ],
+            "causal_basis": "likely",
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Add the absent HTTP response headers on the origin",
+            "why_now": "All three findings report headers absent on the same origin, which likely means one shared server/CDN configuration surface — security headers, Cache-Control and HSTS can be set in the same place in one pass. It is independent of markup work, so it can proceed in parallel with the shell change but is grouped here because of its high priority rank.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ],
+            "group_ids": [
+              "absent-response-headers"
+            ],
+            "causal_basis": "likely",
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Repair the internal URL returning an error",
+            "why_now": "A standalone high-severity finding with no cluster dependency: one internal link resolves to an error. Fixing it before sitemap and crawler-signal work (step 9) avoids re-publishing a broken target in machine-readable inventories.",
+            "finding_refs": [
+              "seo.broken_links"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 4,
+            "title": "Resolve the blocking accessibility barriers and remaining audit remarks",
+            "why_now": "Both findings come from the same mobile Lighthouse run and split its audit list, but the shared cause behind them is not established — treat them as a common work surface, not a common defect. Sequenced after step 1 because the meta-viewport audit in the blocking set matches the missing viewport tag fixed there, so re-running the audit afterwards clarifies what remains (link-name, frame-title, landmark-one-main, color-contrast).",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "group_ids": [
+              "lighthouse-a11y-run"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Rework image markup: dimensions, alt text, formats, lazy loading and responsive sizes",
+            "why_now": "All five image findings concern missing delivery and description attributes on the same asset class across the pages read, so they are likely one authoring/template surface and are cheapest to touch in a single pass. Placed after the shell fix because both are edited in the same page templates, and before the mobile performance step since width/height and lazy/responsive attributes are inputs to the CLS and LCP measurements there.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "seo.image_alt",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy",
+              "perf.responsive_images"
+            ],
+            "group_ids": [
+              "image-markup-attributes"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Re-measure and address homepage mobile performance (LCP, CLS, third-party weight)",
+            "why_now": "These four findings all come from one measurement target and mode — homepage, mobile, lab/PSI — which may contribute to them moving together, though that is not established. It sits after steps 1 and 5 because render-blocking head resources and missing image dimensions were changed there and both feed the same measurement; re-running the mobile lab check first shows what the remaining gap is, including the 1311 KB of third-party code (heaviest www.youtube.com).",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.lighthouse_score",
+              "perf.third_party"
+            ],
+            "group_ids": [
+              "homepage-mobile-lab"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              1,
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Make phone and email contact details actionable and protected",
+            "why_now": "Both findings show contact details rendered as plain text in the page source rather than actionable or protected markup, which may share a single authoring pattern. Independent of the performance and header work, and edited in the same content templates touched in steps 1 and 5, so it follows them to avoid overlapping edits.",
+            "finding_refs": [
+              "cro.phone_not_tappable",
+              "tech.email_exposed"
+            ],
+            "group_ids": [
+              "plaintext-contact-details"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Normalise meta description and Open Graph fields across page groups",
+            "why_now": "Both clusters concern the same head-level metadata fields being handled inconsistently across the pages read — description absent on 6 pages and over-length on the homepage, og:image absent on 5 pages, og:description absent on the 2 category pages. These may each stem from one templating decision, but that is not confirmed. Grouped after the shell work in step 1 since they are edited in the same head region. Coverage caveat: the 3 unread pages were not checked for these fields.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long",
+              "ai.opengraph:image",
+              "ai.opengraph:tags"
+            ],
+            "group_ids": [
+              "meta-description-field",
+              "opengraph-gaps"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Complete crawler and machine-readable signals: sitemap coverage, llms.txt, sameAs",
+            "why_now": "Three findings show gaps in machine-facing signals — 8 crawled pages absent from a sitemap listing 12 URLs, llms.txt returning 404, and homepage structured data without sameAs. No shared cause is established between them; they are grouped only as one publishing surface. Sequenced after step 3 so the broken internal URL is not re-listed, and after step 8 so entity and metadata edits are settled before signals are republished. Coverage caveat: only 9 of 12 known pages were read, so sitemap reconciliation should be checked against the full URL set.",
+            "finding_refs": [
+              "seo.sitemap:coverage",
+              "ai.llms_txt:missing",
+              "ai.entity.sameas"
+            ],
+            "group_ids": [
+              "machine-facing-signals"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              3,
+              8
+            ]
+          },
+          {
+            "order": 10,
+            "title": "Address thin and stale page content",
+            "why_now": "Two standalone findings with no cluster and no established shared cause: 216 words on the page and no site-wide update for 2 years. Placed last because content revision touches the same pages as every prior step and is easiest once template, metadata and image markup are stable.",
+            "finding_refs": [
+              "seo.thin_content",
+              "llm.stale_content"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1,
+              8
+            ]
+          },
+          {
+            "order": 11,
+            "title": "Enable behaviour analytics",
+            "why_now": "An informational finding with no cluster: no behaviour analytics is present. Last because it records what happens after the preceding changes land rather than altering the site itself; note that no measurement of effect is claimed here.",
+            "finding_refs": [
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          }
+        ],
+        "dropped_ungrounded_steps": 0,
+        "lowered_causal_basis": 0
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "latency_ms": 30885,
+        "input_tokens": 2,
+        "output_tokens": 2517,
+        "cost_usd": 0.08756,
+        "input_findings": 33,
+        "referenced_findings": 32,
+        "unknown_refs": [],
+        "coverage": 0.9696969696969697,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "sonnet-5",
+      "site": "rightpricerooter.com",
+      "task": "root_cause_grouping",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "3a4c917dd66d3dd2bc526585b3afc6ff8828b7d370c5346703d3966b4d6affd2",
+      "status": "failed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "outcome": "output_limit",
+          "started_at": "2026-08-25T03:37:27.811748+00:00",
+          "finished_at": "2026-08-25T03:38:52.265975+00:00",
+          "requested_model": "claude-sonnet-5",
+          "pricing_key": "claude-sonnet-5",
+          "latency_ms": 84454,
+          "request_id": null,
+          "error_category": "output_limit",
+          "error": "відповідь обірвана стелею виходу (8000 токенів)",
+          "input_tokens": 2,
+          "output_tokens": 8000,
+          "cache_write_tokens": 5621,
+          "cache_read_tokens": 0,
+          "total_tokens": 13623,
+          "cost_usd": 0.0940565,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": null,
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "root_cause_grouping",
+        "status": "failed",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "latency_ms": 84454,
+        "input_tokens": 2,
+        "output_tokens": 8000,
+        "cost_usd": 0.0940565,
+        "input_findings": 33,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 0.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": "відповідь обірвана стелею виходу (8000 токенів)",
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "sonnet-5",
+      "site": "rightpricerooter.com",
+      "task": "remediation_plan",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "ea7318f9d936ccd27218ebb6b7703ed9956913a9c568f7a2864deb7b0abb66dc",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T03:38:52.311532+00:00",
+          "finished_at": "2026-08-25T03:39:40.254454+00:00",
+          "requested_model": "claude-sonnet-5",
+          "pricing_key": "claude-sonnet-5",
+          "latency_ms": 47942,
+          "request_id": "req_011CeNmeXC63kb3mY5pKAQd7",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 4719,
+          "cache_write_tokens": 2533,
+          "cache_read_tokens": 0,
+          "total_tokens": 7254,
+          "cost_usd": 0.0535265,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix blocking high-severity issues: viewport, security headers, accessibility barriers, broken link",
+            "why_now": "These are the four high-severity findings (priority ranks 1-4) and include hard usability/security blockers. They touch the page <head> (viewport, security headers) and core navigation/markup (accessibility barriers, broken internal link), so resolving them first establishes a stable base before any further head or markup edits are layered on.",
+            "finding_refs": [
+              "seo.viewport",
+              "tech.security_headers",
+              "a11y.blocking",
+              "seo.broken_links"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Address core web vitals and render pipeline: LCP, CLS, render-blocking resources, third-party weight, Lighthouse score",
+            "why_now": "LCP is the only critical-severity finding and shares the same rendering/head-resource surface as render-blocking resources and third-party script weight; CLS and the overall Lighthouse score are downstream of the same rendering pipeline. Doing this after the head has been touched once (step 1) avoids repeated edits to the same document section.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.render_blocking",
+              "perf.third_party",
+              "perf.core_web_vitals:cls",
+              "perf.lighthouse_score"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 3,
+            "title": "Pass over image markup: dimensions, lazy loading, format, responsive sizes, alt text",
+            "why_now": "All five findings act on the same <img> tags and are part of the rendering work opened in step 2 (missing dimensions and lack of lazy loading both affect layout shift and load timing). Grouping them into one markup pass avoids touching each image tag multiple times.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy",
+              "perf.images:legacy_format",
+              "perf.responsive_images",
+              "seo.image_alt"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 4,
+            "title": "Correct on-page SEO metadata and content structure: descriptions, title length, headings, thin content",
+            "why_now": "These findings share the templating and content-editing surface (title, meta description, heading tags, body copy). Doing this after step 1's head changes are in place keeps head edits consolidated rather than scattered across multiple passes.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long",
+              "seo.title:too_long",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy",
+              "seo.thin_content"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Add entity, language and social metadata: lang attribute, sameAs, OG tags, llms.txt",
+            "why_now": "These are all head/schema-level additions that sit alongside the metadata already edited in step 4, so finishing the content/metadata pass first lets this step land in the same reviewed head block without re-opening it separately.",
+            "finding_refs": [
+              "ai.lang",
+              "ai.entity.sameas",
+              "ai.opengraph:image",
+              "ai.opengraph:tags",
+              "ai.llms_txt:missing"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              4
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Harden server configuration: caching rules, HSTS, exposed email",
+            "why_now": "Caching and HSTS are both response-header configuration changes on the same server layer as the security headers added in step 1, so handling them together keeps header configuration work in one place; the exposed email is a page-source cleanup that can ride along with this pass.",
+            "finding_refs": [
+              "tech.caching",
+              "seo.https:no_hsts",
+              "tech.email_exposed"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Resolve remaining accessibility remarks",
+            "why_now": "These two medium-severity accessibility items are distinct from the blocking barriers fixed in step 1 but belong to the same audit and remediation workflow, so they follow once the blocking issues are cleared.",
+            "finding_refs": [
+              "a11y.failures"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Make the phone number tappable",
+            "why_now": "This is a self-contained markup fix (tel: link) that does not share a work surface with the other steps and can be done independently at any point in the sequence.",
+            "finding_refs": [
+              "cro.phone_not_tappable"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 9,
+            "title": "Reconcile sitemap coverage",
+            "why_now": "8 crawled pages are missing from the sitemap; note that only 9 of 12 known pages were actually read in this crawl, so sitemap completeness should be re-checked against the full site once the 3 unread pages are reviewed, not assumed resolved from this pass alone.",
+            "finding_refs": [
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 10,
+            "title": "Refresh stale content and add behaviour analytics",
+            "why_now": "These are low/info-severity, low-urgency items that don't share a technical surface with the earlier steps and can be scheduled last; note content freshness was assessed only on the 9 pages read, not the 3 unread pages.",
+            "finding_refs": [
+              "llm.stale_content",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          }
+        ],
+        "dropped_ungrounded_steps": 0,
+        "lowered_causal_basis": 0
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "latency_ms": 47942,
+        "input_tokens": 2,
+        "output_tokens": 4719,
+        "cost_usd": 0.0535265,
+        "input_findings": 33,
+        "referenced_findings": 33,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      },
+      "comparability": "COMPLETED_WITH_MISSING_UPSTREAM / NOT_COMPARABLE",
+      "comparability_note": "Планування виконано без власних кластерів моделі: її групування впало на стелі виходу. Причинна стеля через це обвалилась до `none` штучно, тож із планами Opus і GPT цей вихід прямо порівнювати не можна."
+    },
+    {
+      "model_key": "gpt-5.4-mini",
+      "site": "rightpricerooter.com",
+      "task": "root_cause_grouping",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "3a4c917dd66d3dd2bc526585b3afc6ff8828b7d370c5346703d3966b4d6affd2",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "openai",
+          "model": "gpt-5.4-mini-2026-03-17",
+          "outcome": "ok",
+          "started_at": "2026-08-25T03:39:40.315962+00:00",
+          "finished_at": "2026-08-25T03:39:48.888922+00:00",
+          "requested_model": "gpt-5.4-mini",
+          "pricing_key": "gpt-5.4-mini",
+          "latency_ms": 8572,
+          "request_id": "resp_08538ab153fb9d49006a8d0e821fe887d19db627dd5b38193c",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 3301,
+          "output_tokens": 910,
+          "cache_write_tokens": null,
+          "cache_read_tokens": 0,
+          "total_tokens": 4211,
+          "cost_usd": 0.00657075,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "groups": [
+          {
+            "id": "meta-and-language",
+            "cluster_summary": "On the pages read, several basic page metadata fields are missing or incomplete, including viewport, declared language, and some social/meta description fields.",
+            "finding_refs": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.meta_description:missing",
+              "ai.opengraph:image",
+              "ai.opengraph:tags",
+              "seo.meta_description:too_long",
+              "seo.title:too_long"
+            ],
+            "cluster_evidence": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.meta_description:missing",
+              "ai.opengraph:image",
+              "ai.opengraph:tags",
+              "seo.meta_description:too_long",
+              "seo.title:too_long"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "image-presentation",
+            "cluster_summary": "On the pages read, many images lack common presentation metadata or optimizations such as alt text, dimensions, responsive sizes, lazy loading, and lighter formats.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "seo.image_alt",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy",
+              "perf.responsive_images"
+            ],
+            "cluster_evidence": [
+              "perf.images:no_dimensions",
+              "seo.image_alt",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy",
+              "perf.responsive_images"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "head-render-blocking",
+            "cluster_summary": "On the pages read, the head contains multiple render-blocking resources and other elements consistent with heavier front-end delivery.",
+            "finding_refs": [
+              "perf.render_blocking",
+              "perf.third_party",
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.lighthouse_score"
+            ],
+            "cluster_evidence": [
+              "perf.render_blocking",
+              "perf.third_party",
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.lighthouse_score"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "accessibility-barriers",
+            "cluster_summary": "The accessibility findings describe missing navigation or structural cues, including absent main landmark, poor link naming, and frame-related issues.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures",
+              "seo.heading_hierarchy",
+              "seo.h1:multiple"
+            ],
+            "cluster_evidence": [
+              "a11y.blocking",
+              "a11y.failures",
+              "seo.heading_hierarchy",
+              "seo.h1:multiple"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "technical-response-headers",
+            "cluster_summary": "The technical findings are all about missing site response controls or delivery headers, such as caching, security headers, and HSTS.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ],
+            "cluster_evidence": [
+              "tech.security_headers",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "site-discovery-and-indexing",
+            "cluster_summary": "These findings all relate to discoverability or inventory coverage issues: broken internal URL(s), sitemap omissions, and missing llms.txt.",
+            "finding_refs": [
+              "seo.broken_links",
+              "seo.sitemap:coverage",
+              "ai.llms_txt:missing"
+            ],
+            "cluster_evidence": [
+              "seo.broken_links",
+              "seo.sitemap:coverage",
+              "ai.llms_txt:missing"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "contact-and-conversion",
+            "cluster_summary": "The findings point to contact/conversion elements that are present but not fully actionable or informative, including an exposed email address, phone text without a dial link, and thin page copy on some pages.",
+            "finding_refs": [
+              "tech.email_exposed",
+              "cro.phone_not_tappable",
+              "seo.thin_content",
+              "llm.stale_content"
+            ],
+            "cluster_evidence": [
+              "tech.email_exposed",
+              "cro.phone_not_tappable",
+              "seo.thin_content",
+              "llm.stale_content"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "entity-and-structured-data",
+            "cluster_summary": "The findings concern missing entity and structured-data signals on some pages, specifically sameAs and parts of Open Graph coverage.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "ai.opengraph:image",
+              "ai.opengraph:tags"
+            ],
+            "cluster_evidence": [
+              "ai.entity.sameas",
+              "ai.opengraph:image",
+              "ai.opengraph:tags"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          }
+        ],
+        "ungrouped_refs": [
+          "perf.lighthouse_score",
+          "seo.meta_description:too_long",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "scoring": {
+        "case": "rightpricerooter.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "latency_ms": 8572,
+        "input_tokens": 3301,
+        "output_tokens": 910,
+        "cost_usd": 0.00657075,
+        "input_findings": 33,
+        "referenced_findings": 33,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 8,
+        "duplicate_reduction": 0.7647058823529411,
+        "cause_confidence": {
+          "supported": 0,
+          "likely": 0,
+          "possible": 0,
+          "unknown": 8
+        },
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "opus-5",
+      "site": "gocplumbing.com",
+      "task": "site_understanding",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "1",
+      "input_hash": "0f3bec1166fae905518fb1c33f06f09cee20352d662d3769bb31928aa7e95fa3",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:26:52.209855+00:00",
+          "finished_at": "2026-08-25T04:27:03.530928+00:00",
+          "requested_model": "claude-opus-5",
+          "pricing_key": "claude-opus-5",
+          "latency_ms": 11321,
+          "request_id": "req_011CeNqJtKUvaqrBVPxDsGST",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 778,
+          "cache_write_tokens": 3161,
+          "cache_read_tokens": 0,
+          "total_tokens": 3941,
+          "cost_usd": 0.03921625,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "site_kind": "local service business (trades) site for a plumbing and heating contractor",
+        "name": "GOC Plumbing & Heating",
+        "tagline": "Plumbing and heating installation, maintenance and repair based in Castlegregory, Co. Kerry, Ireland.",
+        "description": "GOC Plumbing & Heating, whose sole proprietor is Gavin O'Connor, provides plumbing and heating services in Kerry and the surrounding counties, with contracts undertaken throughout Ireland several times a year. The pages read describe work spanning commercial, industrial and residential installation, maintenance and repair, though the company says it mainly operates in the domestic plumbing and heating sector. The site emphasises upskilling to offer newer, cost-efficient and environmentally friendly technologies, and gives a single phone contact (087 333 1789) for quotations and estimates.",
+        "offerings": [
+          "General Plumbing",
+          "Radiator Systems",
+          "Bathroom/Shower Installs",
+          "Stove Installs (boiler and non-boiler solid fuel stoves, back boilers for open fires)",
+          "Solar Panels (including Thermodynamic Solar panels and Kingspan Thermomax)",
+          "Boiler Servicing and Installation",
+          "Central Vacuum Units",
+          "Heat Recovery Ventilation",
+          "Air to Water Heat Pumps",
+          "Shower Pumps",
+          "Underfloor Heating",
+          "Maintenance",
+          "Power Flush",
+          "Plumbing/Drainage",
+          "Leak Detection",
+          "Toilet Repair",
+          "Emergency call outs for radiator repair"
+        ],
+        "audience": "The pages imply mainly domestic/homeowner clients in Kerry and surrounding counties, while also stating the firm serves commercial and industrial projects; no more specific audience is named.",
+        "page_roles": [
+          {
+            "url": "https://www.gocplumbing.com/",
+            "role": "Home page introducing the business, listing services and giving contact details"
+          },
+          {
+            "url": "https://www.gocplumbing.com/oou-services-2",
+            "role": "Detailed services page describing each type of work and how to request a quote"
+          },
+          {
+            "url": "https://www.gocplumbing.com/about-us",
+            "role": "Background on the company and its owner, Gavin O'Connor"
+          }
+        ],
+        "source_urls": [
+          "https://www.gocplumbing.com/",
+          "https://www.gocplumbing.com/oou-services-2",
+          "https://www.gocplumbing.com/about-us"
+        ]
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "latency_ms": 11321,
+        "input_tokens": 2,
+        "output_tokens": 778,
+        "cost_usd": 0.03921625,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "opus-5",
+      "site": "gocplumbing.com",
+      "task": "root_cause_grouping",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "a66ea3e0d50579a70cdb6f6f4a163c401f5fe1bacd45aa704d3eeb07fd06c24e",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:27:03.541972+00:00",
+          "finished_at": "2026-08-25T04:28:02.025343+00:00",
+          "requested_model": "claude-opus-5",
+          "pricing_key": "claude-opus-5",
+          "latency_ms": 58483,
+          "request_id": "req_011CeNqKeLdxbqnXDhdakBZB",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 4365,
+          "cache_write_tokens": 4679,
+          "cache_read_tokens": 0,
+          "total_tokens": 9046,
+          "cost_usd": 0.13837875,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "groups": [
+          {
+            "id": "same-on-all-three-pages",
+            "cluster_summary": "Four issues recur identically on each of the 3 pages read (/, /oou-services-2, /about-us), each with occurrences=3: the same single unprotected form, 15 multiple H1s, the same H2\">'Our Services' H4 heading jump, and legacy-format images (17 png / 18 jpg).",
+            "finding_refs": [
+              "tech.form_protection:unprotected",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy",
+              "perf.images:legacy_format"
+            ],
+            "cluster_evidence": [
+              "tech.form_protection:unprotected",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy",
+              "perf.images:legacy_format"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The evidence shows not merely the same class of defect but the same instance on every page read \\u2014 one identical form (action=''), the same heading label and level jump, the same repeated H1 block \\u2014 which points to shared page furniture emitted by one template/site-builder layer rather than per-page authoring. The builder itself was not directly observed in these findings' evidence, only inferred.",
+            "cause_evidence": [
+              "tech.form_protection:unprotected",
+              "seo.heading_hierarchy",
+              "seo.h1:multiple"
+            ]
+          },
+          {
+            "id": "phone-number-formats",
+            "cluster_summary": "Both findings concern the same telephone digits rendered in mismatching formats: markup 3530873331789 vs page text 353873331789, and a non-E.164 variant 00353873331789.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "cluster_evidence": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "cause_confidence": "supported",
+            "cause_hypothesis": "The supplied strings are the same underlying number carrying different international-prefix/leading-zero handling (00353\\u2026 / 3530\\u2026 / 353\\u2026), so one inconsistently normalised phone value produces both the schema mismatch and the non-E.164 format flag.",
+            "cause_evidence": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ]
+          },
+          {
+            "id": "jsonld-entity-gaps",
+            "cluster_summary": "Structured-data findings all reference the same two JSON-LD blocks (types LocalBusiness and WebSite): no sameAs, blocks not linked into a graph, LocalBusiness missing geo/openingHoursSpecification/priceRange, no BreadcrumbList, schema names disagreeing with the page title, and schema present on only 1 of 3 pages checked.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "ai.schema.contact",
+              "ai.schema.breadcrumb",
+              "ai.jsonld.missing",
+              "llm.brand_consistency"
+            ],
+            "cluster_evidence": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "ai.schema.contact",
+              "ai.jsonld.missing",
+              "llm.brand_consistency"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "Four findings quote the identical type set ['LocalBusiness','WebSite'] and the same block count on the homepage, so they are descriptions of one and the same minimal, auto-emitted JSON-LD payload rather than independent defects; that payload's limited field set would explain the missing sameAs, missing LocalBusiness fields, unlinked blocks and the lowercase/escaped schema names. The emitter was not directly observed.",
+            "cause_evidence": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "ai.schema.contact",
+              "llm.brand_consistency"
+            ]
+          },
+          {
+            "id": "homepage-mobile-lab-metrics",
+            "cluster_summary": "Three homepage measurements taken on the same URL: LCP 3.39 s and CLS 0.11 (mobile lab, PSI), and third-party code accounting for 1349 KB of a 1489 KB page (91%), heaviest host static.parastorage.com at 793 KB.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.third_party"
+            ],
+            "cluster_evidence": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls",
+              "perf.third_party"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "A page whose bytes are 91% third-party could plausibly delay the largest paint and shift layout late, but the evidence contains no attribution of the LCP element or of any layout shift to those third-party hosts.",
+            "cause_evidence": [
+              "perf.third_party"
+            ]
+          },
+          {
+            "id": "services-page-image-attributes",
+            "cluster_summary": "Both findings are on /oou-services-2 and concern missing image attributes on a page with many images: 15 images lacking width/height (measured_cls needs-improvement) and 21 images with no lazy loading.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "cluster_evidence": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The overlapping image counts on one page (15 of 21 without dimensions, none lazy-loaded) indicate the same set of <img> elements is being emitted without the dimension and loading attributes, i.e. one image-output path on that page.",
+            "cause_evidence": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ]
+          },
+          {
+            "id": "services-page-description-missing",
+            "cluster_summary": "Both findings are on /oou-services-2 and record an absent description: meta description found=None with og_description=None, and og:description listed as the missing OG tag.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ],
+            "cluster_evidence": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ],
+            "cause_confidence": "supported",
+            "cause_hypothesis": "The meta-description finding's own evidence records og_description=None alongside the missing meta description, so both findings report the absence of a single description value on that page.",
+            "cause_evidence": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ]
+          },
+          {
+            "id": "crawler-http-behaviour",
+            "cluster_summary": "Two crawler-side observations of degraded HTTP behaviour: 7 internal URLs returning errors including HTTP 429 on /contact, and a median server response of 1725 ms (slowest 1893 ms on /about-us) across the 3 pages measured. Crawl coverage itself is 3 of 10 pages with 7 failures.",
+            "finding_refs": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "cluster_evidence": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "HTTP 429 is a rate-limiting response, which could equally explain the slow measured responses and the 7 unread pages; however the evidence does not show the 429s and the 1725 ms medians coming from the same mechanism, and the error list is truncated.",
+            "cause_evidence": [
+              "seo.broken_links"
+            ]
+          },
+          {
+            "id": "exposure-hardening",
+            "cluster_summary": "Two exposure findings from the pages read: 4 response security headers missing on the homepage (only x-content-type-options present) and 1 email address (user9ed75782@db3396079.invalid) present in page source.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "cluster_evidence": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          }
+        ],
+        "ungrouped_refs": [
+          "a11y.blocking",
+          "seo.thin_content",
+          "seo.title:too_long",
+          "seo.sitemap:coverage",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "latency_ms": 58483,
+        "input_tokens": 2,
+        "output_tokens": 4365,
+        "cost_usd": 0.13837875,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 8,
+        "duplicate_reduction": 0.6521739130434783,
+        "cause_confidence": {
+          "supported": 2,
+          "likely": 3,
+          "possible": 2,
+          "unknown": 1
+        },
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "opus-5",
+      "site": "gocplumbing.com",
+      "task": "remediation_plan",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "4d3a2630f2b664f7dcf5c4702e040d6e2d029714e0cbc21779dc1c18773dc9f7",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:28:02.047467+00:00",
+          "finished_at": "2026-08-25T04:28:29.279720+00:00",
+          "requested_model": "claude-opus-5",
+          "pricing_key": "claude-opus-5",
+          "latency_ms": 27232,
+          "request_id": "req_011CeNqPx9orfpvyJs7VbDpv",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 2309,
+          "cache_write_tokens": 3537,
+          "cache_read_tokens": 0,
+          "total_tokens": 5848,
+          "cost_usd": 0.07984125,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix the accessibility barrier that blocks use of the site",
+            "why_now": "Highest-ranked finding and independent of the other work surfaces, so it can land before any shared template or markup changes. Nothing else needs to precede it.",
+            "finding_refs": [
+              "a11y.blocking"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Investigate the broken internal URLs and slow server responses, and re-crawl",
+            "why_now": "Coverage is insufficient — only 3 of 10 known pages were read, with 7 failures including HTTP 429 on /contact. Resolving the error responses and the 1725 ms median response time first is what makes a fuller crawl possible, so later template-level work is not based on 3 pages alone. Degraded HTTP behaviour and the failed crawl may be connected; that link is not established.",
+            "finding_refs": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "group_ids": [
+              "crawler-http-behaviour"
+            ],
+            "causal_basis": "possible",
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Add bot protection to the site form",
+            "why_now": "Second-highest-ranked finding, and it sits on the same recurring page furniture as the heading and image-format issues, so it opens the shared template surface addressed in step 4. The identical form appearing on all 3 pages read likely relates to a shared template.",
+            "finding_refs": [
+              "tech.form_protection:unprotected"
+            ],
+            "group_ids": [
+              "same-on-all-three-pages"
+            ],
+            "causal_basis": "likely",
+            "depends_on": []
+          },
+          {
+            "order": 4,
+            "title": "Correct headings and image formats in the shared page furniture",
+            "why_now": "Uses the same template surface just touched in step 3: multiple H1s, the H2→H4 jump and legacy-format images recur identically on each of the 3 pages read, which likely reflects one shared template. Scope should be re-checked against the re-crawl from step 2, since 7 pages were never read.",
+            "finding_refs": [
+              "seo.h1:multiple",
+              "seo.heading_hierarchy",
+              "perf.images:legacy_format"
+            ],
+            "group_ids": [
+              "same-on-all-three-pages"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              2,
+              3
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Unify the telephone number into one E.164 format across markup and page text",
+            "why_now": "Both findings are the same telephone digits rendered in mismatching formats (markup 3530873331789, page text 353873331789, variant 00353873331789), so one canonical value fixes both. It also settles the phone value before the structured-data rework in step 6 touches the same JSON-LD blocks.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "group_ids": [
+              "phone-number-formats"
+            ],
+            "causal_basis": "supported",
+            "depends_on": []
+          },
+          {
+            "order": 6,
+            "title": "Rework the JSON-LD blocks: sameAs, graph linking, LocalBusiness fields, breadcrumbs, brand naming and page coverage",
+            "why_now": "All these findings reference the same two JSON-LD blocks (LocalBusiness and WebSite), so they are one editing surface and are handled together. It follows the phone unification in step 5 so the markup carries the settled value. Structured data was found on only 1 of 3 pages read; coverage across the 7 unread pages is unknown, so the re-crawl should inform scope.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "ai.schema.contact",
+              "ai.schema.breadcrumb",
+              "ai.jsonld.missing",
+              "llm.brand_consistency"
+            ],
+            "group_ids": [
+              "jsonld-entity-gaps"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              2,
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Add the missing description on /oou-services-2 (meta description and og:description)",
+            "why_now": "Both findings record the same absent description on one page — meta description None and og_description None — so a single description value addresses them together. Independent of the template and JSON-LD work, but grouped after it as a page-level pass.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ],
+            "group_ids": [
+              "services-page-description-missing"
+            ],
+            "causal_basis": "supported",
+            "depends_on": []
+          },
+          {
+            "order": 8,
+            "title": "Set width/height and lazy loading on the /oou-services-2 images",
+            "why_now": "Both findings sit on the same page and the same image set (15 images without dimensions, 21 without lazy loading), so they are edited in one pass. Best done after the legacy-format conversion in step 4 so image markup is only rewritten once.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "group_ids": [
+              "services-page-image-attributes"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              4
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Review homepage third-party payload alongside the mobile LCP and CLS measurements",
+            "why_now": "All three are measurements on the same homepage URL, so they are examined together: third-party code is 1349 KB of a 1489 KB page (91%), heaviest host static.parastorage.com at 793 KB, with LCP 3.4 s and CLS 0.11 in the mobile lab. The third-party weight may contribute to those metrics; this is not established. Placed after the server-response work in step 2 and the image-attribute work in step 8, which touch overlapping delivery and layout factors.",
+            "finding_refs": [
+              "perf.third_party",
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls"
+            ],
+            "group_ids": [
+              "homepage-mobile-lab-metrics"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              2,
+              8
+            ]
+          },
+          {
+            "order": 10,
+            "title": "Add the missing security headers and remove the exposed email from page source",
+            "why_now": "Two exposure findings from the pages read: 4 response headers missing on the homepage (only x-content-type-options present) and user9ed75782@db3396079.invalid in page source. These are handled in one hardening pass because both concern exposure; no shared cause between them is established. Header findings come from the homepage only, so the 7 unread pages should be checked after the re-crawl.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "group_ids": [
+              "exposure-hardening"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 11,
+            "title": "Address remaining page-level items: sitemap coverage, thin content, long title and behaviour analytics",
+            "why_now": "Lowest-ranked remaining findings, and sitemap coverage in particular depends on knowing the real URL set — 3 crawled pages are absent from the sitemap and 7 known pages were never read, so this follows the re-crawl in step 2.",
+            "finding_refs": [
+              "seo.sitemap:coverage",
+              "seo.thin_content",
+              "seo.title:too_long",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              2
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0,
+        "lowered_causal_basis": 0
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-opus-5",
+        "latency_ms": 27232,
+        "input_tokens": 2,
+        "output_tokens": 2309,
+        "cost_usd": 0.07984125,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "sonnet-5",
+      "site": "gocplumbing.com",
+      "task": "site_understanding",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "1",
+      "input_hash": "0f3bec1166fae905518fb1c33f06f09cee20352d662d3769bb31928aa7e95fa3",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:28:29.298559+00:00",
+          "finished_at": "2026-08-25T04:28:36.740773+00:00",
+          "requested_model": "claude-sonnet-5",
+          "pricing_key": "claude-sonnet-5",
+          "latency_ms": 7442,
+          "request_id": "req_011CeNqRxj6WTthenJf7T8Fd",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 724,
+          "cache_write_tokens": 3161,
+          "cache_read_tokens": 0,
+          "total_tokens": 3887,
+          "cost_usd": 0.0151465,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "site_kind": "local service (plumbing and heating contractor)",
+        "name": "GOC Plumbing & Heating",
+        "tagline": "Plumbing and heating services for domestic and commercial clients in Kerry, Ireland.",
+        "description": "GOC Plumbing & Heating is a plumbing and heating company based in Kilshannig, Castlegregory, Tralee, Co. Kerry, run by sole proprietor Gavin O'Connor, who has 12 years of industry experience including work overseas. The company mainly operates in the domestic plumbing and heating sector but has also worked on various large-scale commercial projects, primarily in the south west of Ireland with occasional contracts throughout Ireland.",
+        "offerings": [
+          "Central Vacuum Units",
+          "Heat Recovery Ventilation",
+          "Solar Panels",
+          "Stove Installs",
+          "Bathroom/Shower Installs",
+          "Radiator Systems",
+          "Air to Water Heat Pumps",
+          "Shower Pumps",
+          "Underfloor Heating",
+          "Boiler Servicing",
+          "Maintenance",
+          "Power Flush",
+          "Plumbing/Drainage",
+          "Leak Detection",
+          "Toilet Repair",
+          "General Plumbing",
+          "Boiler Service & Installation"
+        ],
+        "audience": "Primarily homeowners in Kerry and surrounding counties seeking domestic plumbing and heating work, though the company also undertakes commercial and industrial projects.",
+        "page_roles": [
+          {
+            "url": "https://www.gocplumbing.com/",
+            "role": "Homepage introducing the company, listing services, a customer testimonial, and contact details"
+          },
+          {
+            "url": "https://www.gocplumbing.com/oou-services-2",
+            "role": "Detailed services page describing general plumbing, radiator systems, bathroom/shower installations, stoves, solar panels, and boiler service/installation"
+          },
+          {
+            "url": "https://www.gocplumbing.com/about-us",
+            "role": "About page describing the company's background and founder Gavin O'Connor's experience"
+          }
+        ],
+        "source_urls": [
+          "https://www.gocplumbing.com/",
+          "https://www.gocplumbing.com/oou-services-2",
+          "https://www.gocplumbing.com/about-us"
+        ]
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "latency_ms": 7442,
+        "input_tokens": 2,
+        "output_tokens": 724,
+        "cost_usd": 0.0151465,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "sonnet-5",
+      "site": "gocplumbing.com",
+      "task": "root_cause_grouping",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "a66ea3e0d50579a70cdb6f6f4a163c401f5fe1bacd45aa704d3eeb07fd06c24e",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:28:36.762678+00:00",
+          "finished_at": "2026-08-25T04:29:32.209002+00:00",
+          "requested_model": "claude-sonnet-5",
+          "pricing_key": "claude-sonnet-5",
+          "latency_ms": 55446,
+          "request_id": "req_011CeNqSWDRfFggaYxc2V4qA",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 5972,
+          "cache_write_tokens": 4679,
+          "cache_read_tokens": 0,
+          "total_tokens": 10653,
+          "cost_usd": 0.0714215,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "groups": [
+          {
+            "id": "template_wide_page_issues",
+            "cluster_summary": "On all 3 pages read (home, oou-services-2, about-us), the same four issues recur identically: unprotected contact forms, legacy-format images, multiple H1 headings, and an H2→H4 heading jump.",
+            "finding_refs": [
+              "tech.form_protection:unprotected",
+              "perf.images:legacy_format",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ],
+            "cluster_evidence": [
+              "tech.form_protection:unprotected",
+              "perf.images:legacy_format",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The identical structural and markup issues appearing on every page that was read suggest a shared site template/theme is used across pages, reproducing the same heading, image and form patterns.",
+            "cause_evidence": [
+              "tech.form_protection:unprotected",
+              "perf.images:legacy_format",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ]
+          },
+          {
+            "id": "homepage_perf_metrics",
+            "cluster_summary": "On the homepage, third-party code accounts for 91% of page weight, and both CLS and LCP are rated 'needs-improvement'.",
+            "finding_refs": [
+              "perf.third_party",
+              "perf.core_web_vitals:cls",
+              "perf.core_web_vitals:lcp"
+            ],
+            "cluster_evidence": [
+              "perf.third_party",
+              "perf.core_web_vitals:cls",
+              "perf.core_web_vitals:lcp"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The very large third-party script payload (91% of total page weight) on the homepage is a plausible driver of the slow LCP and layout shift observed on the same page, a well-established performance mechanism, though not directly traced here.",
+            "cause_evidence": [
+              "perf.third_party",
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:cls"
+            ]
+          },
+          {
+            "id": "oou_image_optimization",
+            "cluster_summary": "On the oou-services-2 page, 15 images lack width/height attributes and none of its 21 images use lazy loading.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "cluster_evidence": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "Both issues point to images on this page being inserted without a standard image-optimization workflow (no dimension attributes, no lazy loading), but the actual authoring process was not observed.",
+            "cause_evidence": []
+          },
+          {
+            "id": "phone_number_inconsistency",
+            "cluster_summary": "The business phone number appears in different, inconsistent forms: the schema markup value differs from the on-page value, and the on-page number is not in E.164 international format.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "cluster_evidence": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The same phone number field appears to have been entered/formatted inconsistently between the structured-data markup and the visible page content, producing both the mismatch and the non-standard format.",
+            "cause_evidence": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ]
+          },
+          {
+            "id": "structured_data_gaps",
+            "cluster_summary": "Across the pages checked, structured data is incomplete: only 1 of 3 pages has schema at all, the JSON-LD blocks present are not linked to each other, LocalBusiness is missing geo/openingHoursSpecification/priceRange, no sameAs entity links exist, and no BreadcrumbList is present.",
+            "finding_refs": [
+              "ai.jsonld.missing",
+              "ai.schema.graph",
+              "ai.schema.breadcrumb",
+              "ai.schema.contact",
+              "ai.entity.sameas"
+            ],
+            "cluster_evidence": [
+              "ai.jsonld.missing",
+              "ai.schema.graph",
+              "ai.schema.contact",
+              "ai.entity.sameas"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The pattern of partial, disconnected, and field-incomplete structured data across the pages checked suggests schema markup was added ad hoc/incompletely rather than through a consistent, complete implementation.",
+            "cause_evidence": [
+              "ai.jsonld.missing",
+              "ai.schema.graph",
+              "ai.schema.contact"
+            ]
+          },
+          {
+            "id": "oou_missing_descriptions",
+            "cluster_summary": "On the oou-services-2 page, both the meta description and the og:description tag are missing.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ],
+            "cluster_evidence": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The absence of both the meta description and og:description on the same page suggests no description content was ever entered for this page, affecting both fields at once.",
+            "cause_evidence": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ]
+          },
+          {
+            "id": "server_availability",
+            "cluster_summary": "The server has a slow median response time (1725 ms) across the pages measured, and 7 internal URLs return errors including an HTTP 429 (too many requests).",
+            "finding_refs": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "cluster_evidence": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "Slow server responses and rate-limit (429) errors could both stem from server load or throttling, though the direct link between the two was not observed.",
+            "cause_evidence": [
+              "seo.broken_links",
+              "perf.server_response"
+            ]
+          }
+        ],
+        "ungrouped_refs": [
+          "a11y.blocking",
+          "tech.security_headers",
+          "tech.email_exposed",
+          "llm.brand_consistency",
+          "seo.thin_content",
+          "seo.title:too_long",
+          "seo.sitemap:coverage",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "latency_ms": 55446,
+        "input_tokens": 2,
+        "output_tokens": 5972,
+        "cost_usd": 0.0714215,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 7,
+        "duplicate_reduction": 0.65,
+        "cause_confidence": {
+          "supported": 0,
+          "likely": 5,
+          "possible": 2,
+          "unknown": 0
+        },
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "sonnet-5",
+      "site": "gocplumbing.com",
+      "task": "remediation_plan",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "5562fba763b1cde1389756a5fa39ce70d96bbba23f96972244ce52cb79260e05",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:29:32.234918+00:00",
+          "finished_at": "2026-08-25T04:30:08.133351+00:00",
+          "requested_model": "claude-sonnet-5",
+          "pricing_key": "claude-sonnet-5",
+          "latency_ms": 35898,
+          "request_id": "req_011CeNqWc4mYnAUDFxirsJnr",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 3557,
+          "cache_write_tokens": 3190,
+          "cache_read_tokens": 0,
+          "total_tokens": 6749,
+          "cost_usd": 0.043549,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Resolve blocking accessibility barrier",
+            "why_now": "This is the single highest-severity finding and stops users from completing tasks; it has no identified shared cause with other issues, so it is treated as an isolated, must-fix item before other work begins.",
+            "finding_refs": [
+              "a11y.blocking"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Fix template-wide defects: form bot protection, legacy image formats, multiple H1s, heading hierarchy",
+            "why_now": "These four issues appear identically on all 3 pages that were actually read (home, oou-services-2, about-us), pointing to a shared template as the likely source. Fixing the template once addresses the high-severity unprotected form plus three lower-severity markup issues in the same editing pass. Note: only 3 of 10 known pages were read, so this fix should be verified across the remaining 7 unread pages before being considered complete.",
+            "finding_refs": [
+              "tech.form_protection:unprotected",
+              "perf.images:legacy_format",
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ],
+            "group_ids": [
+              "template_wide_page_issues"
+            ],
+            "causal_basis": "likely",
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Investigate server responsiveness and broken internal links",
+            "why_now": "Slow median response time and 7 erroring internal URLs (including a 429) were grouped as possibly related to server-side load or rate-limiting; both are diagnosed and worked on together since they involve the same server/infrastructure surface. This is high severity (broken links) and should be addressed before performance tuning that depends on a stable server baseline.",
+            "finding_refs": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "group_ids": [
+              "server_availability"
+            ],
+            "causal_basis": "possible",
+            "depends_on": []
+          },
+          {
+            "order": 4,
+            "title": "Reconcile phone number formatting across markup and page content",
+            "why_now": "The schema phone value and the on-page phone value disagree, and the on-page number is also not in E.164 format — both stem from inconsistent phone data entry and are naturally fixed in the same pass across markup and content.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "group_ids": [
+              "phone_number_inconsistency"
+            ],
+            "causal_basis": "likely",
+            "depends_on": []
+          },
+          {
+            "order": 5,
+            "title": "Address homepage performance signals: third-party weight, CLS, LCP",
+            "why_now": "On the homepage, heavy third-party code coincides with weak CLS and LCP scores, suggesting a likely shared contributor. This work follows the server investigation (step 3) since both touch page-load performance and a stable server response is a precondition for meaningful before/after comparison.",
+            "finding_refs": [
+              "perf.third_party",
+              "perf.core_web_vitals:cls",
+              "perf.core_web_vitals:lcp"
+            ],
+            "group_ids": [
+              "homepage_perf_metrics"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              3
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Add image dimensions and lazy loading on oou-services-2",
+            "why_now": "On the oou-services-2 page, missing width/height attributes and absent lazy loading on many images may share a contributing cause (image handling approach) and are fixed together on that page. This is scoped to the one page actually read; the other 7 unread pages have not been checked for the same pattern.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "group_ids": [
+              "oou_image_optimization"
+            ],
+            "causal_basis": "possible",
+            "depends_on": []
+          },
+          {
+            "order": 7,
+            "title": "Close structured data gaps: schema coverage, linking, LocalBusiness fields, sameAs, breadcrumbs",
+            "why_now": "Structured data issues (only 1 of 3 pages has schema, disconnected JSON-LD blocks, incomplete LocalBusiness fields, no sameAs, no breadcrumbs) were grouped as likely stemming from the same incomplete structured-data implementation and are best resolved together in one schema-authoring pass.",
+            "finding_refs": [
+              "ai.jsonld.missing",
+              "ai.schema.graph",
+              "ai.schema.breadcrumb",
+              "ai.schema.contact",
+              "ai.entity.sameas"
+            ],
+            "group_ids": [
+              "structured_data_gaps"
+            ],
+            "causal_basis": "likely",
+            "depends_on": []
+          },
+          {
+            "order": 8,
+            "title": "Add missing meta description and og:description on oou-services-2",
+            "why_now": "Both descriptions are missing on the same page and likely share a cause (page template or content omission); this is grouped with the broader structured/meta-data pass since it touches the same page head elements addressed in step 7.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags"
+            ],
+            "group_ids": [
+              "oou_missing_descriptions"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              7
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Add missing security headers and remove exposed email address",
+            "why_now": "These are standalone low-severity hardening items with no established shared cause; they are grouped here for convenience of a single security-focused pass, not because a common root cause was found.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 10,
+            "title": "Address remaining standalone content and metadata items",
+            "why_now": "Sitemap coverage gaps, an overly long title tag, and inconsistent brand naming are each isolated findings without an established shared cause; they are handled last as low/info-severity cleanup once higher-priority and clustered work is complete.",
+            "finding_refs": [
+              "seo.sitemap:coverage",
+              "seo.title:too_long",
+              "llm.brand_consistency",
+              "seo.thin_content"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 11,
+            "title": "Add behaviour analytics tracking",
+            "why_now": "This informational-severity gap is unrelated to other findings and is scheduled last since it does not block or share a work surface with any remediation above.",
+            "finding_refs": [
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": []
+          }
+        ],
+        "dropped_ungrounded_steps": 0,
+        "lowered_causal_basis": 0
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "latency_ms": 35898,
+        "input_tokens": 2,
+        "output_tokens": 3557,
+        "cost_usd": 0.043549,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "gpt-5.4-mini",
+      "site": "gocplumbing.com",
+      "task": "site_understanding",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "1",
+      "input_hash": "0f3bec1166fae905518fb1c33f06f09cee20352d662d3769bb31928aa7e95fa3",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "openai",
+          "model": "gpt-5.4-mini-2026-03-17",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:30:08.162460+00:00",
+          "finished_at": "2026-08-25T04:30:14.078867+00:00",
+          "requested_model": "gpt-5.4-mini",
+          "pricing_key": "gpt-5.4-mini",
+          "latency_ms": 5916,
+          "request_id": "resp_01b8a0d1264b3219006a8d1a55e26087d1a692715e11a297c5",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 1700,
+          "output_tokens": 322,
+          "cache_write_tokens": null,
+          "cache_read_tokens": 0,
+          "total_tokens": 2022,
+          "cost_usd": 0.002724,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "site_kind": "local service",
+        "name": "GOC Plumbing & Heating",
+        "tagline": "Plumbing and heating services in Kerry and the surrounding counties.",
+        "description": "GOC Plumbing & Heating presents itself as a provider of plumbing and heating services in Kerry and the surrounding counties. The pages say the company has worked on various large-scale commercial projects, but mainly operates in the domestic plumbing and heating sector. The site also notes that coverage is partial, so this summary reflects only the pages read.",
+        "offerings": [
+          "General Plumbing",
+          "Radiator Systems",
+          "Bathroom & Shower Installations",
+          "Stoves",
+          "Solar Panels",
+          "Boiler Service & Installation",
+          "Central Vacuum Units",
+          "Heat Recovery Ventilation",
+          "Stove Installs",
+          "Air to Water Heat Pumps",
+          "Shower Pumps",
+          "Underfloor Heating",
+          "Boiler Servicing",
+          "Maintenance",
+          "Power Flush",
+          "Plumbing/Drainage",
+          "Leak Detection",
+          "Toilet Repair"
+        ],
+        "audience": "Mainly domestic customers; the pages also mention commercial, industrial, and residential work, plus contracts throughout Ireland.",
+        "page_roles": [
+          {
+            "url": "https://www.gocplumbing.com/",
+            "role": "homepage and overview of services"
+          },
+          {
+            "url": "https://www.gocplumbing.com/oou-services-2",
+            "role": "services page with detailed offerings"
+          },
+          {
+            "url": "https://www.gocplumbing.com/about-us",
+            "role": "about page with company background"
+          }
+        ],
+        "source_urls": [
+          "https://www.gocplumbing.com/",
+          "https://www.gocplumbing.com/oou-services-2",
+          "https://www.gocplumbing.com/about-us"
+        ]
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "latency_ms": 5916,
+        "input_tokens": 1700,
+        "output_tokens": 322,
+        "cost_usd": 0.002724,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "gpt-5.4-mini",
+      "site": "gocplumbing.com",
+      "task": "root_cause_grouping",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "a66ea3e0d50579a70cdb6f6f4a163c401f5fe1bacd45aa704d3eeb07fd06c24e",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "openai",
+          "model": "gpt-5.4-mini-2026-03-17",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:30:14.093572+00:00",
+          "finished_at": "2026-08-25T04:30:21.202847+00:00",
+          "requested_model": "gpt-5.4-mini",
+          "pricing_key": "gpt-5.4-mini",
+          "latency_ms": 7109,
+          "request_id": "resp_09a6f5e5ca6ec60e006a8d1a58f31887d19bfa40c9d6d8c840",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2696,
+          "output_tokens": 1197,
+          "cache_write_tokens": null,
+          "cache_read_tokens": 0,
+          "total_tokens": 3893,
+          "cost_usd": 0.0074085,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "groups": [
+          {
+            "id": "images-performance",
+            "cluster_summary": "On the pages read, multiple findings concern image delivery and image-related loading behavior: legacy image formats, images without dimensions, and images without lazy loading.",
+            "finding_refs": [
+              "perf.images:legacy_format",
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "cluster_evidence": [
+              "perf.images:legacy_format",
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "The pages read appear to use image-heavy layouts with several images not optimized for loading efficiency, which could explain the related image-format and layout/image-loading findings.",
+            "cause_evidence": [
+              "perf.images:legacy_format",
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ]
+          },
+          {
+            "id": "heading-structure",
+            "cluster_summary": "On the pages read, the heading structure is repeatedly irregular: multiple H1 headings and an H2-to-H4 jump are observed on the same pages.",
+            "finding_refs": [
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ],
+            "cluster_evidence": [
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "branding-and-identity-markup",
+            "cluster_summary": "On the pages read, several findings point to inconsistent or incomplete identity and brand markup: missing sameAs, linked schema blocks not connected, brand-name inconsistency, and incomplete LocalBusiness fields.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "llm.brand_consistency",
+              "ai.schema.contact"
+            ],
+            "cluster_evidence": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "llm.brand_consistency",
+              "ai.schema.contact"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "These findings may reflect incomplete or inconsistent structured data/brand metadata on the pages read, since the evidence shows multiple identity-related fields and schema relationships are missing or inconsistent.",
+            "cause_evidence": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "llm.brand_consistency",
+              "ai.schema.contact"
+            ]
+          },
+          {
+            "id": "contact-phone-consistency",
+            "cluster_summary": "The phone-related findings disagree across representations: markup phone, on-page phone, and an internationally formatted number example do not all match.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "cluster_evidence": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "cause_confidence": "supported",
+            "cause_hypothesis": "The supplied evidence directly shows inconsistent phone values/formats between markup and page content, plus at least one non-E.164 example, so these findings share a data-consistency issue in phone presentation.",
+            "cause_evidence": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ]
+          },
+          {
+            "id": "seo-content-structure",
+            "cluster_summary": "On the pages read, several SEO/content findings describe sparse or weak page content and metadata coverage: missing meta description, thin content, and title text that exceeds the display limit on one page.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.thin_content",
+              "seo.title:too_long"
+            ],
+            "cluster_evidence": [
+              "seo.meta_description:missing",
+              "seo.thin_content",
+              "seo.title:too_long"
+            ],
+            "cause_confidence": "possible",
+            "cause_hypothesis": "These pages may have limited or unevenly prepared metadata/content, which aligns with the missing description, low word count, and title-length issue observed on the pages read.",
+            "cause_evidence": [
+              "seo.meta_description:missing",
+              "seo.thin_content",
+              "seo.title:too_long"
+            ]
+          },
+          {
+            "id": "page-load-and-layout",
+            "cluster_summary": "On the pages read, several performance findings relate to heavier page load or layout instability: slow server response, poor mobile LCP, many third-party bytes, and mobile CLS above the good threshold.",
+            "finding_refs": [
+              "perf.server_response",
+              "perf.core_web_vitals:lcp",
+              "perf.third_party",
+              "perf.core_web_vitals:cls"
+            ],
+            "cluster_evidence": [
+              "perf.server_response",
+              "perf.core_web_vitals:lcp",
+              "perf.third_party",
+              "perf.core_web_vitals:cls"
+            ],
+            "cause_confidence": "likely",
+            "cause_hypothesis": "The evidence suggests the pages read are burdened by heavy third-party resources and slow responses, which plausibly contribute to the poor LCP and CLS measurements seen on the same pages.",
+            "cause_evidence": [
+              "perf.server_response",
+              "perf.core_web_vitals:lcp",
+              "perf.third_party",
+              "perf.core_web_vitals:cls"
+            ]
+          },
+          {
+            "id": "site-surface-exposure",
+            "cluster_summary": "The findings include several exposed or absent site-surface elements on the pages read, such as missing security headers, exposed email addresses, and no visible bot protection on forms.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed",
+              "tech.form_protection:unprotected"
+            ],
+            "cluster_evidence": [
+              "tech.security_headers",
+              "tech.email_exposed",
+              "tech.form_protection:unprotected"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "crawl-and-index-coverage",
+            "cluster_summary": "Several findings concern crawl/index coverage and discoverability of pages or structured data on the pages read, including absent sitemap coverage, broken internal URLs, limited schema coverage, and no breadcrumb schema.",
+            "finding_refs": [
+              "seo.broken_links",
+              "seo.sitemap:coverage",
+              "ai.jsonld.missing",
+              "ai.schema.breadcrumb"
+            ],
+            "cluster_evidence": [
+              "seo.broken_links",
+              "seo.sitemap:coverage",
+              "ai.jsonld.missing",
+              "ai.schema.breadcrumb"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          },
+          {
+            "id": "accessibility-button-labels",
+            "cluster_summary": "A single accessibility finding reports buttons without accessible names.",
+            "finding_refs": [
+              "a11y.blocking"
+            ],
+            "cluster_evidence": [
+              "a11y.blocking"
+            ],
+            "cause_confidence": "unknown",
+            "cause_hypothesis": null,
+            "cause_evidence": []
+          }
+        ],
+        "ungrouped_refs": [
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "latency_ms": 7109,
+        "input_tokens": 2696,
+        "output_tokens": 1197,
+        "cost_usd": 0.0074085,
+        "input_findings": 28,
+        "referenced_findings": 27,
+        "unknown_refs": [],
+        "coverage": 0.9642857142857143,
+        "groups": 9,
+        "duplicate_reduction": 0.6538461538461539,
+        "cause_confidence": {
+          "supported": 1,
+          "likely": 1,
+          "possible": 3,
+          "unknown": 4
+        },
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    },
+    {
+      "model_key": "gpt-5.4-mini",
+      "site": "gocplumbing.com",
+      "task": "remediation_plan",
+      "task_version": "2",
+      "prompt_version": "2",
+      "schema_version": "2",
+      "input_hash": "93e30d923a1a10456c55c9b033cba0445867764e1666a1fcba64b5a5c93fb520",
+      "status": "completed",
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "openai",
+          "model": "gpt-5.4-mini-2026-03-17",
+          "outcome": "ok",
+          "started_at": "2026-08-25T04:30:21.212899+00:00",
+          "finished_at": "2026-08-25T04:30:31.443149+00:00",
+          "requested_model": "gpt-5.4-mini",
+          "pricing_key": "gpt-5.4-mini",
+          "latency_ms": 10230,
+          "request_id": "resp_0b4a143105dec8e0006a8d1a60108887d1b43db71b79d9495f",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 1824,
+          "output_tokens": 1307,
+          "cache_write_tokens": null,
+          "cache_read_tokens": 0,
+          "total_tokens": 3131,
+          "cost_usd": 0.0072495,
+          "pricing_version": "2026-08-24-anthropic-first-party+openai-standard"
+        }
+      ],
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix the blocking accessibility barrier",
+            "why_now": "This is the highest-priority user-facing blocker and does not depend on other site changes. Addressing it first removes the one reported barrier that can stop people from using the site at all.",
+            "finding_refs": [
+              "a11y.blocking"
+            ],
+            "group_ids": [
+              "accessibility-button-labels"
+            ],
+            "causal_basis": "none",
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Add bot protection to the unprotected form",
+            "why_now": "The form protection issue is high priority and can be worked on independently of content, SEO, and performance changes. It also sits naturally with other site-surface hardening work, even though the shared cause for that cluster is not established.",
+            "finding_refs": [
+              "tech.form_protection:unprotected"
+            ],
+            "group_ids": [
+              "site-surface-exposure"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 3,
+            "title": "Repair broken internal URLs and confirm sitemap coverage on the crawled pages",
+            "why_now": "Broken internal URLs and sitemap coverage both affect crawlability/discoverability and should be handled together while the site’s link and index surface is being reviewed. The crawl was incomplete, so verification should stay limited to the pages already read and any newly discovered pages in the same repair pass.",
+            "finding_refs": [
+              "seo.broken_links",
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [
+              "crawl-and-index-coverage"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              1,
+              2
+            ]
+          },
+          {
+            "order": 4,
+            "title": "Align phone numbers between markup and on-page representations",
+            "why_now": "The phone consistency issues are explicitly linked by the supported cluster, so they should be corrected as one identity/contact task. This can be done alongside other business identity markup updates without depending on unrelated fixes.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "group_ids": [
+              "contact-phone-consistency"
+            ],
+            "causal_basis": "supported",
+            "depends_on": [
+              1,
+              2
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Tighten the site’s identity and schema markup",
+            "why_now": "The brand/entity markup findings share a likely common surface, so it makes sense to update them together after contact data is stabilized. This covers the remaining identity-related structured data gaps without assuming the root cause is proven.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "llm.brand_consistency",
+              "ai.schema.contact"
+            ],
+            "group_ids": [
+              "branding-and-identity-markup"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              4
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Improve page metadata and content depth on the pages already read",
+            "why_now": "The content/metadata findings are grouped on the same page surface and can be addressed together once the key contact and identity signals are settled. Because crawl coverage is incomplete, keep the work limited to the pages actually read and avoid assuming the pattern applies sitewide.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.thin_content",
+              "seo.title:too_long"
+            ],
+            "group_ids": [
+              "seo-content-structure"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              3,
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Reduce page-load and layout issues on the audited pages",
+            "why_now": "The performance findings share a likely page-load/layout surface, so they should be tackled together after the higher-priority functional and crawl issues. This order also helps avoid rework if content, markup, or third-party changes alter measured loading behavior.",
+            "finding_refs": [
+              "perf.server_response",
+              "perf.core_web_vitals:lcp",
+              "perf.third_party",
+              "perf.core_web_vitals:cls"
+            ],
+            "group_ids": [
+              "page-load-and-layout"
+            ],
+            "causal_basis": "likely",
+            "depends_on": [
+              6
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Consolidate image delivery improvements",
+            "why_now": "Image format, sizing, and lazy-loading fixes all touch the same asset pipeline and are best handled as one pass once broader page-load work is underway. The cluster suggests a possible shared contributor, but that connection is not certain, so the step should focus on the reported image delivery issues only.",
+            "finding_refs": [
+              "perf.images:legacy_format",
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy"
+            ],
+            "group_ids": [
+              "images-performance"
+            ],
+            "causal_basis": "possible",
+            "depends_on": [
+              7
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Apply the missing security headers and review source exposure",
+            "why_now": "These items share a site-surface hardening theme and can be addressed after the more urgent user-facing and crawl issues. The shared cause is not established, so the work should be treated as separate hardening tasks rather than a single diagnosis.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "group_ids": [
+              "site-surface-exposure"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              2,
+              3
+            ]
+          },
+          {
+            "order": 10,
+            "title": "Fill in the remaining structured data and Open Graph gaps",
+            "why_now": "These are lower-priority discoverability/metadata refinements that fit naturally after the main identity and content updates. The crawl is incomplete, so confirm any schema changes only on the pages that were actually read and avoid inferring sitewide absence.",
+            "finding_refs": [
+              "ai.jsonld.missing",
+              "ai.schema.breadcrumb",
+              "ai.schema.contact",
+              "ai.opengraph:tags"
+            ],
+            "group_ids": [
+              "crawl-and-index-coverage",
+              "branding-and-identity-markup"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              5,
+              6
+            ]
+          },
+          {
+            "order": 11,
+            "title": "Normalize heading structure on the audited pages",
+            "why_now": "The heading findings are related to the same page-level document structure and can be reviewed together after higher-impact fixes. The cluster’s shared cause is unknown, so this should be framed as structure cleanup on the observed pages, not a diagnosis of why the pattern occurs.",
+            "finding_refs": [
+              "seo.h1:multiple",
+              "seo.heading_hierarchy"
+            ],
+            "group_ids": [
+              "heading-structure"
+            ],
+            "causal_basis": "none",
+            "depends_on": [
+              6
+            ]
+          },
+          {
+            "order": 12,
+            "title": "Tidy remaining low-priority SEO and analytics refinements",
+            "why_now": "These are the least urgent items and are best left until the core accessibility, crawlability, contact, identity, performance, and content issues are addressed. They do not depend on one another strongly, but they share a general maintenance surface.",
+            "finding_refs": [
+              "seo.title:too_long",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "causal_basis": "none",
+            "depends_on": [
+              6,
+              7,
+              10
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0,
+        "lowered_causal_basis": 0
+      },
+      "scoring": {
+        "case": "gocplumbing.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "latency_ms": 10230,
+        "input_tokens": 1824,
+        "output_tokens": 1307,
+        "cost_usd": 0.0072495,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "cause_confidence": {},
+        "lowered_causal_basis": 0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "cluster_quality": "",
+        "cause_discipline": "",
+        "coverage_respect": "",
+        "generic_restatement": "",
+        "reviewer_note": ""
+      }
+    }
+  ]
+}

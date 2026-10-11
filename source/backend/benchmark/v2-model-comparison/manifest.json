@@ -1,0 +1,30 @@
+{
+  "name": "phase1-v2-model-comparison",
+  "phase": "Phase-1 v2",
+  "purpose": "Порівняння моделей на однакових канонічних задачах v2. Корпус заморожений, входи ідентичні, відрізняється лише маршрут.",
+  "frozen_corpus": true,
+  "task_versions": {
+    "site_understanding": {"task": "2", "prompt": "2", "schema": "1"},
+    "root_cause_grouping": {"task": "2", "prompt": "2", "schema": "2"},
+    "remediation_plan": {"task": "2", "prompt": "2", "schema": "2"}
+  },
+  "locale": "en",
+  "tasks": ["site_understanding", "root_cause_grouping", "remediation_plan"],
+  "models": ["opus-5", "sonnet-5", "gpt-5.4-mini"],
+  "cases": [
+    {
+      "name": "rightpricerooter.com",
+      "snapshot": "../snapshots/https-rightpricerooter-com.json",
+      "class": "SMB із багатьма знахідками",
+      "purpose": "якість групування причин і плану виправлень"
+    },
+    {
+      "name": "gocplumbing.com",
+      "snapshot": "../snapshots/https-www-gocplumbing-com.json",
+      "class": "частковий краул (3 сторінки з 10)",
+      "purpose": "критична перевірка нової поведінки v2 щодо покриття"
+    }
+  ],
+  "planned_outputs": 18,
+  "note": "18 = 2 сайти × 3 задачі × 3 моделі. Історичний пілот v1 лежить окремо в benchmark/pilot/ і не перезаписується."
+}

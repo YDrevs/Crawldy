@@ -1,0 +1,261 @@
+# Живий перепрогін сайтів night2, яких торкнувся дефект порога вмісту.
+# Лише уражені випадки — повний корпус переганяти для цього не треба.
+sites:
+  - url: https://104569.ebmeb.gov.bd
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://171charz.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://4drulers.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://acasadoporco.com.br
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://adja.school.gyo6.net
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://amis-mochi.com.tw
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://apache.ie
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://atlansia.jp
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://auditlensapp.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://avitishospital.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://azady.nl
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://baabaabrewhouse.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://billie.brussels
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://blauweiss90.berlin
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://bonpourlatete.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://brandi.co.kr
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://brownwoodradio.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://budapest-babszinhaz.hu
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://cbu.edu.tr
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://centralmarket.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://ch-kamiya.jp
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://chaohesuannb.freshippo.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://chintaa.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://cmqrailway.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://company.nexon.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://curtsyapp.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://dagrasso.pl
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://dkids.me
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://dns.google
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://dr-kong.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://echigo-beer.jp
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://ehescbook.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://elanmotorsports.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://everland.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://ext-geodatakatalog.lansstyrelsen.se
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://fashion.blog
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://fcduebendorf.ch
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://feo.schule.de
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://finanswatch.no
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://game-mill.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://ghrce.raisoni.net
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://glebychevo.vbglenobl.ru
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://grandviewaquarium.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://groww.company
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://gumhohs.school.gyo6.net
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://hastane.kocaeli.edu.tr
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://healthmart.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://hetnonnetje.nl
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://himgirizeeuniversity.edu.in
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://hitcents.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://hopkinsrides.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://htv10.tv
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://idioplatform.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://inter.ua
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://kayodeajulo.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://kerivo.lol
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://kitetsu.co.jp
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://kx7gx4pm8t.search.serialssolutions.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://libcatalog.ugent.be
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://limasky.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://madpc.gr
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://mobile1up.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://modokastudios.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://mumble.net
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://mz.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://opendata.victoria.ca
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://panetten.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://panther.eu
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://phnomtamaozoo.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://picta.cu
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://plus.nl
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://redirect.eeroportal.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://saftgard.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://salzberger.de
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://sap.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://satellize.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://spiedigitallibrary.org
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://stores.sainsburys.co.uk
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://streettalkonline.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://trancetraffic.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://uniana.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://veloow.net
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://wellore.ru
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://xpressreg.net
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://yj2rx5vx3s.search.serialssolutions.com
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога
+  - url: https://zenit.win
+    segment: other
+    note: night2 crawl.empty — перевірка модульного порога

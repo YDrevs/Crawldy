@@ -1,0 +1,765 @@
+{
+  "site": "rightpricerooter.com",
+  "class": "SMB із багатьма знахідками",
+  "snapshot": "https-rightpricerooter-com.json",
+  "started_at": "2026-08-24T23:24:57.913579+00:00",
+  "baseline_before": {
+    "overall_score": 54,
+    "overall_band": "poor",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 64,
+      "llm_visibility_score": 93,
+      "seo_score": 41,
+      "speed_score": 34,
+      "tech_score": 53
+    },
+    "findings_count": 33,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.entity.sameas",
+      "ai.lang",
+      "ai.llms_txt:missing",
+      "ai.opengraph:image",
+      "ai.opengraph:tags",
+      "cro.phone_not_tappable",
+      "llm.stale_content",
+      "perf.core_web_vitals:cls",
+      "perf.core_web_vitals:lcp",
+      "perf.images:legacy_format",
+      "perf.images:no_dimensions",
+      "perf.images:no_lazy",
+      "perf.lighthouse_score",
+      "perf.render_blocking",
+      "perf.responsive_images",
+      "perf.third_party",
+      "seo.broken_links",
+      "seo.h1:multiple",
+      "seo.heading_hierarchy",
+      "seo.https:no_hsts",
+      "seo.image_alt",
+      "seo.meta_description:missing",
+      "seo.meta_description:too_long",
+      "seo.sitemap:coverage",
+      "seo.thin_content",
+      "seo.title:too_long",
+      "seo.viewport",
+      "tech.analytics:no_behaviour",
+      "tech.caching",
+      "tech.email_exposed",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.entity.sameas=medium",
+      "ai.lang=medium",
+      "ai.llms_txt:missing=low",
+      "ai.opengraph:image=low",
+      "ai.opengraph:tags=low",
+      "cro.phone_not_tappable=medium",
+      "llm.stale_content=low",
+      "perf.core_web_vitals:cls=medium",
+      "perf.core_web_vitals:lcp=critical",
+      "perf.images:legacy_format=low",
+      "perf.images:no_dimensions=medium",
+      "perf.images:no_lazy=low",
+      "perf.lighthouse_score=info",
+      "perf.render_blocking=medium",
+      "perf.responsive_images=low",
+      "perf.third_party=medium",
+      "seo.broken_links=high",
+      "seo.h1:multiple=low",
+      "seo.heading_hierarchy=low",
+      "seo.https:no_hsts=low",
+      "seo.image_alt=medium",
+      "seo.meta_description:missing=medium",
+      "seo.meta_description:too_long=info",
+      "seo.sitemap:coverage=low",
+      "seo.thin_content=low",
+      "seo.title:too_long=low",
+      "seo.viewport=high",
+      "tech.analytics:no_behaviour=info",
+      "tech.caching=medium",
+      "tech.email_exposed=low",
+      "tech.security_headers=high"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,lighthouse_score,strategy,titles",
+      "ai.entity.sameas:expected_property,found,page_importance,types",
+      "ai.lang:expected_attribute,found,occurrences,page_importance",
+      "ai.llms_txt:missing:status_code",
+      "ai.opengraph:image:occurrences,opengraph,page_importance",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "cro.phone_not_tappable:pages,phones,tel_links",
+      "llm.stale_content:dated_pages,newest_date,newest_page,pages_read",
+      "perf.core_web_vitals:cls:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.images:no_dimensions:measured_cls,occurrences,page_importance,without_dimensions",
+      "perf.images:no_lazy:images,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.render_blocking:occurrences,page_importance,scripts,styles",
+      "perf.responsive_images:by_format,images_total,occurrences,page_importance,raster_images,with_srcset",
+      "perf.third_party:heaviest,measured,page_importance,share,third_party_kb,total_kb",
+      "seo.broken_links:urls",
+      "seo.h1:multiple:h1,page_importance",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.https:no_hsts:expected,found,origin",
+      "seo.image_alt:occurrences,page_importance,total,without_alt",
+      "seo.meta_description:missing:expected_max_chars,found,occurrences,og_description,page_importance,title",
+      "seo.meta_description:too_long:hidden,length,page_importance,shown",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.thin_content:occurrences,page_importance,word_count",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.viewport:expected,found,occurrences,page_importance",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.caching:cache_control,example,pages_checked",
+      "tech.email_exposed:addresses",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 1,
+      "pages_fetched": 10,
+      "pages_known": 12,
+      "pages_read": 9,
+      "share": 0.75
+    },
+    "missing_data": []
+  },
+  "tasks": [
+    {
+      "task": "site_understanding",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "1e3f96f57113a7e581c5954489f06f302d9eaab35c069ce6885377d0e8b50f9b",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:24:58.443589+00:00",
+          "finished_at": "2026-08-24T23:25:12.655749+00:00",
+          "latency_ms": 14212,
+          "request_id": "req_011CeNSHevNaLbkwFoJXg89V",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1145,
+          "cache_write_tokens": 7590,
+          "cache_read_tokens": 0,
+          "total_tokens": 8737,
+          "cost_usd": 0.0760725,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "origin": "https://rightpricerooter.com",
+        "pages": [
+          "https://rightpricerooter.com/",
+          "https://rightpricerooter.com/about-us/",
+          "https://rightpricerooter.com/services/",
+          "https://rightpricerooter.com/service-request/",
+          "https://rightpricerooter.com/contact-us/",
+          "https://rightpricerooter.com/testimonials/",
+          "https://rightpricerooter.com/43/",
+          "https://rightpricerooter.com/category/plumber/"
+        ],
+        "chars_sent": 15658
+      },
+      "result": {
+        "site_kind": "Local service business website (plumbing contractor)",
+        "name": "Right Price Rooter & Plumbing",
+        "tagline": "A family owned, licensed, bonded and insured plumbing contractor in Glendale, CA offering rooter service, drain cleaning, copper re-piping and full plumbing service across Los Angeles.",
+        "description": "Right Price Rooter is a family owned plumbing contractor based at 540 N Central Ave, Glendale, CA, proudly serving since 1992 (the About page says the family has been in the industry over 40 years). It offers rooter service, drain cleaning, copper re-piping and full plumbing service, with 24/7 service including holidays, prices quoted before work starts, and a 25 year warranty on major jobs. It is licensed & bonded (#645613), and states all its plumbers are OSHA certified, with free estimates over the phone and on any remodel.",
+        "offerings": [
+          "Rooter service",
+          "Drain & sewer cleaning",
+          "Hydro jetting (HydroJet Special, any drain 2\" to 6\")",
+          "Removal of tree roots and sludge",
+          "Copper pipe repair / copper re-piping",
+          "Installation and repair of kitchen and bathroom sinks, shower heads, toilets, showers and tubs",
+          "Water heaters repaired/replaced; tankless water heaters",
+          "Storm drain system cleaning and repair",
+          "Trenchless technology, trenchless pipe bursting method, Parma-Lines lateral lining system",
+          "Grease traps",
+          "Gas lines construction",
+          "New construction plumbing",
+          "Kitchen and bathroom remodel",
+          "Certified tests and detections: sewer line location, in-line sewer video camera, pressure testing, leak detection, dye testing, back flow testing, complete plumbing inspection",
+          "Safety & cost efficiency: underground leak detection, installation of safety devices, earthquake protection, energy efficient methods"
+        ],
+        "audience": "Households, businesses and industries (residential, commercial and industrial customers) in Glendale, Los Angeles and the many listed LA-area cities.",
+        "page_roles": [
+          {
+            "url": "https://rightpricerooter.com/",
+            "role": "Homepage overview of the company, key promises and service area"
+          },
+          {
+            "url": "https://rightpricerooter.com/about-us/",
+            "role": "Company background, credentials and contact details"
+          },
+          {
+            "url": "https://rightpricerooter.com/services/",
+            "role": "Full list of plumbing services, tests and efficiency work"
+          },
+          {
+            "url": "https://rightpricerooter.com/service-request/",
+            "role": "Form to schedule a service appointment with preferred times"
+          },
+          {
+            "url": "https://rightpricerooter.com/contact-us/",
+            "role": "Phone, email and contact message form"
+          },
+          {
+            "url": "https://rightpricerooter.com/testimonials/",
+            "role": "Customer quotes as social proof"
+          },
+          {
+            "url": "https://rightpricerooter.com/43/",
+            "role": "Blog post repeating company intro and service-area city list"
+          },
+          {
+            "url": "https://rightpricerooter.com/category/plumber/",
+            "role": "Blog category archive for 'plumber' posts"
+          }
+        ],
+        "source_urls": [
+          "https://rightpricerooter.com/",
+          "https://rightpricerooter.com/about-us/",
+          "https://rightpricerooter.com/services/",
+          "https://rightpricerooter.com/service-request/",
+          "https://rightpricerooter.com/contact-us/",
+          "https://rightpricerooter.com/testimonials/",
+          "https://rightpricerooter.com/43/",
+          "https://rightpricerooter.com/category/plumber/"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "rightpricerooter.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "root_cause_grouping",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "f71546eb69137a8fbf3a3a7022e567a4e573864b840c39e994c3298a26c330c9",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:25:12.682823+00:00",
+          "finished_at": "2026-08-24T23:25:28.697445+00:00",
+          "latency_ms": 16014,
+          "request_id": "req_011CeNSJd5XYXiqafRzH8oXB",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1140,
+          "cache_write_tokens": 4682,
+          "cache_read_tokens": 0,
+          "total_tokens": 5824,
+          "cost_usd": 0.0577725,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 33,
+        "groups": 0,
+        "site_context_chars": 0
+      },
+      "result": {
+        "groups": [
+          {
+            "id": "head-template",
+            "title": "Shared page <head>/template omissions across all 9 pages",
+            "hypothesis": "Missing viewport, missing html lang, over-long title and repeated heading-jump appear on all 9 pages, so they likely originate from one shared theme header template rather than per-page authoring.",
+            "finding_refs": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.title:too_long",
+              "seo.heading_hierarchy"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "a11y-lighthouse",
+            "title": "Accessibility barriers tied to template markup",
+            "hypothesis": "The blocking a11y audits include meta-viewport and frame-title, which likely stem from the same template gaps as the missing viewport and missing image alts; the remaining remarks probably share the theme's markup and styling.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures",
+              "seo.image_alt"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "server-headers",
+            "title": "Server/CDN response header configuration not set",
+            "hypothesis": "Absent security headers, HSTS and cache-control all come from the same origin response configuration, likely one unconfigured server/host layer.",
+            "finding_refs": [
+              "tech.security_headers",
+              "seo.https:no_hsts",
+              "tech.caching"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "image-pipeline",
+            "title": "No image optimisation pipeline",
+            "hypothesis": "Missing dimensions, legacy formats, no lazy loading and no srcset likely all result from images being uploaded and inserted without any optimisation plugin or build step; the missing dimensions probably also drive the measured CLS.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy",
+              "perf.responsive_images",
+              "perf.core_web_vitals:cls"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "loading-perf",
+            "title": "Slow mobile load from render-blocking and third-party weight",
+            "hypothesis": "Render-blocking head resources plus heavy third-party embeds likely explain the poor LCP and the overall Lighthouse performance score.",
+            "finding_refs": [
+              "perf.render_blocking",
+              "perf.third_party",
+              "perf.core_web_vitals:lcp",
+              "perf.lighthouse_score"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "metadata",
+            "title": "Incomplete SEO/social metadata configuration",
+            "hypothesis": "Missing meta descriptions, missing og:image and og:description, plus one over-long description, likely reflect one SEO plugin left partly unconfigured with no per-page defaults.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long",
+              "ai.opengraph:image",
+              "ai.opengraph:tags",
+              "ai.entity.sameas"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "stale-cms",
+            "title": "Neglected, unmaintained CMS content",
+            "hypothesis": "Stale content, a broken uploads URL from 2014, sitemap pages missing and thin pages likely share one cause: the site has not been maintained or re-indexed for years.",
+            "finding_refs": [
+              "llm.stale_content",
+              "seo.broken_links",
+              "seo.sitemap:coverage",
+              "seo.thin_content"
+            ],
+            "confidence": "possible"
+          }
+        ],
+        "ungrouped_refs": [
+          "cro.phone_not_tappable",
+          "tech.email_exposed",
+          "ai.llms_txt:missing",
+          "seo.h1:multiple",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "rightpricerooter.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 33,
+        "referenced_findings": 33,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 7,
+        "duplicate_reduction": 0.75,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "remediation_plan",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "2",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "e360505bd638440d0dec84a6c672d94d2b4417ebaeb7dc871f9a53cd93cda185",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:25:28.756822+00:00",
+          "finished_at": "2026-08-24T23:25:45.150772+00:00",
+          "latency_ms": 16393,
+          "request_id": "req_011CeNSKp4MHGYjSD3hoFKcp",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1366,
+          "cache_write_tokens": 2525,
+          "cache_read_tokens": 0,
+          "total_tokens": 3893,
+          "cost_usd": 0.04994125,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 33,
+        "groups": 7,
+        "site_context_chars": 0
+      },
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix shared <head>/template omissions (viewport, lang, title, heading order)",
+            "why_now": "Single template touchpoint covering the top-ranked finding; viewport and lang are prerequisites for meaningful mobile and accessibility work downstream.",
+            "finding_refs": [
+              "seo.viewport",
+              "ai.lang",
+              "seo.title:too_long",
+              "seo.heading_hierarchy",
+              "seo.h1:multiple"
+            ],
+            "group_ids": [
+              "head-template"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Configure server/CDN response headers (security headers, HSTS, caching)",
+            "why_now": "One configuration surface resolves a high-severity gap plus related low/medium items; independent of code changes so it can land early.",
+            "finding_refs": [
+              "tech.security_headers",
+              "seo.https:no_hsts",
+              "tech.caching"
+            ],
+            "group_ids": [
+              "server-headers"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Remove accessibility barriers in template markup and add image alt text",
+            "why_now": "Blocking barriers prevent use of the site; they share the template markup edited in step 1, so doing it right after avoids rework.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures",
+              "seo.image_alt"
+            ],
+            "group_ids": [
+              "a11y-lighthouse"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 4,
+            "title": "Make the phone number tappable",
+            "why_now": "Small, isolated markup fix in the same template pass; the contact path is currently unusable on mobile once viewport is corrected.",
+            "finding_refs": [
+              "cro.phone_not_tappable"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Reduce render-blocking resources and third-party weight to address mobile LCP",
+            "why_now": "Addresses the critical LCP finding at its measured causes; caching from step 2 is already in place so delivery changes are measured cleanly.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.render_blocking",
+              "perf.third_party",
+              "perf.lighthouse_score"
+            ],
+            "group_ids": [
+              "loading-perf"
+            ],
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Introduce an image pipeline: dimensions, modern formats, lazy loading, responsive sizes",
+            "why_now": "Missing dimensions are the stated cause of the CLS finding; grouping all image work avoids repeated passes over the same assets after load-path work lands.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.core_web_vitals:cls",
+              "perf.images:legacy_format",
+              "perf.images:no_lazy",
+              "perf.responsive_images"
+            ],
+            "group_ids": [
+              "image-pipeline"
+            ],
+            "depends_on": [
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Complete SEO and social metadata (meta description, OG tags, og:image, sameAs)",
+            "why_now": "Depends on the template head being corrected first; og:image benefits from the image pipeline being in place.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_long",
+              "ai.opengraph:tags",
+              "ai.opengraph:image",
+              "ai.entity.sameas"
+            ],
+            "group_ids": [
+              "metadata"
+            ],
+            "depends_on": [
+              1,
+              6
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Clean up CMS content: fix the erroring internal URL, sitemap coverage, thin and stale content",
+            "why_now": "Content and CMS maintenance is the shared cause; the broken internal URL is high severity but sits with sitemap and content updates in one editorial pass.",
+            "finding_refs": [
+              "seo.broken_links",
+              "seo.sitemap:coverage",
+              "seo.thin_content",
+              "llm.stale_content"
+            ],
+            "group_ids": [
+              "stale-cms"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Handle remaining low/info items: llms.txt, exposed email, behaviour analytics",
+            "why_now": "Independent leftovers with no dependants; sequenced last so earlier structural and content work is settled first.",
+            "finding_refs": [
+              "ai.llms_txt:missing",
+              "tech.email_exposed",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              8
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0
+      },
+      "automatic_scoring": {
+        "case": "rightpricerooter.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 33,
+        "referenced_findings": 33,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    }
+  ],
+  "baseline_after": {
+    "overall_score": 54,
+    "overall_band": "poor",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 64,
+      "llm_visibility_score": 93,
+      "seo_score": 41,
+      "speed_score": 34,
+      "tech_score": 53
+    },
+    "findings_count": 33,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.entity.sameas",
+      "ai.lang",
+      "ai.llms_txt:missing",
+      "ai.opengraph:image",
+      "ai.opengraph:tags",
+      "cro.phone_not_tappable",
+      "llm.stale_content",
+      "perf.core_web_vitals:cls",
+      "perf.core_web_vitals:lcp",
+      "perf.images:legacy_format",
+      "perf.images:no_dimensions",
+      "perf.images:no_lazy",
+      "perf.lighthouse_score",
+      "perf.render_blocking",
+      "perf.responsive_images",
+      "perf.third_party",
+      "seo.broken_links",
+      "seo.h1:multiple",
+      "seo.heading_hierarchy",
+      "seo.https:no_hsts",
+      "seo.image_alt",
+      "seo.meta_description:missing",
+      "seo.meta_description:too_long",
+      "seo.sitemap:coverage",
+      "seo.thin_content",
+      "seo.title:too_long",
+      "seo.viewport",
+      "tech.analytics:no_behaviour",
+      "tech.caching",
+      "tech.email_exposed",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.entity.sameas=medium",
+      "ai.lang=medium",
+      "ai.llms_txt:missing=low",
+      "ai.opengraph:image=low",
+      "ai.opengraph:tags=low",
+      "cro.phone_not_tappable=medium",
+      "llm.stale_content=low",
+      "perf.core_web_vitals:cls=medium",
+      "perf.core_web_vitals:lcp=critical",
+      "perf.images:legacy_format=low",
+      "perf.images:no_dimensions=medium",
+      "perf.images:no_lazy=low",
+      "perf.lighthouse_score=info",
+      "perf.render_blocking=medium",
+      "perf.responsive_images=low",
+      "perf.third_party=medium",
+      "seo.broken_links=high",
+      "seo.h1:multiple=low",
+      "seo.heading_hierarchy=low",
+      "seo.https:no_hsts=low",
+      "seo.image_alt=medium",
+      "seo.meta_description:missing=medium",
+      "seo.meta_description:too_long=info",
+      "seo.sitemap:coverage=low",
+      "seo.thin_content=low",
+      "seo.title:too_long=low",
+      "seo.viewport=high",
+      "tech.analytics:no_behaviour=info",
+      "tech.caching=medium",
+      "tech.email_exposed=low",
+      "tech.security_headers=high"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,lighthouse_score,strategy,titles",
+      "ai.entity.sameas:expected_property,found,page_importance,types",
+      "ai.lang:expected_attribute,found,occurrences,page_importance",
+      "ai.llms_txt:missing:status_code",
+      "ai.opengraph:image:occurrences,opengraph,page_importance",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "cro.phone_not_tappable:pages,phones,tel_links",
+      "llm.stale_content:dated_pages,newest_date,newest_page,pages_read",
+      "perf.core_web_vitals:cls:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.images:no_dimensions:measured_cls,occurrences,page_importance,without_dimensions",
+      "perf.images:no_lazy:images,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.render_blocking:occurrences,page_importance,scripts,styles",
+      "perf.responsive_images:by_format,images_total,occurrences,page_importance,raster_images,with_srcset",
+      "perf.third_party:heaviest,measured,page_importance,share,third_party_kb,total_kb",
+      "seo.broken_links:urls",
+      "seo.h1:multiple:h1,page_importance",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.https:no_hsts:expected,found,origin",
+      "seo.image_alt:occurrences,page_importance,total,without_alt",
+      "seo.meta_description:missing:expected_max_chars,found,occurrences,og_description,page_importance,title",
+      "seo.meta_description:too_long:hidden,length,page_importance,shown",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.thin_content:occurrences,page_importance,word_count",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.viewport:expected,found,occurrences,page_importance",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.caching:cache_control,example,pages_checked",
+      "tech.email_exposed:addresses",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 1,
+      "pages_fetched": 10,
+      "pages_known": 12,
+      "pages_read": 9,
+      "share": 0.75
+    },
+    "missing_data": []
+  },
+  "deterministic_unchanged": true,
+  "finished_at": "2026-08-24T23:25:45.190110+00:00"
+}

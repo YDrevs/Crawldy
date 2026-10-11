@@ -1,0 +1,722 @@
+{
+  "site": "linear.app",
+  "class": "JS-важкий продуктовий сайт",
+  "snapshot": "https-linear-app.json",
+  "started_at": "2026-08-24T23:26:35.859631+00:00",
+  "baseline_before": {
+    "overall_score": 52,
+    "overall_band": "poor",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 57,
+      "llm_visibility_score": 68,
+      "seo_score": 47,
+      "speed_score": 47,
+      "tech_score": 48
+    },
+    "findings_count": 25,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.jsonld.missing",
+      "ai.opengraph:tags",
+      "ai.schema.breadcrumb",
+      "ai.schema.organization",
+      "llm.direct_answer",
+      "perf.core_web_vitals:lcp",
+      "perf.images:legacy_format",
+      "perf.lighthouse_score",
+      "perf.render_blocking",
+      "perf.responsive_images",
+      "seo.h1:missing",
+      "seo.heading_hierarchy",
+      "seo.meta_description:missing",
+      "seo.meta_description:too_long",
+      "seo.meta_description:too_short",
+      "seo.noindex",
+      "seo.sitemap:coverage",
+      "seo.title:too_long",
+      "seo.title:too_short",
+      "tech.email_exposed",
+      "tech.form_protection:unprotected",
+      "tech.security_headers",
+      "tech.soft_404"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.jsonld.missing=medium",
+      "ai.opengraph:tags=low",
+      "ai.schema.breadcrumb=low",
+      "ai.schema.organization=high",
+      "llm.direct_answer=medium",
+      "perf.core_web_vitals:lcp=critical",
+      "perf.images:legacy_format=low",
+      "perf.lighthouse_score=info",
+      "perf.render_blocking=medium",
+      "perf.responsive_images=low",
+      "seo.h1:missing=high",
+      "seo.heading_hierarchy=low",
+      "seo.meta_description:missing=medium",
+      "seo.meta_description:too_long=low",
+      "seo.meta_description:too_short=low",
+      "seo.noindex=medium",
+      "seo.sitemap:coverage=low",
+      "seo.title:too_long=info",
+      "seo.title:too_short=low",
+      "tech.email_exposed=low",
+      "tech.form_protection:unprotected=high",
+      "tech.security_headers=low",
+      "tech.soft_404=high"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,coverage,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,coverage,lighthouse_score,strategy,titles",
+      "ai.jsonld.missing:coverage,examples,pages_checked,pages_with_schema,types_found",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "ai.schema.breadcrumb:coverage,pages_checked",
+      "ai.schema.organization:found_types,page_importance",
+      "llm.direct_answer:intro,occurrences,page_importance",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.render_blocking:occurrences,page_importance,scripts,styles",
+      "perf.responsive_images:by_format,images_total,occurrences,page_importance,raster_images,with_srcset",
+      "seo.h1:missing:found,headings,occurrences,page_importance,title",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.meta_description:missing:expected_max_chars,found,og_description,page_importance,title",
+      "seo.meta_description:too_long:hidden,length,occurrences,page_importance,shown",
+      "seo.meta_description:too_short:description,length,occurrences,page_importance",
+      "seo.noindex:meta_robots,occurrences,page_importance,page_type",
+      "seo.sitemap:coverage:coverage,examples,sitemap_urls",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.title:too_short:length,page_importance,title",
+      "tech.email_exposed:addresses,coverage",
+      "tech.form_protection:unprotected:actions,forms_total,page_importance,unprotected",
+      "tech.security_headers:missing,page_importance,present",
+      "tech.soft_404:coverage,expected,probe_status"
+    ],
+    "coverage": {
+      "pages_failed": 0,
+      "pages_fetched": 24,
+      "pages_known": 1000,
+      "pages_read": 24,
+      "share": 0.024
+    },
+    "missing_data": []
+  },
+  "tasks": [
+    {
+      "task": "site_understanding",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "0834fba0c7d65eaf73b38fac09f31b13e9f337d3bfb5ad51926da70e910761ba",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:26:35.878730+00:00",
+          "finished_at": "2026-08-24T23:26:50.666222+00:00",
+          "latency_ms": 14787,
+          "request_id": "req_011CeNSQkPyXbHimL1j34MNL",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1102,
+          "cache_write_tokens": 5881,
+          "cache_read_tokens": 0,
+          "total_tokens": 6985,
+          "cost_usd": 0.06431625,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "origin": "https://linear.app",
+        "pages": [
+          "https://linear.app/",
+          "https://linear.app/pricing",
+          "https://linear.app/contact",
+          "https://linear.app/about",
+          "https://linear.app/contact/support",
+          "https://linear.app/now/giving-our-team-liquidity-through-linear-s-first-tender-offer",
+          "https://linear.app/now/rethinking-the-startup-mvp-building-a-competitive-product",
+          "https://linear.app/now/how-we-think-about-customer-experience-at-linear"
+        ],
+        "chars_sent": 13821
+      },
+      "result": {
+        "site_kind": "SaaS product website",
+        "name": "Linear",
+        "tagline": "Linear is a product development system for planning and building software, built for teams working alongside AI agents.",
+        "description": "Linear describes itself as \"the product development system for teams and agents,\" purpose-built for planning and building products and designed for the AI era. Founded in 2019, it says it is used by more than 40,000 companies (including OpenAI, Coinbase, and Ramp) to plan, build, and ship products, with a team distributed across North America and Europe. The site offers tiered plans from Free to Enterprise, plus sales and support contact, docs, and API access.",
+        "offerings": [
+          "Issues, projects, cycles, initiatives",
+          "Triage, Triage Intelligence, triage rules and responsibility",
+          "Customer requests",
+          "Agent platform, Linear Agent, Coding Sessions",
+          "Loops",
+          "Code Intelligence",
+          "Linear Insights, dashboards, progress reports, data warehouse sync",
+          "Linear Asks (Slack intake, email intake, web forms)",
+          "Pulse, Releases, guided reviews, issue SLAs, diffs, issue sync",
+          "Integrations including Microsoft Teams, Zendesk, Intercom, Salesforce (add-on), MCP access",
+          "API and webhook access, SDK",
+          "Security and admin features: SSO/SAML, SCIM, audit log, IP restrictions, HIPAA compliance",
+          "Plans: Free $0, Basic $10/user/mo, Business $16/user/mo, Enterprise (custom)"
+        ],
+        "audience": "Product development teams — the pages reference product teams, engineering, and enterprise buyers — described as \"world-class product teams\" and modern teams with AI workflows.",
+        "page_roles": [
+          {
+            "url": "https://linear.app/",
+            "role": "Homepage positioning Linear as a product development system for teams and agents"
+          },
+          {
+            "url": "https://linear.app/pricing",
+            "role": "Plan tiers, prices, and feature comparison"
+          },
+          {
+            "url": "https://linear.app/contact",
+            "role": "Routes visitors to sales, support, community Slack, docs, API, and status"
+          },
+          {
+            "url": "https://linear.app/contact/support",
+            "role": "Support request form and support email"
+          },
+          {
+            "url": "https://linear.app/about",
+            "role": "Company story, founding, scale, and team listing plus hiring link"
+          },
+          {
+            "url": "https://linear.app/now/giving-our-team-liquidity-through-linear-s-first-tender-offer",
+            "role": "Post on the Series C tender offer and the 'Linear Infinity' employee equity/time-off approach"
+          },
+          {
+            "url": "https://linear.app/now/rethinking-the-startup-mvp-building-a-competitive-product",
+            "role": "Thought-leadership post on rethinking the MVP"
+          },
+          {
+            "url": "https://linear.app/now/how-we-think-about-customer-experience-at-linear",
+            "role": "Post on Linear's customer experience philosophy"
+          }
+        ],
+        "source_urls": [
+          "https://linear.app/",
+          "https://linear.app/pricing",
+          "https://linear.app/contact",
+          "https://linear.app/about",
+          "https://linear.app/contact/support",
+          "https://linear.app/now/giving-our-team-liquidity-through-linear-s-first-tender-offer",
+          "https://linear.app/now/rethinking-the-startup-mvp-building-a-competitive-product",
+          "https://linear.app/now/how-we-think-about-customer-experience-at-linear"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "linear.app",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [
+          "$0",
+          "$1",
+          "$1"
+        ],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "root_cause_grouping",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "82875ce3215f846a066598a2338619c43ebfd4945acee9abd27735e0cca4992f",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:26:50.732011+00:00",
+          "finished_at": "2026-08-24T23:27:05.112156+00:00",
+          "latency_ms": 14380,
+          "request_id": "req_011CeNSRqsQmkLw4dRGsL9Ku",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1188,
+          "cache_write_tokens": 3828,
+          "cache_read_tokens": 0,
+          "total_tokens": 5018,
+          "cost_usd": 0.053635,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 25,
+        "groups": 0,
+        "site_context_chars": 0
+      },
+      "result": {
+        "groups": [
+          {
+            "id": "structured-data",
+            "title": "Structured data and social markup missing from page templates",
+            "hypothesis": "Organization/WebSite schema, BreadcrumbList, near-total absence of JSON-LD and missing og:type/og:url across all 24 crawled pages likely stem from one shared head/template that never emits these metadata blocks.",
+            "finding_refs": [
+              "ai.schema.organization",
+              "ai.jsonld.missing",
+              "ai.schema.breadcrumb",
+              "ai.opengraph:tags"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "perf-frontend",
+            "title": "Heavy front-end delivery on mobile",
+            "hypothesis": "Poor LCP, low Lighthouse score and 51 render-blocking stylesheets in <head> on the same pages likely share one cause: an unoptimised asset pipeline shipping large blocking CSS/JS.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.lighthouse_score",
+              "perf.render_blocking"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "perf-images",
+            "title": "Images not processed by an optimisation step",
+            "hypothesis": "Legacy PNG formats and images with no srcset probably come from the same missing image pipeline (no format conversion, no responsive variants).",
+            "finding_refs": [
+              "perf.images:legacy_format",
+              "perf.responsive_images"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "meta-authoring",
+            "title": "Inconsistent title/description authoring rules",
+            "hypothesis": "Missing, too short and too long descriptions plus too short/too long titles likely share one cause: no length-constrained metadata fields or fallback generation in the CMS.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_short",
+              "seo.meta_description:too_long",
+              "seo.title:too_short",
+              "seo.title:too_long"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "heading-structure",
+            "title": "Heading structure broken in content templates",
+            "hypothesis": "Changelog/blog-style pages starting at H2 with no H1 and H1→H3 jumps elsewhere likely originate from the same content template that renders headings without a semantic top level.",
+            "finding_refs": [
+              "seo.h1:missing",
+              "seo.heading_hierarchy"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "a11y",
+            "title": "Accessibility defects in shared UI components",
+            "hypothesis": "Unnamed links/buttons and insufficient colour contrast come from the same Lighthouse mobile run and likely from shared design-system components.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "confidence": "likely"
+          }
+        ],
+        "ungrouped_refs": [
+          "tech.form_protection:unprotected",
+          "tech.soft_404",
+          "tech.security_headers",
+          "tech.email_exposed",
+          "seo.noindex",
+          "seo.sitemap:coverage",
+          "llm.direct_answer"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "linear.app",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 25,
+        "referenced_findings": 25,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 6,
+        "duplicate_reduction": 0.6666666666666666,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "remediation_plan",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "2",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "0a7854cb4555eaff1b3fde9fd7ce053cd0db9e690de706cc28d9a79e48d0e1cd",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:27:05.205594+00:00",
+          "finished_at": "2026-08-24T23:27:22.910736+00:00",
+          "latency_ms": 17705,
+          "request_id": "req_011CeNSSv1EbpXJWJmzMpVRa",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1503,
+          "cache_write_tokens": 2102,
+          "cache_read_tokens": 0,
+          "total_tokens": 3607,
+          "cost_usd": 0.0507225,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 25,
+        "groups": 6,
+        "site_context_chars": 0
+      },
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Restore indexability and fix the soft 404",
+            "why_now": "A noindex page and a non-existent URL returning 200 undermine every other on-page fix; crawl/indexing correctness must land before content and markup work is observable.",
+            "finding_refs": [
+              "seo.noindex",
+              "tech.soft_404"
+            ],
+            "group_ids": [],
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Fix heading structure in content templates (H1 and hierarchy)",
+            "why_now": "Shared template cause; adding the missing H1 and removing the H1→H3 jump in one pass avoids reworking the same templates twice.",
+            "finding_refs": [
+              "seo.h1:missing",
+              "seo.heading_hierarchy"
+            ],
+            "group_ids": [
+              "heading-structure"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 3,
+            "title": "Remove blocking accessibility barriers in shared UI components",
+            "why_now": "Two barriers stop people using the site at all; both live in shared components alongside the remaining accessibility remark, so they are fixed together.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "group_ids": [
+              "a11y"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 4,
+            "title": "Add bot protection to the unprotected form",
+            "why_now": "An exposed form is an active abuse surface and is independent of other work, so it can be closed early.",
+            "finding_refs": [
+              "tech.form_protection:unprotected"
+            ],
+            "group_ids": [],
+            "depends_on": []
+          },
+          {
+            "order": 5,
+            "title": "Reduce render-blocking resources and improve mobile LCP",
+            "why_now": "51 render-blocking resources in <head> are a direct contributor to the 5.3 s LCP and the low Lighthouse score; treating them as one front-end delivery change addresses the shared cause.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.render_blocking",
+              "perf.lighthouse_score"
+            ],
+            "group_ids": [
+              "perf-frontend"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 6,
+            "title": "Introduce an image optimisation step (modern formats, responsive sizes)",
+            "why_now": "Depends on the front-end delivery work being settled so the pipeline change is measured against the new baseline; both image findings share one missing build step.",
+            "finding_refs": [
+              "perf.images:legacy_format",
+              "perf.responsive_images"
+            ],
+            "group_ids": [
+              "perf-images"
+            ],
+            "depends_on": [
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Add Organization/WebSite JSON-LD and roll structured data across templates",
+            "why_now": "Requires the corrected heading and indexability baseline; the top-ranked finding and site-wide coverage gap come from the same template omission.",
+            "finding_refs": [
+              "ai.schema.organization",
+              "ai.jsonld.missing"
+            ],
+            "group_ids": [
+              "structured-data"
+            ],
+            "depends_on": [
+              1,
+              2
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Establish title and meta description authoring rules and apply them",
+            "why_now": "One authoring-rule fix resolves the missing, too-short and too-long titles and descriptions instead of five separate edits.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "seo.meta_description:too_short",
+              "seo.meta_description:too_long",
+              "seo.title:too_short",
+              "seo.title:too_long"
+            ],
+            "group_ids": [
+              "meta-authoring"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Add a direct answer block at the top of the page",
+            "why_now": "Content change that builds on the corrected heading structure from step 2.",
+            "finding_refs": [
+              "llm.direct_answer"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 10,
+            "title": "Complete social and breadcrumb markup",
+            "why_now": "Same template surface as the structured-data rollout; done after the core schema exists so BreadcrumbList and OG tags extend it.",
+            "finding_refs": [
+              "ai.opengraph:tags",
+              "ai.schema.breadcrumb"
+            ],
+            "group_ids": [
+              "structured-data"
+            ],
+            "depends_on": [
+              7
+            ]
+          },
+          {
+            "order": 11,
+            "title": "Add missing security headers and obfuscate exposed email addresses",
+            "why_now": "Independent hardening items grouped at the end; no other step depends on them.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "group_ids": [],
+            "depends_on": []
+          },
+          {
+            "order": 12,
+            "title": "Align sitemap with crawled pages",
+            "why_now": "Sitemap coverage should reflect the final set of indexable URLs after the indexability and soft-404 corrections.",
+            "finding_refs": [
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              1
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0
+      },
+      "automatic_scoring": {
+        "case": "linear.app",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 25,
+        "referenced_findings": 25,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    }
+  ],
+  "baseline_after": {
+    "overall_score": 52,
+    "overall_band": "poor",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 57,
+      "llm_visibility_score": 68,
+      "seo_score": 47,
+      "speed_score": 47,
+      "tech_score": 48
+    },
+    "findings_count": 25,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.jsonld.missing",
+      "ai.opengraph:tags",
+      "ai.schema.breadcrumb",
+      "ai.schema.organization",
+      "llm.direct_answer",
+      "perf.core_web_vitals:lcp",
+      "perf.images:legacy_format",
+      "perf.lighthouse_score",
+      "perf.render_blocking",
+      "perf.responsive_images",
+      "seo.h1:missing",
+      "seo.heading_hierarchy",
+      "seo.meta_description:missing",
+      "seo.meta_description:too_long",
+      "seo.meta_description:too_short",
+      "seo.noindex",
+      "seo.sitemap:coverage",
+      "seo.title:too_long",
+      "seo.title:too_short",
+      "tech.email_exposed",
+      "tech.form_protection:unprotected",
+      "tech.security_headers",
+      "tech.soft_404"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.jsonld.missing=medium",
+      "ai.opengraph:tags=low",
+      "ai.schema.breadcrumb=low",
+      "ai.schema.organization=high",
+      "llm.direct_answer=medium",
+      "perf.core_web_vitals:lcp=critical",
+      "perf.images:legacy_format=low",
+      "perf.lighthouse_score=info",
+      "perf.render_blocking=medium",
+      "perf.responsive_images=low",
+      "seo.h1:missing=high",
+      "seo.heading_hierarchy=low",
+      "seo.meta_description:missing=medium",
+      "seo.meta_description:too_long=low",
+      "seo.meta_description:too_short=low",
+      "seo.noindex=medium",
+      "seo.sitemap:coverage=low",
+      "seo.title:too_long=info",
+      "seo.title:too_short=low",
+      "tech.email_exposed=low",
+      "tech.form_protection:unprotected=high",
+      "tech.security_headers=low",
+      "tech.soft_404=high"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,coverage,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,coverage,lighthouse_score,strategy,titles",
+      "ai.jsonld.missing:coverage,examples,pages_checked,pages_with_schema,types_found",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "ai.schema.breadcrumb:coverage,pages_checked",
+      "ai.schema.organization:found_types,page_importance",
+      "llm.direct_answer:intro,occurrences,page_importance",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.render_blocking:occurrences,page_importance,scripts,styles",
+      "perf.responsive_images:by_format,images_total,occurrences,page_importance,raster_images,with_srcset",
+      "seo.h1:missing:found,headings,occurrences,page_importance,title",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.meta_description:missing:expected_max_chars,found,og_description,page_importance,title",
+      "seo.meta_description:too_long:hidden,length,occurrences,page_importance,shown",
+      "seo.meta_description:too_short:description,length,occurrences,page_importance",
+      "seo.noindex:meta_robots,occurrences,page_importance,page_type",
+      "seo.sitemap:coverage:coverage,examples,sitemap_urls",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.title:too_short:length,page_importance,title",
+      "tech.email_exposed:addresses,coverage",
+      "tech.form_protection:unprotected:actions,forms_total,page_importance,unprotected",
+      "tech.security_headers:missing,page_importance,present",
+      "tech.soft_404:coverage,expected,probe_status"
+    ],
+    "coverage": {
+      "pages_failed": 0,
+      "pages_fetched": 24,
+      "pages_known": 1000,
+      "pages_read": 24,
+      "share": 0.024
+    },
+    "missing_data": []
+  },
+  "deterministic_unchanged": true,
+  "finished_at": "2026-08-24T23:27:22.994705+00:00"
+}

@@ -1,0 +1,15 @@
+{
+  "note": "Корпус бенчмарку збагачення: фіксовані знімки, а не живі краули. Розширювати знімками з calibrate.py --snapshots.",
+  "cases": [
+    {
+      "name": "small-site",
+      "snapshot": "../../tests/fixtures/snapshots/schema1_small_site.json",
+      "url": "https://pillowpa.org/"
+    },
+    {
+      "name": "blocked-crawl",
+      "snapshot": "../../tests/fixtures/snapshots/schema1_blocked_crawl.json",
+      "url": "https://www.unilever.com/"
+    }
+  ]
+}

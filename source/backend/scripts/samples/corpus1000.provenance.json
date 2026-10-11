@@ -1,0 +1,248 @@
+{
+ "schema": "crawldy.corpus/1",
+ "created_at": "2026-08-28T01:30:11+00:00",
+ "count": 1000,
+ "corpus_hash": "83746e74c1b91ffc2247464df972121f",
+ "what_this_is": "Навмисно різнорідний стратифікований спостережний корпус із заземленими мітками там, де джерело їх дає. Це НЕ статистично репрезентативна вибірка вебу: ані генеральної сукупності, ані ймовірності потрапляння тут не визначено. Частки сегментів — рішення людини, а не виміряна структура вебу.",
+ "sources": {
+  "wikidata_p856": {
+   "endpoint": "https://query.wikidata.org/sparql",
+   "property": "P856 (official website)",
+   "queries": 369,
+   "failed_queries": [
+    "theatre company/global: HTTP 504",
+    "business/global: HTTP 504",
+    "organization/global: HTTP 504",
+    "municipality/global: HTTP 504"
+   ],
+   "gives": "segment (via entity class) and country"
+  },
+  "wikidata_software_supplement": {
+   "classes": [
+    "Q341 free software",
+    "Q9143 programming language",
+    "Q1330336 web framework",
+    "Q21127166 software library"
+   ],
+   "reason": "сегмент documentation не набирав квоту з основного збору",
+   "added": 483
+  },
+  "tranco": {
+   "source": "tranco:46W9X",
+   "download": "https://tranco-list.eu/download/46W9X/1000000",
+   "rows_total": 1000000,
+   "window": [
+    20000,
+    600000
+   ],
+   "sampled": 1500
+  },
+  "curated": {
+   "count": 44,
+   "reason": "docs/webapps rarely in Wikidata"
+  },
+  "selected_per_source": {
+   "curated": 44,
+   "wikidata:P856": 838,
+   "tranco:46W9X": 118
+  }
+ },
+ "class_to_segment": {
+  "mapping_version": 2,
+  "table": {
+   "university": "education",
+   "high school": "education",
+   "municipality": "institutional",
+   "museum": "institutional",
+   "library": "institutional",
+   "hospital": "institutional",
+   "NGO": "institutional",
+   "organization": "institutional",
+   "restaurant": "local",
+   "brewery": "local",
+   "law firm": "local",
+   "medical clinic": "local",
+   "theatre company": "local",
+   "retail chain": "ecommerce",
+   "department store": "ecommerce",
+   "supermarket": "ecommerce",
+   "bookstore": "ecommerce",
+   "software company": "saas",
+   "technology company": "saas",
+   "business": "corporate",
+   "manufacturer": "corporate",
+   "engineering company": "corporate",
+   "newspaper": "publishing",
+   "magazine": "publishing",
+   "publisher": "publishing",
+   "radio station": "publishing",
+   "television station": "publishing",
+   "hotel": "travel",
+   "winery": "travel",
+   "zoo": "travel",
+   "theme park": "travel",
+   "tourist attraction": "travel",
+   "football club": "travel",
+   "curated": "",
+   "tranco rank": "other"
+  },
+  "note": "Сегмент — наше рішення поверх класу джерела. Сайти поодинці не перемічуються: лагодиться таблиця."
+ },
+ "probe": {
+  "concurrency": 8,
+  "request_timeout_s": 20.0,
+  "max_bytes_read": 220000,
+  "user_agent": "Mozilla/5.0 (compatible; CrawldyBenchmarkCorpus/1.0; +benchmark corpus validation)",
+  "rows": 7671,
+  "transport_failure_reprobe": "Перший прохід на паралельності 24 з межею 12 с дав 1876 таймаутів. Повторна перевірка 60 з них на паралельності 3 показала 63% живих: міряли насичення власного каналу, а не сайти. Усі 2995 транспортних збоїв перевірено вдруге на паралельності 8 з межею 20 с — врятовано 1672 живих сайти. HTTP-статуси (403, 404, 5xx) вдруге не перевірялись: це відповідь сайту, а не наша межа."
+ },
+ "canonicalization": {
+  "unit": "сайт, а не адреса",
+  "rules": [
+   "схема відкидається; шлях і запит відкидаються",
+   "хост у нижньому регістрі, без кінцевої крапки",
+   "префікс www. знімається",
+   "ключем є хост ПІСЛЯ перенаправлень",
+   "приватні адреси, localhost і .local/.internal відкидаються"
+  ]
+ },
+ "adult_exclusion": {
+  "policy": "Виключається лише порнографічний вміст. Занедбані, старі, негарні та погано зроблені сайти ЛИШАЮТЬСЯ: заради них корпус і збирається.",
+  "decisive_alone": [
+   "RTA label",
+   "meta rating=adult/mature"
+  ],
+  "needs_two_signals": [
+   "title",
+   "meta description/keywords",
+   "domain token"
+  ],
+  "terms_deliberately_absent": [
+   "sex",
+   "adult"
+  ],
+  "why": "sexauer.de — прізвище; essex.gov.uk містить sex",
+  "strong_terms": [
+   "porn",
+   "porno",
+   "xxx",
+   "hentai",
+   "camgirl",
+   "escort service",
+   "nude photos",
+   "sex cam",
+   "webcam sex",
+   "anal sex",
+   "milf",
+   "blowjob",
+   "creampie",
+   "doujin",
+   "eroti",
+   "nsfw"
+  ],
+  "domain_tokens": [
+   "porn",
+   "xxx",
+   "hentai",
+   "camgirl",
+   "escort",
+   "milf",
+   "doujin",
+   "erotic",
+   "nsfw",
+   "sexcam",
+   "adultvideo"
+  ],
+  "excluded_count": 22
+ },
+ "selection": {
+  "quotas": {
+   "local": 130,
+   "corporate": 120,
+   "other": 120,
+   "publishing": 110,
+   "ecommerce": 110,
+   "travel": 100,
+   "education": 90,
+   "institutional": 90,
+   "saas": 90,
+   "documentation": 40
+  },
+  "ordering": "blake2b(canonical_host) — сталий, але не алфавітний",
+  "country_target_per_segment": 15,
+  "class_target_per_segment": 34,
+  "targets_are_soft": "Це цілі, а не гарантовані межі: другий прохід добирає квоту без них, тож фактичну концентрацію треба читати з виміряних часток, а не з цих чисел.",
+  "curated_pinned": "Записи curated закріплені: вони рахуються в квоту свого сегмента й проходять аудит нарівні з усіма, закріплена лише присутність. Інакше сайти димової вибірки випадали з корпусу через порядок хешу."
+ },
+ "unknown": {
+  "segment_other": 120,
+  "country": 226,
+  "language": 170,
+  "untagged": 529,
+  "policy": "невідоме лишається невідомим; за зоною домену не добудовується"
+ },
+ "limitations": [
+  "Wikidata дає більшість корпусу, бо це єдине джерело із заземленим сегментом; Tranco наповнює лише other.",
+  "Wikidata знає організації, про які написали статтю, тож справді безіменний малий бізнес представлений слабше.",
+  "Сегменти saas і ecommerce набрані з тонкого пулу.",
+  "Класифікація football club як travel/дозвілля — слабке місце.",
+  "Мова відома лише там, де сайт оголосив <html lang>.",
+  "Це не випадкова вибірка: висновки про «веб узагалі» з неї робити не можна."
+ ],
+ "selection_stats": {
+  "мертвий:ConnectError": 827,
+  "мертвий:403": 407,
+  "мертвий:ReadTimeout": 34,
+  "мертвий:404": 97,
+  "мертвий:500": 17,
+  "мертвий:not_public": 7,
+  "мертвий:429": 8,
+  "мертвий:ConnectTimeout": 543,
+  "дублікат після перенаправлень": 69,
+  "мертвий:200": 35,
+  "мертвий:422": 1,
+  "мертвий:418": 1,
+  "мертвий:RemoteProtocolError": 7,
+  "мертвий:202": 6,
+  "мертвий:malformed": 4,
+  "мертвий:400": 3,
+  "мертвий:409": 4,
+  "мертвий:TooManyRedirects": 2,
+  "мертвий:503": 17,
+  "мертвий:444": 4,
+  "мертвий:ReadError": 7,
+  "мертвий:410": 3,
+  "мертвий:401": 7,
+  "мертвий:526": 1,
+  "мертвий:530": 3,
+  "мертвий:502": 5,
+  "мертвий:402": 1,
+  "мертвий:521": 1,
+  "мертвий:421": 1,
+  "мертвий:204": 1,
+  "мертвий:525": 3,
+  "мертвий:522": 1,
+  "мертвий:504": 1,
+  "закріплено curated": 44,
+  "квота local": 130,
+  "пул local": 585,
+  "квота corporate": 120,
+  "пул corporate": 447,
+  "квота other": 120,
+  "пул other": 967,
+  "квота publishing": 110,
+  "пул publishing": 629,
+  "квота ecommerce": 110,
+  "пул ecommerce": 190,
+  "квота travel": 100,
+  "пул travel": 615,
+  "квота education": 90,
+  "пул education": 299,
+  "квота institutional": 90,
+  "пул institutional": 1306,
+  "квота saas": 90,
+  "пул saas": 133,
+  "квота documentation": 40,
+  "пул documentation": 372
+ }
+}

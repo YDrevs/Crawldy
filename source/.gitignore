@@ -1,0 +1,34 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+# Будь-який похідний файл оточення теж несе секрети: `.env` сам
+# ігнорувався, а `.env.tunnel-backup` — ні, і `git add -A` забрав
+# у коміт вісім живих ключів.
+.env.*
+!.env.example
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.claude/settings.local.json
+*.egg-info/
+build/
+dist/
+
+# Результати прогонів бенчмарку: дані, а не код. Знімки тисячі сайтів —
+# десятки гігабайтів, і відтворюються командою з README.
+backend/benchmark/runs/
+
+# Проміжні файли складання корпусу: кандидати з Wikidata й результати
+# живої перевірки. Відтворюються командами з README.
+backend/benchmark/*.json
+backend/benchmark/*.zip
+
+# Перехоплені листи локальної розробки: персональні дані й сирі
+# посилання відновлення. У репозиторії їм не місце ніколи.
+*.eml
+mailbox/

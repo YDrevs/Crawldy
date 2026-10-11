@@ -1,0 +1,679 @@
+{
+  "site": "gocplumbing.com",
+  "class": "частковий краул",
+  "snapshot": "https-www-gocplumbing-com.json",
+  "started_at": "2026-08-24T23:27:23.025777+00:00",
+  "baseline_before": {
+    "overall_score": null,
+    "overall_band": "unknown",
+    "module_scores": {
+      "accessibility_score": 57,
+      "ai_ready_score": null,
+      "llm_visibility_score": null,
+      "seo_score": null,
+      "speed_score": 45,
+      "tech_score": 47
+    },
+    "findings_count": 28,
+    "finding_keys": [
+      "a11y.blocking",
+      "ai.entity.sameas",
+      "ai.jsonld.missing",
+      "ai.opengraph:tags",
+      "ai.schema.breadcrumb",
+      "ai.schema.contact",
+      "ai.schema.graph",
+      "llm.brand_consistency",
+      "perf.core_web_vitals:cls",
+      "perf.core_web_vitals:lcp",
+      "perf.images:legacy_format",
+      "perf.images:no_dimensions",
+      "perf.images:no_lazy",
+      "perf.server_response",
+      "perf.third_party",
+      "seo.broken_links",
+      "seo.h1:multiple",
+      "seo.heading_hierarchy",
+      "seo.meta_description:missing",
+      "seo.sitemap:coverage",
+      "seo.thin_content",
+      "seo.title:too_long",
+      "tech.analytics:no_behaviour",
+      "tech.email_exposed",
+      "tech.form_protection:unprotected",
+      "tech.nap:phone_not_e164",
+      "tech.nap:schema_mismatch",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "ai.entity.sameas=medium",
+      "ai.jsonld.missing=medium",
+      "ai.opengraph:tags=low",
+      "ai.schema.breadcrumb=low",
+      "ai.schema.contact=low",
+      "ai.schema.graph=low",
+      "llm.brand_consistency=low",
+      "perf.core_web_vitals:cls=medium",
+      "perf.core_web_vitals:lcp=medium",
+      "perf.images:legacy_format=low",
+      "perf.images:no_dimensions=medium",
+      "perf.images:no_lazy=low",
+      "perf.server_response=medium",
+      "perf.third_party=medium",
+      "seo.broken_links=high",
+      "seo.h1:multiple=low",
+      "seo.heading_hierarchy=low",
+      "seo.meta_description:missing=medium",
+      "seo.sitemap:coverage=low",
+      "seo.thin_content=low",
+      "seo.title:too_long=info",
+      "tech.analytics:no_behaviour=info",
+      "tech.email_exposed=low",
+      "tech.form_protection:unprotected=high",
+      "tech.nap:phone_not_e164=low",
+      "tech.nap:schema_mismatch=medium",
+      "tech.security_headers=low"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "ai.entity.sameas:expected_property,found,page_importance,types",
+      "ai.jsonld.missing:examples,pages_checked,pages_with_schema,types_found",
+      "ai.opengraph:tags:missing,page_importance",
+      "ai.schema.breadcrumb:pages_checked",
+      "ai.schema.contact:missing,types",
+      "ai.schema.graph:blocks,page_importance,types",
+      "llm.brand_consistency:page_importance,schema_names,title",
+      "perf.core_web_vitals:cls:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.images:no_dimensions:measured_cls,page_importance,without_dimensions",
+      "perf.images:no_lazy:images,page_importance",
+      "perf.server_response:median_ms,pages_measured,slowest_ms,slowest_url,source,threshold_good_ms",
+      "perf.third_party:heaviest,measured,page_importance,share,third_party_kb,total_kb",
+      "seo.broken_links:urls",
+      "seo.h1:multiple:h1,occurrences,page_importance",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.meta_description:missing:expected_max_chars,found,og_description,page_importance,title",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.thin_content:page_importance,word_count",
+      "seo.title:too_long:hidden,length,page_importance,shown,title",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.email_exposed:addresses",
+      "tech.form_protection:unprotected:actions,forms_total,occurrences,page_importance,unprotected",
+      "tech.nap:phone_not_e164:examples",
+      "tech.nap:schema_mismatch:in_markup,on_pages",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 7,
+      "pages_fetched": 10,
+      "pages_known": 10,
+      "pages_read": 3,
+      "share": 0.3
+    },
+    "missing_data": [
+      "crawl.failures"
+    ]
+  },
+  "tasks": [
+    {
+      "task": "site_understanding",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "0f69a303adf1be77f7e95f58d9da4933c4d3e011ce470b0fc5b9653adb46464f",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:27:23.025777+00:00",
+          "finished_at": "2026-08-24T23:27:33.350274+00:00",
+          "latency_ms": 10324,
+          "request_id": "req_011CeNSUEWVtarXBAcEwytoE",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 797,
+          "cache_write_tokens": 2959,
+          "cache_read_tokens": 0,
+          "total_tokens": 3758,
+          "cost_usd": 0.03842875,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "origin": "https://www.gocplumbing.com",
+        "pages": [
+          "https://www.gocplumbing.com/",
+          "https://www.gocplumbing.com/oou-services-2",
+          "https://www.gocplumbing.com/about-us"
+        ],
+        "chars_sent": 5863
+      },
+      "result": {
+        "site_kind": "local service business (trade contractor) site",
+        "name": "GOC Plumbing & Heating",
+        "tagline": "Plumbing and heating installation, maintenance and repair services based in Castlegregory, Co. Kerry.",
+        "description": "GOC Plumbing & Heating is a plumbing and heating provider based at Kilshannig, Castlegregory, Tralee, Co. Kerry, operating in Kerry and surrounding counties, in the south west, and taking contracts throughout Ireland several times a year. The company has worked on large scale commercial projects but mainly operates in the domestic plumbing and heating sector. Gavin O'Connor is the sole proprietor and has worked in the plumbing and heating industry for 12 years, including overseas.",
+        "offerings": [
+          "General Plumbing (commercial, industrial, residential installation, maintenance and repair)",
+          "Radiator Systems (supply, install, clean, repair, balancing; towel rails; emergency call outs)",
+          "Bathroom/Shower Installs and refurbishment (plumbing, electrical, tiling, carpentry, underfloor heating, fixture fitting)",
+          "Stove Installs \boffuel boiler and non-boiler stoves, back boilers for open fires",
+          "Solar Panels (Thermodynamic Solar panels, Kingspan Thermomax)",
+          "Boiler Servicing and Installation",
+          "Central Vacuum Units",
+          "Heat Recovery Ventilation",
+          "Air to Water Heat Pumps",
+          "Shower Pumps",
+          "Underfloor Heating",
+          "Maintenance",
+          "Power Flush",
+          "Plumbing/Drainage",
+          "Leak Detection",
+          "Toilet Repair"
+        ],
+        "audience": "Mainly domestic/home clients in Kerry and surrounding counties, with commercial and industrial work also mentioned.",
+        "page_roles": [
+          {
+            "url": "https://www.gocplumbing.com/",
+            "role": "Homepage introducing the company, service list, a testimonial and contact details"
+          },
+          {
+            "url": "https://www.gocplumbing.com/oou-services-2",
+            "role": "Detailed descriptions of each service with a phone number for quotes"
+          },
+          {
+            "url": "https://www.gocplumbing.com/about-us",
+            "role": "Background on the company and owner Gavin O'Connor"
+          }
+        ],
+        "source_urls": [
+          "https://www.gocplumbing.com/",
+          "https://www.gocplumbing.com/oou-services-2",
+          "https://www.gocplumbing.com/about-us"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "gocplumbing.com",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "root_cause_grouping",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "5e51e222c8292b50eb373a62d5e614a1a75c151c7969b92fa7c508a1d954207e",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:27:33.366195+00:00",
+          "finished_at": "2026-08-24T23:27:47.797888+00:00",
+          "latency_ms": 14431,
+          "request_id": "req_011CeNSUz677PUgxot6TsNE5",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1026,
+          "cache_write_tokens": 3757,
+          "cache_read_tokens": 0,
+          "total_tokens": 4785,
+          "cost_usd": 0.04914125,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 28,
+        "groups": 0,
+        "site_context_chars": 0
+      },
+      "result": {
+        "groups": [
+          {
+            "id": "schema-incomplete",
+            "title": "Incomplete, unlinked structured data markup",
+            "hypothesis": "All these stem from one partially-configured JSON-LD setup (LocalBusiness/WebSite only) likely emitted by the same template/plugin, so sameAs, breadcrumbs, contact fields and graph linking are all missing and schema appears on only some pages.",
+            "finding_refs": [
+              "ai.entity.sameas",
+              "ai.jsonld.missing",
+              "ai.schema.graph",
+              "ai.schema.breadcrumb",
+              "ai.schema.contact",
+              "llm.brand_consistency"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "nap-phone",
+            "title": "Inconsistent phone number formatting between markup and pages",
+            "hypothesis": "Both findings likely trace to one badly formatted source phone number (00353... vs E.164) used in schema and page content.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "images-cls",
+            "title": "Unoptimized image pipeline causing layout shift and weight",
+            "hypothesis": "Missing dimensions, no lazy loading and legacy formats likely come from one image handling step, and probably contribute to the measured CLS and LCP issues.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy",
+              "perf.images:legacy_format",
+              "perf.core_web_vitals:cls",
+              "perf.core_web_vitals:lcp",
+              "perf.third_party"
+            ],
+            "confidence": "possible"
+          },
+          {
+            "id": "server",
+            "title": "Slow/throttling server responses",
+            "hypothesis": "The slow median response time and internal URLs returning HTTP 429 likely share the same hosting/rate-limiting configuration.",
+            "finding_refs": [
+              "perf.server_response",
+              "seo.broken_links"
+            ],
+            "confidence": "possible"
+          },
+          {
+            "id": "template-markup",
+            "title": "Shared page template produces heading and metadata defects",
+            "hypothesis": "Multiple H1s and the H2→H4 jump appear on all crawled pages, likely from one shared layout template; the missing meta description/og:description on the services page probably reflects the same unfilled template metadata fields.",
+            "finding_refs": [
+              "seo.h1:multiple",
+              "seo.heading_hierarchy",
+              "seo.meta_description:missing",
+              "ai.opengraph:tags",
+              "seo.title:too_long"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "a11y-form",
+            "title": "Unlabeled, unprotected site-wide form widget",
+            "hypothesis": "The unnamed button and the unprotected form appear site-wide and likely come from the same embedded form component.",
+            "finding_refs": [
+              "a11y.blocking",
+              "tech.form_protection:unprotected"
+            ],
+            "confidence": "possible"
+          }
+        ],
+        "ungrouped_refs": [
+          "tech.security_headers",
+          "tech.email_exposed",
+          "seo.thin_content",
+          "seo.sitemap:coverage",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "gocplumbing.com",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 6,
+        "duplicate_reduction": 0.7391304347826086,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "remediation_plan",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "2",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "6e688b3117bf6dd88854c768ca67cd07d6ae7c34a9ec5c73d0b3f83c830a8e44",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:27:47.829444+00:00",
+          "finished_at": "2026-08-24T23:28:03.061837+00:00",
+          "latency_ms": 15232,
+          "request_id": "req_011CeNSW4nQcdY92ZKVPus7u",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1200,
+          "cache_write_tokens": 2340,
+          "cache_read_tokens": 0,
+          "total_tokens": 3542,
+          "cost_usd": 0.044635,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 28,
+        "groups": 6,
+        "site_context_chars": 0
+      },
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix the site-wide form widget: accessibility barrier and bot protection",
+            "why_now": "Top two ranked findings share one root cause (a11y-form) — the same form component blocks users and accepts unprotected submissions, so one change addresses both.",
+            "finding_refs": [
+              "a11y.blocking",
+              "tech.form_protection:unprotected"
+            ],
+            "group_ids": [
+              "a11y-form"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Repair broken internal URLs and slow server responses",
+            "why_now": "Grouped under 'server': error responses and 1725 ms response time originate in the same delivery layer, and stable URLs are a prerequisite for sitemap and template work later.",
+            "finding_refs": [
+              "seo.broken_links",
+              "perf.server_response"
+            ],
+            "group_ids": [
+              "server"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Unify phone number: match markup to page content and use E.164",
+            "why_now": "nap-phone group; both findings stem from one canonical value. Doing this before structured-data expansion avoids re-editing the same JSON-LD twice.",
+            "finding_refs": [
+              "tech.nap:schema_mismatch",
+              "tech.nap:phone_not_e164"
+            ],
+            "group_ids": [
+              "nap-phone"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 4,
+            "title": "Rework the image pipeline and third-party payload",
+            "why_now": "images-cls group ties dimensions, lazy loading, modern formats, third-party weight, CLS and LCP to one delivery path; server response fixes land first so measurements reflect the image changes.",
+            "finding_refs": [
+              "perf.images:no_dimensions",
+              "perf.images:no_lazy",
+              "perf.images:legacy_format",
+              "perf.core_web_vitals:cls",
+              "perf.core_web_vitals:lcp",
+              "perf.third_party"
+            ],
+            "group_ids": [
+              "images-cls"
+            ],
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Correct the shared page template: headings, meta description, title length, OG tags",
+            "why_now": "template-markup group — one template emits all these defects; applying it after URLs are stable prevents editing pages that are about to change.",
+            "finding_refs": [
+              "seo.h1:multiple",
+              "seo.heading_hierarchy",
+              "seo.meta_description:missing",
+              "ai.opengraph:tags",
+              "seo.title:too_long"
+            ],
+            "group_ids": [
+              "template-markup"
+            ],
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Complete and link structured data; align brand naming",
+            "why_now": "schema-incomplete group depends on a settled phone value (step 3) and finalized template metadata (step 5) so markup mirrors the pages.",
+            "finding_refs": [
+              "ai.jsonld.missing",
+              "ai.entity.sameas",
+              "ai.schema.graph",
+              "ai.schema.breadcrumb",
+              "ai.schema.contact",
+              "llm.brand_consistency"
+            ],
+            "group_ids": [
+              "schema-incomplete"
+            ],
+            "depends_on": [
+              3,
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Add missing security headers and remove exposed email from source",
+            "why_now": "Independent hardening items at the response/template layer, grouped here after the higher-ranked structural work.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              1,
+              2
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Sitemap coverage, page depth, and behaviour analytics",
+            "why_now": "Remaining lowest-ranked items; sitemap coverage requires the final set of working URLs and templates.",
+            "finding_refs": [
+              "seo.sitemap:coverage",
+              "seo.thin_content",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              2,
+              5
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0
+      },
+      "automatic_scoring": {
+        "case": "gocplumbing.com",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    }
+  ],
+  "baseline_after": {
+    "overall_score": null,
+    "overall_band": "unknown",
+    "module_scores": {
+      "accessibility_score": 57,
+      "ai_ready_score": null,
+      "llm_visibility_score": null,
+      "seo_score": null,
+      "speed_score": 45,
+      "tech_score": 47
+    },
+    "findings_count": 28,
+    "finding_keys": [
+      "a11y.blocking",
+      "ai.entity.sameas",
+      "ai.jsonld.missing",
+      "ai.opengraph:tags",
+      "ai.schema.breadcrumb",
+      "ai.schema.contact",
+      "ai.schema.graph",
+      "llm.brand_consistency",
+      "perf.core_web_vitals:cls",
+      "perf.core_web_vitals:lcp",
+      "perf.images:legacy_format",
+      "perf.images:no_dimensions",
+      "perf.images:no_lazy",
+      "perf.server_response",
+      "perf.third_party",
+      "seo.broken_links",
+      "seo.h1:multiple",
+      "seo.heading_hierarchy",
+      "seo.meta_description:missing",
+      "seo.sitemap:coverage",
+      "seo.thin_content",
+      "seo.title:too_long",
+      "tech.analytics:no_behaviour",
+      "tech.email_exposed",
+      "tech.form_protection:unprotected",
+      "tech.nap:phone_not_e164",
+      "tech.nap:schema_mismatch",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "ai.entity.sameas=medium",
+      "ai.jsonld.missing=medium",
+      "ai.opengraph:tags=low",
+      "ai.schema.breadcrumb=low",
+      "ai.schema.contact=low",
+      "ai.schema.graph=low",
+      "llm.brand_consistency=low",
+      "perf.core_web_vitals:cls=medium",
+      "perf.core_web_vitals:lcp=medium",
+      "perf.images:legacy_format=low",
+      "perf.images:no_dimensions=medium",
+      "perf.images:no_lazy=low",
+      "perf.server_response=medium",
+      "perf.third_party=medium",
+      "seo.broken_links=high",
+      "seo.h1:multiple=low",
+      "seo.heading_hierarchy=low",
+      "seo.meta_description:missing=medium",
+      "seo.sitemap:coverage=low",
+      "seo.thin_content=low",
+      "seo.title:too_long=info",
+      "tech.analytics:no_behaviour=info",
+      "tech.email_exposed=low",
+      "tech.form_protection:unprotected=high",
+      "tech.nap:phone_not_e164=low",
+      "tech.nap:schema_mismatch=medium",
+      "tech.security_headers=low"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "ai.entity.sameas:expected_property,found,page_importance,types",
+      "ai.jsonld.missing:examples,pages_checked,pages_with_schema,types_found",
+      "ai.opengraph:tags:missing,page_importance",
+      "ai.schema.breadcrumb:pages_checked",
+      "ai.schema.contact:missing,types",
+      "ai.schema.graph:blocks,page_importance,types",
+      "llm.brand_consistency:page_importance,schema_names,title",
+      "perf.core_web_vitals:cls:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.images:no_dimensions:measured_cls,page_importance,without_dimensions",
+      "perf.images:no_lazy:images,page_importance",
+      "perf.server_response:median_ms,pages_measured,slowest_ms,slowest_url,source,threshold_good_ms",
+      "perf.third_party:heaviest,measured,page_importance,share,third_party_kb,total_kb",
+      "seo.broken_links:urls",
+      "seo.h1:multiple:h1,occurrences,page_importance",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.meta_description:missing:expected_max_chars,found,og_description,page_importance,title",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.thin_content:page_importance,word_count",
+      "seo.title:too_long:hidden,length,page_importance,shown,title",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.email_exposed:addresses",
+      "tech.form_protection:unprotected:actions,forms_total,occurrences,page_importance,unprotected",
+      "tech.nap:phone_not_e164:examples",
+      "tech.nap:schema_mismatch:in_markup,on_pages",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 7,
+      "pages_fetched": 10,
+      "pages_known": 10,
+      "pages_read": 3,
+      "share": 0.3
+    },
+    "missing_data": [
+      "crawl.failures"
+    ]
+  },
+  "deterministic_unchanged": true,
+  "finished_at": "2026-08-24T23:28:03.074051+00:00"
+}

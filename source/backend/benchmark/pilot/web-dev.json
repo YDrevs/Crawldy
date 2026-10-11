@@ -1,0 +1,777 @@
+{
+  "site": "web.dev",
+  "class": "сильний / технічно чистий контроль",
+  "snapshot": "https-web-dev.json",
+  "started_at": "2026-08-24T23:23:52.975872+00:00",
+  "baseline_before": {
+    "overall_score": 58,
+    "overall_band": "poor",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 55,
+      "llm_visibility_score": 86,
+      "seo_score": 48,
+      "speed_score": 43,
+      "tech_score": 83
+    },
+    "findings_count": 31,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.entity.sameas",
+      "ai.jsonld.missing",
+      "ai.llms_txt:missing",
+      "ai.opengraph:image",
+      "ai.opengraph:tags",
+      "ai.schema.content_type",
+      "ai.schema.faq",
+      "ai.schema.graph",
+      "ai.twitter_card",
+      "llm.authorship",
+      "perf.core_web_vitals:inp",
+      "perf.core_web_vitals:lcp",
+      "perf.core_web_vitals:ttfb",
+      "perf.external_fonts",
+      "perf.images:legacy_format",
+      "perf.lighthouse_score",
+      "perf.responsive_images",
+      "perf.third_party",
+      "seo.broken_links",
+      "seo.h1:missing",
+      "seo.meta_description:missing",
+      "seo.meta_description:too_long",
+      "seo.meta_description:too_short",
+      "seo.sitemap:coverage",
+      "seo.title:too_long",
+      "seo.title:too_short",
+      "tech.analytics:no_behaviour",
+      "tech.email_exposed",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.entity.sameas=medium",
+      "ai.jsonld.missing=medium",
+      "ai.llms_txt:missing=low",
+      "ai.opengraph:image=low",
+      "ai.opengraph:tags=low",
+      "ai.schema.content_type=medium",
+      "ai.schema.faq=low",
+      "ai.schema.graph=low",
+      "ai.twitter_card=info",
+      "llm.authorship=low",
+      "perf.core_web_vitals:inp=medium",
+      "perf.core_web_vitals:lcp=medium",
+      "perf.core_web_vitals:ttfb=high",
+      "perf.external_fonts=low",
+      "perf.images:legacy_format=low",
+      "perf.lighthouse_score=info",
+      "perf.responsive_images=low",
+      "perf.third_party=medium",
+      "seo.broken_links=high",
+      "seo.h1:missing=high",
+      "seo.meta_description:missing=medium",
+      "seo.meta_description:too_long=info",
+      "seo.meta_description:too_short=low",
+      "seo.sitemap:coverage=low",
+      "seo.title:too_long=info",
+      "seo.title:too_short=low",
+      "tech.analytics:no_behaviour=info",
+      "tech.email_exposed=low",
+      "tech.security_headers=low"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,lighthouse_score,strategy,titles",
+      "ai.entity.sameas:expected_property,found,page_importance,types",
+      "ai.jsonld.missing:examples,pages_checked,pages_with_schema,types_found",
+      "ai.llms_txt:missing:status_code",
+      "ai.opengraph:image:occurrences,opengraph,page_importance",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "ai.schema.content_type:page_importance,page_type,types,word_count",
+      "ai.schema.faq:expected_any_of,found_types,page_importance,questions",
+      "ai.schema.graph:blocks,page_importance,types",
+      "ai.twitter_card:occurrences,page_importance,twitter",
+      "llm.authorship:has_author,has_date,occurrences,page_importance",
+      "perf.core_web_vitals:inp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:ttfb:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.external_fonts:hosts",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.responsive_images:by_format,images_total,page_importance,raster_images,with_srcset",
+      "perf.third_party:heaviest,measured,page_importance,share,third_party_kb,total_kb",
+      "seo.broken_links:urls",
+      "seo.h1:missing:found,headings,occurrences,page_importance,title",
+      "seo.meta_description:missing:expected_max_chars,found,occurrences,og_description,page_importance,title",
+      "seo.meta_description:too_long:hidden,length,occurrences,page_importance,shown",
+      "seo.meta_description:too_short:description,length,page_importance",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.title:too_short:length,occurrences,page_importance,title",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.email_exposed:addresses",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 3,
+      "pages_fetched": 25,
+      "pages_known": 25,
+      "pages_read": 24,
+      "share": 0.96
+    },
+    "missing_data": []
+  },
+  "tasks": [
+    {
+      "task": "site_understanding",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "83ca75a07f6720ffadba6d03658946c5e0367bb5c36e57630064d4a2ea560469",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:23:53.530611+00:00",
+          "finished_at": "2026-08-24T23:24:08.202417+00:00",
+          "latency_ms": 14671,
+          "request_id": "req_011CeNSCrs5WVHjwadZqzv9E",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1017,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 6955,
+          "total_tokens": 7974,
+          "cost_usd": 0.0289125,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "origin": "https://web.dev",
+        "pages": [
+          "https://web.dev/",
+          "https://web.dev/about",
+          "https://web.dev/blog/common-misconceptions-lcp",
+          "https://web.dev/html",
+          "https://web.dev/css",
+          "https://web.dev/javascript",
+          "https://web.dev/performance",
+          "https://web.dev/accessibility"
+        ],
+        "chars_sent": 20000
+      },
+      "result": {
+        "site_kind": "Developer documentation and learning publisher (free educational resource run by Google's Chrome Developer Relations team)",
+        "name": "web.dev",
+        "tagline": "Guidance from Chrome Developer Relations to help developers build beautiful, accessible, fast, and secure websites that work cross-browser.",
+        "description": "web.dev is the home for web development content written by members of the Chrome team and external experts in areas such as accessibility, performance, and design. It offers courses, articles, patterns, case studies, podcasts and shows, plus a blog covering new web platform features, Baseline, AI, and Core Web Vitals. Content includes cross-browser support status, with browser compat data from MDN via the Browser Compat Data project. The site is run by the Chrome DevRel team, led by Paul Kinlan, Philip Walton, Ali Spivak, and Rachel Andrew.",
+        "offerings": [
+          "Learn HTML course",
+          "Learn CSS course",
+          "Learn JavaScript course",
+          "Learn Performance course",
+          "Learn Accessibility course",
+          "Learn Forms course",
+          "Learn Images course",
+          "Learn Responsive Design course",
+          "Blog with web development news",
+          "Patterns (grab-and-go code for common requirements)",
+          "Case studies on Core Web Vitals and business metrics",
+          "Podcasts and shows, including The CSS Podcast",
+          "Baseline updates on newly available features",
+          "Explore pages for the web platform (HTML, CSS, JavaScript, performance, accessibility)",
+          "PageSpeed Insights (tool referenced for measuring performance)",
+          "WebDev Insights Community (user research, product testing, discussion groups)"
+        ],
+        "audience": "Web developers, including beginners new to HTML, CSS, JavaScript, performance, and accessibility, as well as more experienced developers.",
+        "page_roles": [
+          {
+            "url": "https://web.dev/",
+            "role": "Homepage hub pointing to topic pathways, courses, and the blog"
+          },
+          {
+            "url": "https://web.dev/about",
+            "role": "Explains who runs the site, its content types, and the team"
+          },
+          {
+            "url": "https://web.dev/blog/common-misconceptions-lcp",
+            "role": "Blog post analyzing field data on LCP subparts and where to focus optimization"
+          },
+          {
+            "url": "https://web.dev/html",
+            "role": "HTML topic landing page with courses and articles"
+          },
+          {
+            "url": "https://web.dev/css",
+            "role": "CSS topic landing page with courses, patterns, and podcast"
+          },
+          {
+            "url": "https://web.dev/javascript",
+            "role": "JavaScript topic landing page with course, features, and patterns"
+          },
+          {
+            "url": "https://web.dev/performance",
+            "role": "Web performance landing page covering Core Web Vitals, tooling, and case studies"
+          },
+          {
+            "url": "https://web.dev/accessibility",
+            "role": "Accessibility landing page with courses, patterns, and expert interviews"
+          }
+        ],
+        "source_urls": [
+          "https://web.dev/",
+          "https://web.dev/about",
+          "https://web.dev/blog/common-misconceptions-lcp",
+          "https://web.dev/html",
+          "https://web.dev/css",
+          "https://web.dev/javascript",
+          "https://web.dev/performance",
+          "https://web.dev/accessibility"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "web.dev",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "root_cause_grouping",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "a4902b7de5678fb36fbf7051934688793b4488eb7877fafdaedff782bfe2e666",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:24:08.252154+00:00",
+          "finished_at": "2026-08-24T23:24:30.719303+00:00",
+          "latency_ms": 22467,
+          "request_id": "req_011CeNSDsRqscGBpAWb2awep",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1598,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 4265,
+          "total_tokens": 5865,
+          "cost_usd": 0.0420925,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 31,
+        "groups": 0,
+        "site_context_chars": 0
+      },
+      "result": {
+        "groups": [
+          {
+            "id": "template-meta",
+            "title": "Shared page template omits core metadata (H1, meta description, og:description, descriptive title)",
+            "hypothesis": "The same set of pages (about, html, css…) lack H1, meta description, og:description and have a 7-char title, so a single shared layout/CMS template likely fails to emit per-page head and heading metadata.",
+            "finding_refs": [
+              "seo.h1:missing",
+              "seo.meta_description:missing",
+              "ai.opengraph:tags",
+              "seo.title:too_short"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "structured-data",
+            "title": "Incomplete / unconnected structured data and authorship markup",
+            "hypothesis": "Schema output is partially templated: some pages have no JSON-LD, article pages lack Article/FAQ types, blocks are not @graph-linked, sameAs and author/datePublished are absent — likely one shared schema generation step that emits minimal, disconnected markup.",
+            "finding_refs": [
+              "ai.jsonld.missing",
+              "ai.schema.content_type",
+              "ai.schema.graph",
+              "ai.schema.faq",
+              "ai.entity.sameas",
+              "llm.authorship"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "perf-mobile",
+            "title": "Slow mobile delivery driven by server response and heavy third-party code",
+            "hypothesis": "TTFB, LCP, INP, the 96% third-party payload, third-party font hosting and the Lighthouse score all come from the same homepage render path; the slow origin response plus large external scripts likely cause the field metric ratings.",
+            "finding_refs": [
+              "perf.core_web_vitals:ttfb",
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:inp",
+              "perf.third_party",
+              "perf.external_fonts",
+              "perf.lighthouse_score"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "image-pipeline",
+            "title": "No image optimisation step (legacy formats, no srcset)",
+            "hypothesis": "Raster images are served as png/jpg without modern formats or responsive sizes, likely because the asset pipeline has no image transformation/srcset generation.",
+            "finding_refs": [
+              "perf.images:legacy_format",
+              "perf.responsive_images"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "social-cards",
+            "title": "Social preview tags missing on the same subset of pages",
+            "hypothesis": "The same three pages lack both og:image and Twitter card tags, so one template variant probably omits the social preview block entirely.",
+            "finding_refs": [
+              "ai.opengraph:image",
+              "ai.twitter_card"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "a11y-lighthouse",
+            "title": "Accessibility defects in shared components",
+            "hypothesis": "Frame titles, link names and colour contrast all surface from the same mobile Lighthouse run and likely originate in shared header/embed/design-token components.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "confidence": "possible"
+          },
+          {
+            "id": "meta-length",
+            "title": "Uncontrolled title/description lengths on article pages",
+            "hypothesis": "Titles and descriptions on the same blog/article pages exceed SERP limits, likely because the template concatenates suffixes without a length guard.",
+            "finding_refs": [
+              "seo.title:too_long",
+              "seo.meta_description:too_long",
+              "seo.meta_description:too_short"
+            ],
+            "confidence": "possible"
+          },
+          {
+            "id": "crawl-index",
+            "title": "Sitemap does not reflect the crawlable site and one internal link 404s",
+            "hypothesis": "Only 2 sitemap URLs against 24 crawled pages plus a dead internal link suggest URL/routing changes were not propagated to the sitemap or link targets.",
+            "finding_refs": [
+              "seo.sitemap:coverage",
+              "seo.broken_links"
+            ],
+            "confidence": "possible"
+          }
+        ],
+        "ungrouped_refs": [
+          "tech.security_headers",
+          "tech.email_exposed",
+          "ai.llms_txt:missing",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "web.dev",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 31,
+        "referenced_findings": 31,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 8,
+        "duplicate_reduction": 0.7037037037037037,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "remediation_plan",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "2",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "afbcaecc4da65f1e2928b930e4126765d5edf2d1d717654bdef18bcbd7d80861",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:24:30.766251+00:00",
+          "finished_at": "2026-08-24T23:24:50.223570+00:00",
+          "latency_ms": 19457,
+          "request_id": "req_011CeNSFXXKiau1wfdH4LfiQ",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1488,
+          "cache_write_tokens": 2558,
+          "cache_read_tokens": 0,
+          "total_tokens": 4048,
+          "cost_usd": 0.0531975,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 31,
+        "groups": 8,
+        "site_context_chars": 0
+      },
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix shared page template metadata (H1, title, meta description, og:description)",
+            "why_now": "One template defect produces the top-ranked finding and several others; fixing it at the template level resolves them together and creates the structure later steps annotate.",
+            "finding_refs": [
+              "seo.h1:missing",
+              "seo.meta_description:missing",
+              "seo.title:too_short",
+              "ai.opengraph:tags"
+            ],
+            "group_ids": [
+              "template-meta"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Remove accessibility barriers in shared components",
+            "why_now": "Two blocking barriers prevent use of the site at all; they live in shared components, so the same change also clears the remaining accessibility remark.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "group_ids": [
+              "a11y-lighthouse"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Repair the broken internal URL and align the sitemap with crawlable pages",
+            "why_now": "Both stem from the same mismatch between the real URL set and what is declared; doing them together keeps the link graph and sitemap consistent.",
+            "finding_refs": [
+              "seo.broken_links",
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [
+              "crawl-index"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 4,
+            "title": "Reduce TTFB and third-party weight, self-host fonts",
+            "why_now": "Server response and third-party code (96% of the page) are the upstream causes of the measured mobile vitals; addressing them first is required before LCP/INP work can be judged.",
+            "finding_refs": [
+              "perf.core_web_vitals:ttfb",
+              "perf.third_party",
+              "perf.external_fonts",
+              "perf.lighthouse_score"
+            ],
+            "group_ids": [
+              "perf-mobile"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 5,
+            "title": "Tune LCP and INP after the delivery fixes",
+            "why_now": "These metrics depend on the server and third-party changes landing first, otherwise measurements remain confounded.",
+            "finding_refs": [
+              "perf.core_web_vitals:lcp",
+              "perf.core_web_vitals:inp"
+            ],
+            "group_ids": [
+              "perf-mobile"
+            ],
+            "depends_on": [
+              4
+            ]
+          },
+          {
+            "order": 6,
+            "title": "Introduce an image optimisation step (modern formats, responsive sizes)",
+            "why_now": "A single missing build step explains both image findings, and it supports the LCP work already underway.",
+            "finding_refs": [
+              "perf.images:legacy_format",
+              "perf.responsive_images"
+            ],
+            "group_ids": [
+              "image-pipeline"
+            ],
+            "depends_on": [
+              5
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Complete and connect structured data: coverage, content type, @graph, FAQ, sameAs, authorship",
+            "why_now": "Structured data describes the page content and metadata corrected in step 1, so it should be authored after the template is stable.",
+            "finding_refs": [
+              "ai.jsonld.missing",
+              "ai.schema.content_type",
+              "ai.schema.graph",
+              "ai.schema.faq",
+              "ai.entity.sameas",
+              "llm.authorship"
+            ],
+            "group_ids": [
+              "structured-data"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Add social preview tags (og:image, Twitter/X card)",
+            "why_now": "Same page subset and same template layer as the OG description fix; follows once base tags exist.",
+            "finding_refs": [
+              "ai.opengraph:image",
+              "ai.twitter_card"
+            ],
+            "group_ids": [
+              "social-cards"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 9,
+            "title": "Enforce title and description length bounds on article pages",
+            "why_now": "Length control is a refinement of the metadata generated in step 1 and covers the truncated and thin variants.",
+            "finding_refs": [
+              "seo.title:too_long",
+              "seo.meta_description:too_long",
+              "seo.meta_description:too_short"
+            ],
+            "group_ids": [
+              "meta-length"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 10,
+            "title": "Add missing security headers and stop exposing the email address in page source",
+            "why_now": "Independent hardening items that need no prior work and can ship alongside other changes.",
+            "finding_refs": [
+              "tech.security_headers",
+              "tech.email_exposed"
+            ],
+            "group_ids": [],
+            "depends_on": []
+          },
+          {
+            "order": 11,
+            "title": "Publish llms.txt and enable behaviour analytics",
+            "why_now": "Lowest-ranked additive items; llms.txt is most useful once metadata and structured data are correct, and analytics closes the measurement gap.",
+            "finding_refs": [
+              "ai.llms_txt:missing",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              7
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0
+      },
+      "automatic_scoring": {
+        "case": "web.dev",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 31,
+        "referenced_findings": 31,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    }
+  ],
+  "baseline_after": {
+    "overall_score": 58,
+    "overall_band": "poor",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 55,
+      "llm_visibility_score": 86,
+      "seo_score": 48,
+      "speed_score": 43,
+      "tech_score": 83
+    },
+    "findings_count": 31,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.entity.sameas",
+      "ai.jsonld.missing",
+      "ai.llms_txt:missing",
+      "ai.opengraph:image",
+      "ai.opengraph:tags",
+      "ai.schema.content_type",
+      "ai.schema.faq",
+      "ai.schema.graph",
+      "ai.twitter_card",
+      "llm.authorship",
+      "perf.core_web_vitals:inp",
+      "perf.core_web_vitals:lcp",
+      "perf.core_web_vitals:ttfb",
+      "perf.external_fonts",
+      "perf.images:legacy_format",
+      "perf.lighthouse_score",
+      "perf.responsive_images",
+      "perf.third_party",
+      "seo.broken_links",
+      "seo.h1:missing",
+      "seo.meta_description:missing",
+      "seo.meta_description:too_long",
+      "seo.meta_description:too_short",
+      "seo.sitemap:coverage",
+      "seo.title:too_long",
+      "seo.title:too_short",
+      "tech.analytics:no_behaviour",
+      "tech.email_exposed",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.entity.sameas=medium",
+      "ai.jsonld.missing=medium",
+      "ai.llms_txt:missing=low",
+      "ai.opengraph:image=low",
+      "ai.opengraph:tags=low",
+      "ai.schema.content_type=medium",
+      "ai.schema.faq=low",
+      "ai.schema.graph=low",
+      "ai.twitter_card=info",
+      "llm.authorship=low",
+      "perf.core_web_vitals:inp=medium",
+      "perf.core_web_vitals:lcp=medium",
+      "perf.core_web_vitals:ttfb=high",
+      "perf.external_fonts=low",
+      "perf.images:legacy_format=low",
+      "perf.lighthouse_score=info",
+      "perf.responsive_images=low",
+      "perf.third_party=medium",
+      "seo.broken_links=high",
+      "seo.h1:missing=high",
+      "seo.meta_description:missing=medium",
+      "seo.meta_description:too_long=info",
+      "seo.meta_description:too_short=low",
+      "seo.sitemap:coverage=low",
+      "seo.title:too_long=info",
+      "seo.title:too_short=low",
+      "tech.analytics:no_behaviour=info",
+      "tech.email_exposed=low",
+      "tech.security_headers=low"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,lighthouse_score,strategy,titles",
+      "ai.entity.sameas:expected_property,found,page_importance,types",
+      "ai.jsonld.missing:examples,pages_checked,pages_with_schema,types_found",
+      "ai.llms_txt:missing:status_code",
+      "ai.opengraph:image:occurrences,opengraph,page_importance",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "ai.schema.content_type:page_importance,page_type,types,word_count",
+      "ai.schema.faq:expected_any_of,found_types,page_importance,questions",
+      "ai.schema.graph:blocks,page_importance,types",
+      "ai.twitter_card:occurrences,page_importance,twitter",
+      "llm.authorship:has_author,has_date,occurrences,page_importance",
+      "perf.core_web_vitals:inp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:ttfb:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.external_fonts:hosts",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.responsive_images:by_format,images_total,page_importance,raster_images,with_srcset",
+      "perf.third_party:heaviest,measured,page_importance,share,third_party_kb,total_kb",
+      "seo.broken_links:urls",
+      "seo.h1:missing:found,headings,occurrences,page_importance,title",
+      "seo.meta_description:missing:expected_max_chars,found,occurrences,og_description,page_importance,title",
+      "seo.meta_description:too_long:hidden,length,occurrences,page_importance,shown",
+      "seo.meta_description:too_short:description,length,page_importance",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.title:too_short:length,occurrences,page_importance,title",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.email_exposed:addresses",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 3,
+      "pages_fetched": 25,
+      "pages_known": 25,
+      "pages_read": 24,
+      "share": 0.96
+    },
+    "missing_data": []
+  },
+  "deterministic_unchanged": true,
+  "finished_at": "2026-08-24T23:24:50.315738+00:00"
+}

@@ -1,0 +1,38 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-background text-primary antialiased;
+  font-family: var(--font-sans);
+}
+
+/* Логічні властивості з самого початку, а не після появи арабської.
+ * `margin-left` довелося б переписувати в кожному компоненті; `start`
+ * дзеркалиться сам разом із `dir` на документі. */
+:where([dir="rtl"]) {
+  text-align: start;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Проміжок між колонками СЛУЖБОВИХ таблиць.
+ *
+ * Примітив `Table` не має горизонтальних відступів у клітинках: у
+ * клієнтських таблицях колонок мало й вони широкі. У службових колонок
+ * більше й вони вужчі — «Бал» і «Завершено» зливалися в одне число з
+ * датою. Клас стоїть на обгортці саме службової таблиці, тож кабінет
+ * клієнта лишається незмінним.
+ *
+ * Звичайним правилом CSS, а не довільним варіантом Tailwind
+ * (`[&_th:not(:first-child)]:ps-6`): двокрапка всередині дужок ламає
+ * сканер класів, і клас просто не потрапляє у збірку — перевірено
+ * вимірюванням, зазор лишався нульовим. */
+.admin-table :is(th, td) + :is(th, td) {
+  padding-inline-start: var(--space-5);
+}

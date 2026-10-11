@@ -1,0 +1,25 @@
+{
+  "_source": "backend/app/audit/scoring.py та backend/app/audit/orchestrator.py; звіряється тестом backend/tests/test_methodology_page_facts.py",
+  "weights": {
+    "seo": 0.26,
+    "performance": 0.18,
+    "ai_ready": 0.16,
+    "tech": 0.16,
+    "llm_visibility": 0.14,
+    "accessibility": 0.1
+  },
+  "severity_multipliers": {
+    "critical": 5,
+    "high": 3,
+    "medium": 2,
+    "low": 1,
+    "info": 0
+  },
+  "repetition": {
+    "max_penalty_per_key": 2,
+    "max_penalty_share_of_half": 0.5
+  },
+  "coverage": {
+    "min_words_for_a_site": 100
+  }
+}

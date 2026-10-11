@@ -1,0 +1,708 @@
+{
+  "site": "ka-dent.com.ua",
+  "class": "звичайний доглянутий SMB",
+  "snapshot": "https-ka-dent-com-ua.json",
+  "started_at": "2026-08-24T23:25:45.263029+00:00",
+  "baseline_before": {
+    "overall_score": 62,
+    "overall_band": "medium",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 77,
+      "llm_visibility_score": 93,
+      "seo_score": 59,
+      "speed_score": 41,
+      "tech_score": 47
+    },
+    "findings_count": 28,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.llms_txt:missing",
+      "ai.opengraph:tags",
+      "ai.schema.contact",
+      "llm.stale_content",
+      "perf.core_web_vitals:lcp",
+      "perf.core_web_vitals:ttfb",
+      "perf.images:legacy_format",
+      "perf.images:no_lazy",
+      "perf.lighthouse_score",
+      "perf.render_blocking",
+      "perf.responsive_images",
+      "perf.server_response",
+      "seo.h1:missing",
+      "seo.heading_hierarchy",
+      "seo.https:no_hsts",
+      "seo.meta_description:missing",
+      "seo.sitemap:coverage",
+      "seo.thin_content",
+      "seo.title:too_long",
+      "seo.topic_islands",
+      "tech.analytics:no_behaviour",
+      "tech.caching",
+      "tech.email_exposed",
+      "tech.nap:phone_mismatch",
+      "tech.nap:phone_not_e164",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.llms_txt:missing=low",
+      "ai.opengraph:tags=low",
+      "ai.schema.contact=medium",
+      "llm.stale_content=low",
+      "perf.core_web_vitals:lcp=medium",
+      "perf.core_web_vitals:ttfb=high",
+      "perf.images:legacy_format=low",
+      "perf.images:no_lazy=low",
+      "perf.lighthouse_score=info",
+      "perf.render_blocking=medium",
+      "perf.responsive_images=low",
+      "perf.server_response=medium",
+      "seo.h1:missing=high",
+      "seo.heading_hierarchy=low",
+      "seo.https:no_hsts=low",
+      "seo.meta_description:missing=medium",
+      "seo.sitemap:coverage=low",
+      "seo.thin_content=low",
+      "seo.title:too_long=info",
+      "seo.topic_islands=low",
+      "tech.analytics:no_behaviour=info",
+      "tech.caching=medium",
+      "tech.email_exposed=low",
+      "tech.nap:phone_mismatch=medium",
+      "tech.nap:phone_not_e164=low",
+      "tech.security_headers=high"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,lighthouse_score,strategy,titles",
+      "ai.llms_txt:missing:status_code",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "ai.schema.contact:expected_any_of,found_types,phones_on_pages",
+      "llm.stale_content:dated_pages,newest_date,newest_page,pages_read",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:ttfb:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.images:no_lazy:images,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.render_blocking:occurrences,page_importance,scripts,styles",
+      "perf.responsive_images:by_format,images_total,occurrences,page_importance,raster_images,with_srcset",
+      "perf.server_response:median_ms,pages_measured,slowest_ms,slowest_url,source,threshold_good_ms",
+      "seo.h1:missing:found,headings,page_importance,title",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.https:no_hsts:expected,found,origin",
+      "seo.meta_description:missing:expected_max_chars,found,occurrences,og_description,page_importance,title",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.thin_content:occurrences,page_importance,word_count",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.topic_islands:internal_links_each,page_importance,pages,sibling_links,topic",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.caching:cache_control,example,pages_checked",
+      "tech.email_exposed:addresses",
+      "tech.nap:phone_mismatch:phones",
+      "tech.nap:phone_not_e164:examples",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 0,
+      "pages_fetched": 24,
+      "pages_known": 61,
+      "pages_read": 24,
+      "share": 0.3934
+    },
+    "missing_data": []
+  },
+  "tasks": [
+    {
+      "task": "site_understanding",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "296dac601dc1c4f731e401147ffe37a2488811700035a7df79884644e5c907ed",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:25:45.267028+00:00",
+          "finished_at": "2026-08-24T23:26:03.719435+00:00",
+          "latency_ms": 18452,
+          "request_id": "req_011CeNSM2cgTaRYUrAifrud1",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1186,
+          "cache_write_tokens": 8794,
+          "cache_read_tokens": 0,
+          "total_tokens": 9982,
+          "cost_usd": 0.0846225,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "origin": "https://ka-dent.com.ua",
+        "pages": [
+          "https://ka-dent.com.ua/",
+          "https://ka-dent.com.ua/services/",
+          "https://ka-dent.com.ua/kontakti/",
+          "https://ka-dent.com.ua/services/rentgenodiagnostika/",
+          "https://ka-dent.com.ua/services/posluga/",
+          "https://ka-dent.com.ua/services/vidbilyuvannya-zubiv/",
+          "https://ka-dent.com.ua/services/parodontologiya/",
+          "https://ka-dent.com.ua/services/terapevtichne-likuvannya/"
+        ],
+        "chars_sent": 17163
+      },
+      "result": {
+        "site_kind": "local service business (dental clinic) website",
+        "name": "Ка-Дент (Ka-Dent)",
+        "tagline": "Стоматологічна клініка у Кам'янці-Подільському — «Стоматологія яка дбає про твою нову посмішку».",
+        "description": "Ка-Дент — стоматологічний центр у Кам'янці-Подільському з основною клінікою на вул. Князів Коріатовичів 25/5 (житловий комплекс «Нова Будова») та окремою дитячою клінікою Ка-Дент KIDS на вулиці Васильєва 5/1 12К. Сайт представляє повний перелік стоматологічних послуг, лікарів, відгуки пацієнтів та форми запису на консультацію. Клініка підкреслює використання сучасного обладнання, якісних матеріалів та можливість лікування в умовах медикаментозного сну.",
+        "offerings": [
+          "Рентгенодіагностика (дентальні та панорамні знімки, комп'ютерна томографія, телерентгенографія)",
+          "Професійна гігієна порожнини рота (чищення, полірування, оцінка стану пародонту)",
+          "Відбілювання зубів",
+          "Пародонтологія",
+          "Терапевтичне лікування (пломбування, ендодонтичне лікування каналів, відновлення вкладками, вінірами, коронками)",
+          "Протезування",
+          "Хірургічне лікування",
+          "Імплантологія",
+          "Ортодонтія",
+          "Дитяча стоматологія",
+          "Медикаментозний сон"
+        ],
+        "audience": "Пацієнти у Кам'янці-Подільському, які потребують стоматологічної допомоги, включно з дітьми (окрема клініка Ка-Дент KIDS); іншої конкретизації аудиторії сторінки не дають.",
+        "page_roles": [
+          {
+            "url": "https://ka-dent.com.ua/",
+            "role": "головна: позиціонування клініки, години роботи, телефон, відгуки пацієнтів"
+          },
+          {
+            "url": "https://ka-dent.com.ua/services/",
+            "role": "перелік усіх послуг з переходами"
+          },
+          {
+            "url": "https://ka-dent.com.ua/kontakti/",
+            "role": "адреси й контакти двох клінік (основної та KIDS)"
+          },
+          {
+            "url": "https://ka-dent.com.ua/services/rentgenodiagnostika/",
+            "role": "опис видів рентгенівських знімків"
+          },
+          {
+            "url": "https://ka-dent.com.ua/services/posluga/",
+            "role": "опис професійної гігієни порожнини рота"
+          },
+          {
+            "url": "https://ka-dent.com.ua/services/vidbilyuvannya-zubiv/",
+            "role": "опис відбілювання зубів з FAQ"
+          },
+          {
+            "url": "https://ka-dent.com.ua/services/parodontologiya/",
+            "role": "опис пародонтологічних послуг"
+          },
+          {
+            "url": "https://ka-dent.com.ua/services/terapevtichne-likuvannya/",
+            "role": "опис терапевтичного лікування та переваг клініки"
+          }
+        ],
+        "source_urls": [
+          "https://ka-dent.com.ua/",
+          "https://ka-dent.com.ua/services/",
+          "https://ka-dent.com.ua/kontakti/",
+          "https://ka-dent.com.ua/services/rentgenodiagnostika/",
+          "https://ka-dent.com.ua/services/posluga/",
+          "https://ka-dent.com.ua/services/vidbilyuvannya-zubiv/",
+          "https://ka-dent.com.ua/services/parodontologiya/",
+          "https://ka-dent.com.ua/services/terapevtichne-likuvannya/"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "ka-dent.com.ua",
+        "task": "site_understanding",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 0,
+        "referenced_findings": 0,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "root_cause_grouping",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "1",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "da7054f5c0bf7c6b9a2ad05ef4ba57d55fbdac3d1d0bfaac82846e257a099c4b",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:26:03.776286+00:00",
+          "finished_at": "2026-08-24T23:26:19.271983+00:00",
+          "latency_ms": 15495,
+          "request_id": "req_011CeNSNP8zJuBD3uf1NKbwR",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1196,
+          "cache_write_tokens": 4079,
+          "cache_read_tokens": 0,
+          "total_tokens": 5277,
+          "cost_usd": 0.05540375,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 28,
+        "groups": 0,
+        "site_context_chars": 0
+      },
+      "result": {
+        "groups": [
+          {
+            "id": "server-config",
+            "title": "Server/hosting configuration: slow responses, no caching, no security headers",
+            "hypothesis": "Slow TTFB, slow median server response, absent Cache-Control and the complete lack of security headers (including HSTS) likely all stem from one unconfigured/underpowered origin server or missing reverse-proxy configuration.",
+            "finding_refs": [
+              "tech.security_headers",
+              "perf.core_web_vitals:ttfb",
+              "tech.caching",
+              "perf.server_response",
+              "seo.https:no_hsts"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "asset-pipeline",
+            "title": "No front-end asset optimisation pipeline",
+            "hypothesis": "Render-blocking stylesheets, unoptimised legacy-format images, missing lazy loading and missing srcset, together with the mediocre Lighthouse score and slow LCP, likely share one cause: the theme ships assets without any build/optimisation step.",
+            "finding_refs": [
+              "perf.render_blocking",
+              "perf.images:no_lazy",
+              "perf.images:legacy_format",
+              "perf.responsive_images",
+              "perf.lighthouse_score",
+              "perf.core_web_vitals:lcp"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "meta-template",
+            "title": "Templates emit incomplete page metadata",
+            "hypothesis": "Missing meta descriptions, missing og:description and over-long titles probably come from the same template/SEO-plugin configuration that leaves description and title fields unmanaged.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags",
+              "seo.title:too_long"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "heading-structure",
+            "title": "Theme heading markup is not semantic",
+            "hypothesis": "The homepage having no H1 and the H4→H6 jumps across nine pages likely come from the same theme components styling headings by size rather than hierarchy.",
+            "finding_refs": [
+              "seo.h1:missing",
+              "seo.heading_hierarchy"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "nap-contact",
+            "title": "Contact data unmanaged and unstructured",
+            "hypothesis": "Two differing phone numbers, non-E.164 formatting and the absence of LocalBusiness/ContactPoint markup likely share one cause: contact details are hard-coded in templates instead of a single structured NAP source.",
+            "finding_refs": [
+              "tech.nap:phone_mismatch",
+              "tech.nap:phone_not_e164",
+              "ai.schema.contact",
+              "tech.email_exposed"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "a11y",
+            "title": "Accessibility defects in the shared theme",
+            "hypothesis": "The blocking link-name barrier and the landmark/target-size/contrast remarks were measured in the same Lighthouse run and likely originate in the same theme markup and CSS.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "confidence": "likely"
+          },
+          {
+            "id": "content-neglect",
+            "title": "Content and internal linking left unmaintained",
+            "hypothesis": "Stale content (2 years), thin contact pages, unlinked topic islands and pages missing from the sitemap likely reflect one cause: no ongoing content/IA maintenance process.",
+            "finding_refs": [
+              "llm.stale_content",
+              "seo.thin_content",
+              "seo.topic_islands",
+              "seo.sitemap:coverage"
+            ],
+            "confidence": "possible"
+          }
+        ],
+        "ungrouped_refs": [
+          "ai.llms_txt:missing",
+          "tech.analytics:no_behaviour"
+        ]
+      },
+      "automatic_scoring": {
+        "case": "ka-dent.com.ua",
+        "task": "root_cause_grouping",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 7,
+        "duplicate_reduction": 0.7307692307692307,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    },
+    {
+      "task": "remediation_plan",
+      "task_version": "1",
+      "prompt_version": "1",
+      "schema_version": "2",
+      "routing_version": "1",
+      "locale": "en",
+      "input_hash": "1e36960c84261cea498e972ec98df23a08df4c78b0507d96f4e4830f2babb139",
+      "status": "completed",
+      "error": null,
+      "attempts": [
+        {
+          "number": 1,
+          "provider": "anthropic",
+          "model": "claude-opus-5",
+          "outcome": "ok",
+          "started_at": "2026-08-24T23:26:19.350254+00:00",
+          "finished_at": "2026-08-24T23:26:35.741062+00:00",
+          "latency_ms": 16390,
+          "request_id": "req_011CeNSPXza8UzgWXqoViGY5",
+          "error_category": null,
+          "error": null,
+          "input_tokens": 2,
+          "output_tokens": 1289,
+          "cache_write_tokens": 2335,
+          "cache_read_tokens": 0,
+          "total_tokens": 3626,
+          "cost_usd": 0.04682875,
+          "pricing_version": "2026-08-24-anthropic-first-party"
+        }
+      ],
+      "input_summary": {
+        "findings": 28,
+        "groups": 7,
+        "site_context_chars": 0
+      },
+      "result": {
+        "steps": [
+          {
+            "order": 1,
+            "title": "Fix theme heading semantics: add a single H1 and repair hierarchy",
+            "why_now": "Highest-ranked finding and shared with a heading-hierarchy jump in the same theme markup; a single template change resolves both and is a prerequisite for later content work.",
+            "finding_refs": [
+              "seo.h1:missing",
+              "seo.heading_hierarchy"
+            ],
+            "group_ids": [
+              "heading-structure"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 2,
+            "title": "Harden server/hosting configuration: security headers, HSTS, caching, response time",
+            "why_now": "Groups the high-severity missing security headers with TTFB, slow server response, caching and HSTS — all one configuration layer. Doing it before front-end asset work means performance measurements afterwards reflect optimised delivery.",
+            "finding_refs": [
+              "tech.security_headers",
+              "perf.core_web_vitals:ttfb",
+              "perf.server_response",
+              "tech.caching",
+              "seo.https:no_hsts"
+            ],
+            "group_ids": [
+              "server-config"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 3,
+            "title": "Remove the blocking accessibility barrier and the remaining accessibility remarks",
+            "why_now": "High-severity blocker that stops people using the site; the remarks live in the same shared theme, and heading semantics from step 1 are part of the accessibility tree.",
+            "finding_refs": [
+              "a11y.blocking",
+              "a11y.failures"
+            ],
+            "group_ids": [
+              "a11y"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 4,
+            "title": "Introduce a front-end asset pipeline: unblock the head, optimise and lazy-load images",
+            "why_now": "Addresses render-blocking resources, LCP and the image findings together; depends on server caching being in place so optimised assets are actually delivered efficiently.",
+            "finding_refs": [
+              "perf.render_blocking",
+              "perf.core_web_vitals:lcp",
+              "perf.images:no_lazy",
+              "perf.images:legacy_format",
+              "perf.responsive_images",
+              "perf.lighthouse_score"
+            ],
+            "group_ids": [
+              "asset-pipeline"
+            ],
+            "depends_on": [
+              2
+            ]
+          },
+          {
+            "order": 5,
+            "title": "Consolidate contact data and add LocalBusiness / ContactPoint markup",
+            "why_now": "The conflicting phone numbers must be reconciled into one canonical, E.164-formatted record before structured markup can express it; email exposure is handled in the same contact-data pass.",
+            "finding_refs": [
+              "tech.nap:phone_mismatch",
+              "tech.nap:phone_not_e164",
+              "ai.schema.contact",
+              "tech.email_exposed"
+            ],
+            "group_ids": [
+              "nap-contact"
+            ],
+            "depends_on": []
+          },
+          {
+            "order": 6,
+            "title": "Complete the page metadata template: meta description, OG description, title length",
+            "why_now": "One shared template emits all three; grouping them avoids repeated template edits and follows the structural heading fix.",
+            "finding_refs": [
+              "seo.meta_description:missing",
+              "ai.opengraph:tags",
+              "seo.title:too_long"
+            ],
+            "group_ids": [
+              "meta-template"
+            ],
+            "depends_on": [
+              1
+            ]
+          },
+          {
+            "order": 7,
+            "title": "Refresh content, add internal links between related pages, and complete sitemap coverage",
+            "why_now": "Stale and thin content, unlinked topic clusters and missing sitemap entries share one neglected-content cause; doing it after templates and headings are correct means new content inherits sound structure.",
+            "finding_refs": [
+              "llm.stale_content",
+              "seo.thin_content",
+              "seo.topic_islands",
+              "seo.sitemap:coverage"
+            ],
+            "group_ids": [
+              "content-neglect"
+            ],
+            "depends_on": [
+              1,
+              6
+            ]
+          },
+          {
+            "order": 8,
+            "title": "Add llms.txt and behaviour analytics instrumentation",
+            "why_now": "Remaining standalone low/info items; both describe the site as it will exist after the structural, contact and content work, so they come last.",
+            "finding_refs": [
+              "ai.llms_txt:missing",
+              "tech.analytics:no_behaviour"
+            ],
+            "group_ids": [],
+            "depends_on": [
+              7
+            ]
+          }
+        ],
+        "dropped_ungrounded_steps": 0
+      },
+      "automatic_scoring": {
+        "case": "ka-dent.com.ua",
+        "task": "remediation_plan",
+        "status": "completed",
+        "provider": "",
+        "model": "",
+        "latency_ms": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "cost_usd": null,
+        "input_findings": 28,
+        "referenced_findings": 28,
+        "unknown_refs": [],
+        "coverage": 1.0,
+        "groups": 0,
+        "duplicate_reduction": 0.0,
+        "unsupported_claims": [],
+        "validation_error": null,
+        "stable": null,
+        "plausibility": null,
+        "usefulness": null,
+        "ordering_usefulness": null,
+        "reviewer_note": ""
+      }
+    }
+  ],
+  "baseline_after": {
+    "overall_score": 62,
+    "overall_band": "medium",
+    "module_scores": {
+      "accessibility_score": 44,
+      "ai_ready_score": 77,
+      "llm_visibility_score": 93,
+      "seo_score": 59,
+      "speed_score": 41,
+      "tech_score": 47
+    },
+    "findings_count": 28,
+    "finding_keys": [
+      "a11y.blocking",
+      "a11y.failures",
+      "ai.llms_txt:missing",
+      "ai.opengraph:tags",
+      "ai.schema.contact",
+      "llm.stale_content",
+      "perf.core_web_vitals:lcp",
+      "perf.core_web_vitals:ttfb",
+      "perf.images:legacy_format",
+      "perf.images:no_lazy",
+      "perf.lighthouse_score",
+      "perf.render_blocking",
+      "perf.responsive_images",
+      "perf.server_response",
+      "seo.h1:missing",
+      "seo.heading_hierarchy",
+      "seo.https:no_hsts",
+      "seo.meta_description:missing",
+      "seo.sitemap:coverage",
+      "seo.thin_content",
+      "seo.title:too_long",
+      "seo.topic_islands",
+      "tech.analytics:no_behaviour",
+      "tech.caching",
+      "tech.email_exposed",
+      "tech.nap:phone_mismatch",
+      "tech.nap:phone_not_e164",
+      "tech.security_headers"
+    ],
+    "severities": [
+      "a11y.blocking=high",
+      "a11y.failures=medium",
+      "ai.llms_txt:missing=low",
+      "ai.opengraph:tags=low",
+      "ai.schema.contact=medium",
+      "llm.stale_content=low",
+      "perf.core_web_vitals:lcp=medium",
+      "perf.core_web_vitals:ttfb=high",
+      "perf.images:legacy_format=low",
+      "perf.images:no_lazy=low",
+      "perf.lighthouse_score=info",
+      "perf.render_blocking=medium",
+      "perf.responsive_images=low",
+      "perf.server_response=medium",
+      "seo.h1:missing=high",
+      "seo.heading_hierarchy=low",
+      "seo.https:no_hsts=low",
+      "seo.meta_description:missing=medium",
+      "seo.sitemap:coverage=low",
+      "seo.thin_content=low",
+      "seo.title:too_long=info",
+      "seo.topic_islands=low",
+      "tech.analytics:no_behaviour=info",
+      "tech.caching=medium",
+      "tech.email_exposed=low",
+      "tech.nap:phone_mismatch=medium",
+      "tech.nap:phone_not_e164=low",
+      "tech.security_headers=high"
+    ],
+    "evidence_refs": [
+      "a11y.blocking:audits,lighthouse_score,strategy,titles",
+      "a11y.failures:audits,lighthouse_score,strategy,titles",
+      "ai.llms_txt:missing:status_code",
+      "ai.opengraph:tags:missing,occurrences,page_importance",
+      "ai.schema.contact:expected_any_of,found_types,phones_on_pages",
+      "llm.stale_content:dated_pages,newest_date,newest_page,pages_read",
+      "perf.core_web_vitals:lcp:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.core_web_vitals:ttfb:metric,page_importance,provider,rating,source,strategy,threshold_good,value",
+      "perf.images:legacy_format:by_format,occurrences,page_importance",
+      "perf.images:no_lazy:images,occurrences,page_importance",
+      "perf.lighthouse_score:page_importance,score,top_opportunities",
+      "perf.render_blocking:occurrences,page_importance,scripts,styles",
+      "perf.responsive_images:by_format,images_total,occurrences,page_importance,raster_images,with_srcset",
+      "perf.server_response:median_ms,pages_measured,slowest_ms,slowest_url,source,threshold_good_ms",
+      "seo.h1:missing:found,headings,page_importance,title",
+      "seo.heading_hierarchy:heading,level,occurrences,page_importance,previous",
+      "seo.https:no_hsts:expected,found,origin",
+      "seo.meta_description:missing:expected_max_chars,found,occurrences,og_description,page_importance,title",
+      "seo.sitemap:coverage:examples,sitemap_urls",
+      "seo.thin_content:occurrences,page_importance,word_count",
+      "seo.title:too_long:hidden,length,occurrences,page_importance,shown,title",
+      "seo.topic_islands:internal_links_each,page_importance,pages,sibling_links,topic",
+      "tech.analytics:no_behaviour:checked_after_render,found",
+      "tech.caching:cache_control,example,pages_checked",
+      "tech.email_exposed:addresses",
+      "tech.nap:phone_mismatch:phones",
+      "tech.nap:phone_not_e164:examples",
+      "tech.security_headers:missing,page_importance,present"
+    ],
+    "coverage": {
+      "pages_failed": 0,
+      "pages_fetched": 24,
+      "pages_known": 61,
+      "pages_read": 24,
+      "share": 0.3934
+    },
+    "missing_data": []
+  },
+  "deterministic_unchanged": true,
+  "finished_at": "2026-08-24T23:26:35.810498+00:00"
+}

@@ -1,0 +1,3494 @@
+# Корпус для нічного спостережного прогону Crawldy.
+#
+# ЗГЕНЕРОВАНО scripts/samples/build_corpus1000.py — руками не правити.
+# Ланцюг: harvest_corpus.py -> probe_corpus.py -> build_corpus1000.py
+#
+# Кожна мітка приходить або з джерела (segment, country), або з
+# побаченої відповіді (tags, lang). Здогадів за виглядом домену немає.
+#
+# provenance:
+#   schema: crawldy.corpus/1
+#   created_at: 2026-08-28T01:30:11+00:00
+#   count: 1000
+#   corpus_hash: 83746e74c1b91ffc2247464df972121f
+#   what_this_is: Навмисно різнорідний стратифікований спостережний корпус із заземленими мітками там, де джерело їх дає. Це НЕ статистично репрезентативна вибірка вебу: ані генеральної сукупності, ані ймовірності потрапляння тут не визначено. Частки сегментів — рішення людини, а не виміряна структура вебу.
+#   sources: {'wikidata_p856': {'endpoint': 'https://query.wikidata.org/sparql', 'property': 'P856 (official website)', 'queries': 369, 'failed_queries': ['theatre company/global: HTTP 504', 'business/global: HTTP 504', 'organization/global: HTTP 504', 'municipality/global: HTTP 504'], 'gives': 'segment (via entity class) and country'}, 'wikidata_software_supplement': {'classes': ['Q341 free software', 'Q9143 programming language', 'Q1330336 web framework', 'Q21127166 software library'], 'reason': 'сегмент documentation не набирав квоту з основного збору', 'added': 483}, 'tranco': {'source': 'tranco:46W9X', 'download': 'https://tranco-list.eu/download/46W9X/1000000', 'rows_total': 1000000, 'window': [20000, 600000], 'sampled': 1500}, 'curated': {'count': 44, 'reason': 'docs/webapps rarely in Wikidata'}, 'selected_per_source': {'curated': 44, 'wikidata:P856': 838, 'tranco:46W9X': 118}}
+#   class_to_segment: {'mapping_version': 2, 'table': {'university': 'education', 'high school': 'education', 'municipality': 'institutional', 'museum': 'institutional', 'library': 'institutional', 'hospital': 'institutional', 'NGO': 'institutional', 'organization': 'institutional', 'restaurant': 'local', 'brewery': 'local', 'law firm': 'local', 'medical clinic': 'local', 'theatre company': 'local', 'retail chain': 'ecommerce', 'department store': 'ecommerce', 'supermarket': 'ecommerce', 'bookstore': 'ecommerce', 'software company': 'saas', 'technology company': 'saas', 'business': 'corporate', 'manufacturer': 'corporate', 'engineering company': 'corporate', 'newspaper': 'publishing', 'magazine': 'publishing', 'publisher': 'publishing', 'radio station': 'publishing', 'television station': 'publishing', 'hotel': 'travel', 'winery': 'travel', 'zoo': 'travel', 'theme park': 'travel', 'tourist attraction': 'travel', 'football club': 'travel', 'curated': '', 'tranco rank': 'other'}, 'note': 'Сегмент — наше рішення поверх класу джерела. Сайти поодинці не перемічуються: лагодиться таблиця.'}
+#   probe: {'concurrency': 8, 'request_timeout_s': 20.0, 'max_bytes_read': 220000, 'user_agent': 'Mozilla/5.0 (compatible; CrawldyBenchmarkCorpus/1.0; +benchmark corpus validation)', 'rows': 7671, 'transport_failure_reprobe': 'Перший прохід на паралельності 24 з межею 12 с дав 1876 таймаутів. Повторна перевірка 60 з них на паралельності 3 показала 63% живих: міряли насичення власного каналу, а не сайти. Усі 2995 транспортних збоїв перевірено вдруге на паралельності 8 з межею 20 с — врятовано 1672 живих сайти. HTTP-статуси (403, 404, 5xx) вдруге не перевірялись: це відповідь сайту, а не наша межа.'}
+#   canonicalization: {'unit': 'сайт, а не адреса', 'rules': ['схема відкидається; шлях і запит відкидаються', 'хост у нижньому регістрі, без кінцевої крапки', 'префікс www. знімається', 'ключем є хост ПІСЛЯ перенаправлень', 'приватні адреси, localhost і .local/.internal відкидаються']}
+#   adult_exclusion: {'policy': 'Виключається лише порнографічний вміст. Занедбані, старі, негарні та погано зроблені сайти ЛИШАЮТЬСЯ: заради них корпус і збирається.', 'decisive_alone': ['RTA label', 'meta rating=adult/mature'], 'needs_two_signals': ['title', 'meta description/keywords', 'domain token'], 'terms_deliberately_absent': ['sex', 'adult'], 'why': 'sexauer.de — прізвище; essex.gov.uk містить sex', 'strong_terms': ['porn', 'porno', 'xxx', 'hentai', 'camgirl', 'escort service', 'nude photos', 'sex cam', 'webcam sex', 'anal sex', 'milf', 'blowjob', 'creampie', 'doujin', 'eroti', 'nsfw'], 'domain_tokens': ['porn', 'xxx', 'hentai', 'camgirl', 'escort', 'milf', 'doujin', 'erotic', 'nsfw', 'sexcam', 'adultvideo'], 'excluded_count': 22}
+#   selection: {'quotas': {'local': 130, 'corporate': 120, 'other': 120, 'publishing': 110, 'ecommerce': 110, 'travel': 100, 'education': 90, 'institutional': 90, 'saas': 90, 'documentation': 40}, 'ordering': 'blake2b(canonical_host) — сталий, але не алфавітний', 'country_target_per_segment': 15, 'class_target_per_segment': 34, 'targets_are_soft': 'Це цілі, а не гарантовані межі: другий прохід добирає квоту без них, тож фактичну концентрацію треба читати з виміряних часток, а не з цих чисел.', 'curated_pinned': 'Записи curated закріплені: вони рахуються в квоту свого сегмента й проходять аудит нарівні з усіма, закріплена лише присутність. Інакше сайти димової вибірки випадали з корпусу через порядок хешу.'}
+#   unknown: {'segment_other': 120, 'country': 226, 'language': 170, 'untagged': 529, 'policy': 'невідоме лишається невідомим; за зоною домену не добудовується'}
+#   limitations: ['Wikidata дає більшість корпусу, бо це єдине джерело із заземленим сегментом; Tranco наповнює лише other.', 'Wikidata знає організації, про які написали статтю, тож справді безіменний малий бізнес представлений слабше.', 'Сегменти saas і ecommerce набрані з тонкого пулу.', 'Класифікація football club як travel/дозвілля — слабке місце.', 'Мова відома лише там, де сайт оголосив <html lang>.', 'Це не випадкова вибірка: висновки про «веб узагалі» з неї робити не можна.']
+sites:
+  - url: https://microtechia.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://ka-dent.com.ua
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://crustula.com.ua
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://auditlensapp.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://dronehub.ai
+    segment: corporate
+    tags: [nextjs]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://about.gitlab.com
+    segment: corporate
+    tags: [nuxt]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://aldg.org
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://mozilla.org
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://python.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://fastapi.tiangolo.com
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://web.dev
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://docs.djangoproject.com
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://flask.palletsprojects.com
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://requests.readthedocs.io
+    segment: documentation
+    tags: [wordpress]
+    note: сайт документації або відкритого проєкту
+  - url: https://numpy.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://pandas.pydata.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://scikit-learn.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://matplotlib.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://jquery.com
+    segment: documentation
+    tags: [wordpress]
+    note: сайт документації або відкритого проєкту
+  - url: https://vuejs.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://svelte.dev
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://astro.build
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://gohugo.io
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://jekyllrb.com
+    segment: documentation
+    tags: [jekyll]
+    note: сайт документації або відкритого проєкту
+  - url: https://gnu.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://kernel.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://httpd.apache.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://nginx.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://postgresql.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://sqlite.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://redis.io
+    segment: documentation
+    tags: [nextjs]
+    note: сайт документації або відкритого проєкту
+  - url: https://curl.se
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://vim.org
+    segment: documentation
+    tags: [wordpress]
+    note: сайт документації або відкритого проєкту
+  - url: https://gimp.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://inkscape.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://blender.org
+    segment: documentation
+    tags: [wordpress]
+    note: сайт документації або відкритого проєкту
+  - url: https://libreoffice.org
+    segment: documentation
+    tags: [hugo]
+    note: сайт документації або відкритого проєкту
+  - url: https://debian.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://archlinux.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://ubuntu.com
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://fedoraproject.org
+    segment: documentation
+    tags: [nuxt]
+    note: сайт документації або відкритого проєкту
+  - url: https://opensuse.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://freebsd.org
+    segment: documentation
+    tags: [hugo]
+    note: сайт документації або відкритого проєкту
+  - url: https://openbsd.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://cancerhospitalgwalior.com
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://alleterrazze.it
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://azabukadowaki.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://chickenmaru.co.kr
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://pt.symington.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://brasserie-lancelot.bzh
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://rightmart.de
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://karismahotels.com
+    segment: local
+    tags: [drupal, nextjs]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://nikolgoetz.com
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://burgerproject.hu
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://au-cafe.sk
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://fest.lviv.ua
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://ddsvrchlabi.estranky.cz
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://gundel.hu
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://tapasrybka.pl
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://restaurantschonnemann.dk
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://dekoninck.be
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://apache.ie
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://marskinmaja.net
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://providence.org
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://ieke1.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://pizzaschool.net
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://jureskogs.se
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://dagrasso.pl
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://edelson.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://billie.brussels
+    segment: local
+    tags: [wix]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://blauhotels.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hospital.pref.kagoshima.jp
+    segment: local
+    tags: [joomla]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://a38.hu
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hungrylion.co.za
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hospitalmacarena.es
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://ladonuteria.eu
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://cysterska.pl
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://asterhospitals.in
+    segment: local
+    tags: [drupal]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://bufkes.nl
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://acasadoporco.com.br
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://dhs.lacounty.gov
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://oxbo-viennawaterfront.at
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hetnonnetje.nl
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://bonifratrzy.krakow.pl
+    segment: local
+    tags: [prestashop, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://ilmatriciano.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://angelina-paris.fr
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://nakashima-ryori.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://r-kro.dk
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://london.acecafe.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://restaurantsoigne.nl
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://lawl.co.kr
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://aarhusbryghus.dk
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://carlsberg.co.il
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://browarpolczyn.pl
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://asahisuperdry.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://abramsonlaborgroup.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://lawconnell.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://irsee.com
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://calicraft.com
+    segment: local
+    tags: [shopify]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://aul.org
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://butzel.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://bsa.ro
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://quinnemanuel.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://childrenshospitaltrust.org.za
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://baabaabrewhouse.com
+    segment: local
+    tags: [wix]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://vkp.ua
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://lvivarnya.com.ua
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://brauerei-strate.de
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://greifenklau.de
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://brauerei-poellinger.de
+    segment: local
+    tags: [joomla]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://nicsell.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://brauhaus-saalfeld.de
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://arws.cz
+    segment: local
+    tags: [nextjs]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://nortonrosefulbright.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://kaltenhausen.at
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://kayodeajulo.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://avitishospital.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://aoshearman.com
+    segment: local
+    tags: [nextjs]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://netopyrka.cz
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://langeooger.shop
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://beierhaascht.lu
+    segment: local
+    tags: [nextjs]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://2townsciderhouse.com
+    segment: local
+    tags: [nextjs, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://hastane.kocaeli.edu.tr
+    segment: local
+    tags: [nextjs]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://klosterbraeu.de
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://harrisonllp.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://ch-kamiya.jp
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://amda.org.np
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://antalyaeah.saglik.gov.tr
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hospices-de-beaune.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://harmonyhospital.ng
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://bonifatius754.nl
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://baptisthealthal.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hostinec-moritz.cz
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://leprado-gilbert.fr
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://mills-reeve.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://revolution-brewing.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://belex.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://mcvlaw.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://portos.cz
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://coedobrewery.com
+    segment: local
+    tags: [shopify]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://georgenbraeu.de
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://friedfrank.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://echigo-beer.jp
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://alexandrovska.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://fbtgibbons.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://tatspirtprom.ru
+    segment: local
+    tags: [bitrix]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://gdkp5.ru
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://bricker.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hopfweisse.de
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://morihamada.com
+    segment: local
+    tags: [drupal]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://hospitalsancarlos.cl
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://bvxanhpon.vn
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://piebraque.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://brasseriedelalesse.be
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://goesser.at
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://kimibandai.sake-ten.jp
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hsnzkt.moh.gov.my
+    segment: local
+    tags: [joomla]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://extranet.hmanacor.org
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://chrim.ca
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://brasseriealbion.com
+    segment: local
+    tags: [woocommerce, wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://cer.org.za
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://tonkon.com
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://chuyobf.org
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://anjielaw.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://salzberger.de
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hospitals.asu.edu.eg
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://twobirds.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://en.egh.com.tw
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hhumc.org.lb
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hadano-med-jrc.jp
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: http://ascomscollege.com
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://heimpalkorhaz.hu
+    segment: local
+    note: локальний бізнес або послуга за класифікацією джерела
+  - url: https://hako.com
+    segment: corporate
+    tags: [typo3]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://budapest-babszinhaz.hu
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://aap.com.pe
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://tike.com.tr
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://sweg.de
+    segment: corporate
+    tags: [typo3]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://metrocom.it
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://goap.eu
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://01solar.es
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://dourogas.pt
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://fernandes.co.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://en.sklarnaharrachov.cz
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://ceramicheitalia.it
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://redfoxgamestudio.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://kristinehamncc.se
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://de.surveymonkey.com
+    segment: corporate
+    tags: [nextjs]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://lis.is
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://forlagid.is
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://cema.com.ar
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://hydreka.com
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://riftvalleyrail.com
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://splrr.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://vivaldi.net
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://hulltrains.co.uk
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://aeh.sk
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://alna-sharyo.co.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://gigafon.no
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://innovisionindia.net
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://6ballygungeplace.in
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://ekosystem.cz
+    segment: corporate
+    tags: [drupal]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://abukyu.co.jp
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://gsstore.org
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://byteclub.rocks
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://cij.gob.mx
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://daekyo.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://burdamediaextra.cz
+    segment: corporate
+    tags: [opencart]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://kaihatsu-railway.co.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://ulssa.pt
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://cineroxy.com.br
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://1290sqm.com
+    segment: corporate
+    tags: [shopify]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://dfgcon.si
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://italospa.italotreno.it
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://firelinegames.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://anares.org
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://724.com.mx
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://rurtalbahn.de
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://ldw.de
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://ferrovieappulolucane.it
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://norma.ee
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://bank.marksandspencer.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://edel.ee
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://meirintetu.co.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://fodera.com
+    segment: corporate
+    tags: [shopify]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://kolejedolnoslaskie.pl
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://dukescricket.co.uk
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://regionalps.ch
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://blscargo.ch
+    segment: corporate
+    tags: [drupal]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://marmon-herrington.com
+    segment: corporate
+    tags: [wix]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://npktrans.ru
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://bentheimer-eisenbahn.de
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://jboats.com
+    segment: corporate
+    tags: [joomla]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://dp.uz.gov.ua
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://btrc.ca
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://derecktor.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://arrivatrainswales.co.uk
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://elva-archive.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://casalini.eu
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://tagab.se
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://faw.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://hopkinsrides.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://malardalstrafik.se
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://en.kg-mobilitycommercial.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://terrion-vrn.ru
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://bahnpersonal24.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://erareplicas.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://fartiamo.ch
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://inrail.it
+    segment: corporate
+    tags: [joomla]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://waspsystems.co.uk
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://autobussa.com.ar
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://kitetsu.co.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://courb.net
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://fiberfab.de
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://fr.samspace.ru
+    segment: corporate
+    tags: [bitrix]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://greencargo.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://thecsrt.org
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://ukg.co.jp
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://en.gaokin.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://rw-y.ru
+    segment: corporate
+    tags: [bitrix]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://pz.gov.ua
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://gwrr.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://elanmotorsports.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://atlansia.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://chizukyu.co.jp
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://ell-group.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://cmqrailway.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://sparkracingtechnology.com
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://cisa.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://bsemotor.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://hyundai.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://panther.eu
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://satellize.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://bowlermotorsport.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://fourwinns.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://alsea.com.mx
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://fairwear.org
+    segment: corporate
+    tags: [nuxt]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://171charz.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://hanskustersmusic.be
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://planenergi.eu
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://afap-partnership.org
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://britishland.com
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://breidablick-film.squarespace.com
+    segment: corporate
+    tags: [squarespace]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://fdnas.cz
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://arkitektskap.no
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://kirjastusvalgus.ee
+    segment: corporate
+    tags: [woocommerce, wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://a1.hr
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://atelier91.cz
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://eugesta.com
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: http://gaa.mhz.hr
+    segment: corporate
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://theredlionblewbury.co.uk
+    segment: corporate
+    tags: [wordpress]
+    note: компанія або виробництво за класифікацією джерела
+  - url: https://experis.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://livetheworld.com
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://ttcircuit.com
+    segment: other
+    tags: [nuxt]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://rotikaya.com
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://thefga.org
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: http://seobook.com
+    segment: other
+    tags: [drupal]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://voofla.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://nimportequi.com
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://dizikorea3.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://legend88-situs.life
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://hostibz.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://carfinduk.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://coffeemania.ru
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://apg.at
+    segment: other
+    tags: [typo3]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: http://unitednets.net
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://brandi.co.kr
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://rubular.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://trancetraffic.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://yesweekly.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://xpressreg.net
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://topnovafieldhub.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://celcomdigi.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://jobsglitch.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://teltonika-gps.com
+    segment: other
+    tags: [wix]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://salisburync.gov
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://madeinleta.com
+    segment: other
+    tags: [shopify]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://lepage.fr
+    segment: other
+    tags: [prestashop]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://onpatient.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://lordsguidance.com
+    segment: other
+    tags: [shopify]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://mom.gov.sg
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://kerivo.lol
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://tokyolib.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://madpc.gr
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://groww.company
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://highspeed-at.net
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://nflshop.ca
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://pubble.cloud
+    segment: other
+    tags: [wix]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://icagenda.com
+    segment: other
+    tags: [joomla]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://scit.ch
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://corsicanadailysun.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://skechers.pl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://limitlesshost.net
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://winworldpc.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://patroninfotech.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://cigarplace.biz
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://moz8.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://ich-1.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://saftgard.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://dns.google
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://luckyadvisorconnect.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://explorevia.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://zalando-lounge.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://bizzottomobili.net
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://gamingpulse.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://npsk12.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://ikjzd.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://officials.fm
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://waslot.io
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://clubfarma.it
+    segment: other
+    tags: [prestashop]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://zumarestaurant.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://aisne.com
+    segment: other
+    tags: [drupal]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://uedakanamono.co.jp
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://rallys.online
+    segment: other
+    tags: [woocommerce, wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://innopolis.ru
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://burnaby.ca
+    segment: other
+    tags: [drupal]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://optiversal.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://charmdiamondcentres.com
+    segment: other
+    tags: [drupal]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://brandsoutletglobal.com
+    segment: other
+    tags: [shopify]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://rdtc.ru
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://aprendergratis.es
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://ruttenschoenen.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://xn--m3cyd8al1a2q.com
+    segment: other
+    tags: [woocommerce, wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://cars.ie
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://zencloudbase.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://olivemagazine.com
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://polarsteps.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://fashion.blog
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://kingofbudz.com
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://chintaa.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://acquiretm.com
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://drugpatentwatch.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://displaythisway.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://safeport.com
+    segment: other
+    tags: [woocommerce, wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://tribuca.net
+    segment: other
+    tags: [woocommerce, wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://shreekundli.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://zenit.win
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://nehu.ac.in
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://parks.org.il
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://al-hiwar.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://smartfocusonline.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://polleverywhere.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://redirect.eeroportal.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://jiuzhai.com
+    segment: other
+    tags: [joomla]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://picta.cu
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://idokep.eu
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://ahprofi.cz
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://lordflim.mom
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://heritagegateway.org.uk
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://canakkaleolay.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://azu.edu.eg
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://skemman.is
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://casinoz.club
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://mygardenhome.de
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://dobredomy.pl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://zentechbridge.nl
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://hivelocity.net
+    segment: other
+    tags: [woocommerce, wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://marshalls.co.uk
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://poliglota.org
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://ordoro.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://karllagerfeld.com
+    segment: other
+    tags: [shopify]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://flutetree.com.au
+    segment: other
+    tags: [opencart]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://alphamom.com
+    segment: other
+    tags: [wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://spitzentraum.ch
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://stpt.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://usclublax.com
+    segment: other
+    tags: [woocommerce, wordpress]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://sencinet.com
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://aprica.jp
+    segment: other
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://curtsyapp.com
+    segment: other
+    tags: [nextjs]
+    note: джерело не класифікує; сегмент лишається невідомим
+  - url: https://avisen.dk
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://google.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://damieditore.it
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://fox6now.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://boutondoracadie.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://npn.co.jp
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://sunday-guardian.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://brownwoodradio.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://bhweekly.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://htv10.tv
+    segment: publishing
+    tags: [nextjs]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://eltucumano.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://trove.nla.gov.au
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://cir-ent.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://oem.com.mx
+    segment: publishing
+    tags: [nextjs]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://malaronytt.com
+    segment: publishing
+    tags: [squarespace]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://yj2rx5vx3s.search.serialssolutions.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://haber365.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://985theriver.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://library.gov.au
+    segment: publishing
+    tags: [drupal]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://domzale.si
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://dailynorthwestern.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://ekspress.delfi.ee
+    segment: publishing
+    tags: [nuxt]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://jj9jj8nf8h.search.serialssolutions.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://pardubicky.denik.cz
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://denik.cz
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://5fm.co.za
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://aifua.com.ua
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://957thewolfonline.com
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://estianews.gr
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://editionsarchimede.com
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://929tomfm.iheart.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://apostrophe.ua
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://azady.nl
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://gftbooks.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://standartnews.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://finanswatch.no
+    segment: publishing
+    tags: [nextjs]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://gtu.edu.ge
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://elsiglodedurango.com.mx
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://abdef-prawn.tokyo
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://semnal.eu
+    segment: publishing
+    tags: [nextjs]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://annapurna.com
+    segment: publishing
+    tags: [nextjs]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://na.se
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://bonpourlatete.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://kxly.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://953thebeach.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://cultmtl.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://minato-yamaguchi.co.jp
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://daswetter.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://diken.com.tr
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://glasistre.hr
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://fpn119.co.kr
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://denikn.cz
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://pmbsites.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://mt.co.kr
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://advent-verlag.de
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://1073jamz.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://885thejewel.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://gendainoriron.jp
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://hc2broadcasting.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://globalnews.ca
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://goyeah.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://ctvnews.ca
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://aa.revues.org
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://amorfm.mx
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://centarmodernihznanja.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://ble.refc.ca
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://vc4kb8yf3q.search.serialssolutions.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://academiyadt.ru
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://aviationweek.com
+    segment: publishing
+    tags: [drupal]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://accentsjournals.org
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://bshs.org.uk
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://aup.nl
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://ehescbook.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://ace.amegroups.org
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://gong.bg
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://artsound.fm
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://airpbooks.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://tv.disney.no
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://asocolnef.com
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://chasmaistriv.com.ua
+    segment: publishing
+    tags: [bitrix]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://aappsbulletin.org
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://adventuretv.pl
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://kx7gx4pm8t.search.serialssolutions.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://abaa.uobaghdad.edu.iq
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://7universum.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://bunkry.cz
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://dkids.me
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://spiedigitallibrary.org
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://alumni.inalco.fr
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://editrice.effata.it
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://crh.ehess.fr
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://europrint-medien.de
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://medmuzik.tv
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://1895.revues.org
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://cbncaruaru.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://august-soft.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://editorial.recolectoresurbanos.com
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://icitelevision.ca
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://biogeografia.uniroma2.it
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://ariadnaediciones.cl
+    segment: publishing
+    tags: [joomla]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://editionsdentdelion.com
+    segment: publishing
+    tags: [squarespace]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://rtp.pt
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://inter.ua
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://tv.disney.se
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://abcstudies.bizhat.com
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://qom.ac.ir
+    segment: publishing
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://ediciones94.com
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://globaljournals.us
+    segment: publishing
+    tags: [woocommerce, wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://1055hitsfm.com
+    segment: publishing
+    tags: [wix]
+    note: медіа або видавництво за класифікацією джерела
+  - url: https://blog.cancaonova.com
+    segment: publishing
+    tags: [wordpress]
+    note: медіа або видавництво за класифікацією джерела
+  - url: http://cha-yuan.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://sportaal.nl
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://sendo.co.jp
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://boudewijnseapark.be
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://ninsoglobal.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://dr-kong.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: http://schoolfood.co.kr
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://familypark.at
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://dylanscandybar.com
+    segment: ecommerce
+    tags: [shopify]
+    note: торгівля за класифікацією джерела
+  - url: https://wem.ca
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: http://megazip.com.sg
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://lamanna.com.au
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://plus.nl
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://bthhotels.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://corp.lotuss.com.my
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://ok-corporation.jp
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://kingoland.com
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://drcafe.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://dreamworld-th.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://ecentral.my
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://fatz.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://aeon.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://prisma.fi
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: https://ekimo.jp
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://fjmgt.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://asiamarket.ie
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://shiroikoibitopark.jp
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: http://funtime.my
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://neeltjejans.nl
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://foodaramatexas.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://throwedrolls.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://tudari.co.kr
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://foiredenancy.com
+    segment: ecommerce
+    tags: [squarespace]
+    note: торгівля за класифікацією джерела
+  - url: https://tropical-islands.de
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: http://streettalkonline.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://cliffsamusementpark.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://1nul8.nl
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://cinemacineplus.com.br
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://amis-mochi.com.tw
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://pncg.co.kr
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://joeys.ca
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://san-a.co.jp
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://rema1000.dk
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://everland.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://zoomarine.it
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://endeavour.com.au
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://daegu.go.kr
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: http://karadag-dolphin.ru
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://hozain.eu
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://shoprite.co.za
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: https://healthmart.com
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: http://bunkado.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://mtolympuspark.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://domo.ca
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://bravosupermarket.az
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://vishalmegamart.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://econsave.com.my
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://hemkop.se
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: https://blackgangchine.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://chez-matsuo.co.jp
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://m.sghland.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: http://zao-fox-village.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://landofoznc.com
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: https://paikdabang.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://grinpa.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://avtomir.ru
+    segment: ecommerce
+    tags: [bitrix]
+    note: торгівля за класифікацією джерела
+  - url: https://publix.com
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: http://kyedong.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://ahi.id
+    segment: ecommerce
+    tags: [nuxt]
+    note: торгівля за класифікацією джерела
+  - url: https://taipei.caesarpark.com.tw
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://halawola.com.pl
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://parquedelacosta.com.ar
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://knize.at
+    segment: ecommerce
+    tags: [shopify]
+    note: торгівля за класифікацією джерела
+  - url: https://animaliapark.com.br
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://hossoland.pl
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://fussy-frog.co.uk
+    segment: ecommerce
+    tags: [prestashop, woocommerce]
+    note: торгівля за класифікацією джерела
+  - url: https://sixflags.com
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: https://splashplanet.co.nz
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://consum.es
+    segment: ecommerce
+    tags: [drupal]
+    note: торгівля за класифікацією джерела
+  - url: https://xelha.com
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: http://sydneyswonderland.com.au
+    segment: ecommerce
+    tags: [drupal]
+    note: торгівля за класифікацією джерела
+  - url: https://illafantasia.com
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://cora.fr
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://watervilleusa.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://magicmountain.ca
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://panenagam69.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://stores.sainsburys.co.uk
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://brantano.com.mx
+    segment: ecommerce
+    tags: [shopify]
+    note: торгівля за класифікацією джерела
+  - url: https://wildoats.com
+    segment: ecommerce
+    tags: [wix]
+    note: торгівля за класифікацією джерела
+  - url: https://coop.co.uk
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://canadinns.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://mexicanchicken.co.kr
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://castorama.pl
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://ryubostore.jp
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://walmart.com
+    segment: ecommerce
+    tags: [nextjs]
+    note: торгівля за класифікацією джерела
+  - url: https://mystar.in
+    segment: ecommerce
+    tags: [shopify]
+    note: торгівля за класифікацією джерела
+  - url: https://kipmart.com.my
+    segment: ecommerce
+    tags: [woocommerce, wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://okuwa.net
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://diska.de
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://aeontohoku.co.jp
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://centralmarket.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://chaohesuannb.freshippo.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://aaseebad-ibbenbueren.de
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: https://wanwanohkoku.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://aquaparkpresov.sk
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://sunnyland.ba
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://dolphinariumvarna.bg
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://skyparksantasvillage.com
+    segment: ecommerce
+    tags: [wordpress]
+    note: торгівля за класифікацією джерела
+  - url: http://magictownehouse.com
+    segment: ecommerce
+    note: торгівля за класифікацією джерела
+  - url: https://hotelonrivington.com
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://alpenverein-ludwigsburg.de
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://phnomtamaozoo.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotelclubfrances.com.ar
+    segment: travel
+    tags: [nextjs]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://parkcityhistory.org
+    segment: travel
+    tags: [woocommerce, wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://casamarinahotel.com
+    segment: travel
+    tags: [wix]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotellid.ee
+    segment: travel
+    tags: [woocommerce, wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://antlers.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://atlantic-hotel.com.ua
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://solmarresort.solmar.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://calmzoo.org
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotelbudir.is
+    segment: travel
+    tags: [squarespace]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://311motel.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://panetten.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://penziontopky.sk
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://bbfc4u.blogspot.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hurdalsjoen.no
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://izoo.co.jp
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://beresfordhotelifsc.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fcduebendorf.ch
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://rennfest.com
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://lagunatenbosch.co.jp
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://monroezoo.org
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://chatapodrysmi.kst.sk
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://galleryparkhotel.ru
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://louisvillezoo.com
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://alpenverein.at
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://grandecentrepointratchadamri.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://chagrandefc.blogspot.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://halden.kommune.no
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotelstefanik.sk
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://novotelnusaduabali.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hofnaccommodation.is
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://l-hotel.com
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://uu.se
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://caudaldeportivo.es
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://raffles.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://en.ponant.com
+    segment: travel
+    tags: [nextjs]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotel-paris.cz
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://kouza-eco.co.jp
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotel-cidnay.pt
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://janskelazne.cz
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://canyonranch.com
+    segment: travel
+    tags: [nextjs]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://podwiezyca.pl
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://fundacionfisac.com
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://padraicinsrestaurant.com
+    segment: travel
+    tags: [woocommerce, wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hotelgilzetilburg.nl
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://quisisana.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://e-vraca.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://refusaboredo.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://marinepark.jp
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://albigna.ch
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://rosedalemanor.ca
+    segment: travel
+    tags: [wix]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://nigloland.fr
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://serf.se
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://bozzuto.com
+    segment: travel
+    tags: [nextjs]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://cultus.com
+    segment: travel
+    tags: [woocommerce, wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://dombaka.ru
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://tokachi-hills.jp
+    segment: travel
+    tags: [wix]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://buschgardens.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://dolphinworldegypt.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://fc-dnepr.by
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://grandviewaquarium.com
+    segment: travel
+    tags: [joomla]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://rostropovichschool.ru
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://livingrainforest.org
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://hongkongdisneyland.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fishermanswharf.com.mo
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fcbiel-bienne.ch
+    segment: travel
+    tags: [joomla]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fcfcondeen.footeo.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://la-vallee-des-singes.fr
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://comozooconservatory.org
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://crocodilepark.ph
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://adconfianca.net
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://aquariumrestaurants.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://97su.bg
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fukuoka-anpanman.jp
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://abarkouhiau.ac.ir
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://disneyland.disney.go.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fcmonmouth.com
+    segment: travel
+    tags: [squarespace]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://lib.ui.ac.id
+    segment: travel
+    tags: [drupal]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://aspyrgetos.blogspot.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://blauweiss90.berlin
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://aqua.org
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://fketar.weebly.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fc-maletin6.webnode.cz
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://centuryspire.com
+    segment: travel
+    tags: [woocommerce, wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fc.tps.fi
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://m-b-one.es
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://xcaret.com
+    segment: travel
+    tags: [nextjs]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://legoland.com.my
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://clubpumasunam.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://bdzoo.cn
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://chessington.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://istralandia.com
+    segment: travel
+    tags: [typo3]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://brambleparkzoo.com
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://sou90.org
+    segment: travel
+    tags: [woocommerce, wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: http://dskshivajians.com
+    segment: travel
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://1bfk.cz
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://tuwien.at
+    segment: travel
+    tags: [typo3]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://chathamtownfc.info
+    segment: travel
+    tags: [wordpress]
+    note: гостинність, дозвілля або туризм за класифікацією джерела
+  - url: https://fes-muehlheim.de
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://saint-exupery-lyon.ent.auvergnerhonealpes.fr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://getronagan.k12.tr
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://feo.schule.de
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://camhigh.school.nz
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://cja.huji.ac.il
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://superiorisesto.edu.it
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://jagbp.hu
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://refkol.ro
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://bellingham.bellinghamschools.org
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://szenterzsebet.ro
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://granderie.ca
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://staidans.co.uk
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: http://gav.hr
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://sites.utu.fi
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://chicagoacademyforthearts.org
+    segment: education
+    tags: [squarespace]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://lincoln.school.nz
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://eohs.school.nz
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://pioneershs.eq.edu.au
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://brookshigh.education.tas.edu.au
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: http://lyceenobelclichy.fr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://bomoonhs.djsch.kr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://raseborg.fi
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://gumhohs.school.gyo6.net
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://en.nenu.edu.cn
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://ajkmc.edu.pk
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://hvu.si
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://vanderbilt.edu
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://stpaulshyd.edu.in
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://balozuvidusskola.kekava.lv
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://liceomilitarlamadrid.com
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://academyoftucson.com
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://howickhigh.co.za
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://biruni.edu.tr
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://achs.acboe.org
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://scollege.cl
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://citadaskola.lv
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://fwg.dahme-spreewald.de
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://francis.edu
+    segment: education
+    tags: [drupal]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://pnghs.school.nz
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://ghrce.raisoni.net
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://itra.edu.in
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://aru.ac.tz
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://chapman.edu
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://cbu.edu.tr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://tokaigakuin-u.ac.jp
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://amu.edu.az
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://gckattappana.ac.in
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://dnmu.edu.ua
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://graduate2.korea.ac.kr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://ice.upd.edu.ph
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://dental.tufts.edu
+    segment: education
+    tags: [drupal]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://edu.kcga.go.kr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://altis.unicatt.it
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://epm.uniovi.es
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: http://bmtu.ac.in
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://drhe.hu
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://dhwu.ac.in
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://bbu.edu.az
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://alhadera.edu.ly
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://himgirizeeuniversity.edu.in
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://sites.google.com
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://aino-jc.jp
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://cnre.vt.edu
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://adelekeuniversity.edu.ng
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://africanbiblecolleges.org
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://cukerala.ac.in
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://104569.ebmeb.gov.bd
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://billcrothers-ss.yrdsb.ca
+    segment: education
+    tags: [drupal]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://91neg.bg
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://cvd.cl
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://albury-h.schools.nsw.gov.au
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://campuscommunityschool.com
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://vlo.torun.pl
+    segment: education
+    tags: [drupal]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://kabataserkeklisesi.meb.k12.tr
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://peda.net
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://adazuvidusskola.lv
+    segment: education
+    tags: [joomla]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://cms2.chiba-c.ed.jp
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: http://adja.school.gyo6.net
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://fleming.cl
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://stmichaelshigh.com
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://alexandermackenzie-hs.yrdsb.ca
+    segment: education
+    tags: [drupal]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://ssdomzale.si
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://catonsvillehs.bcps.org
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://bearcreek.lodiusd.net
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://ash.ocsb.ca
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://lyk-spaton.att.sch.gr
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://ohs.school.nz
+    segment: education
+    note: навчальний заклад за класифікацією джерела
+  - url: https://cosbucbilingv.ro
+    segment: education
+    tags: [wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: http://suaslj.com
+    segment: education
+    tags: [woocommerce, wordpress]
+    note: навчальний заклад за класифікацією джерела
+  - url: https://home.quillon.cl
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://kalamaria.gr
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://azumino-bunka.com
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://ajol.info
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://opendata.victoria.ca
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://gskos.unios.hr
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://cm-pampilhosadaserra.pt
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://escm.armada.mil.ar
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://saint-symphorien-de-thenieres.fr
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://3d-museum.de
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://broadwaync.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://arboretum.ch
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://helios.eie.gr
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://bokn.kommune.no
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://tehikoi.co.nz
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://rheinlandklinikum.de
+    segment: institutional
+    tags: [typo3]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://helle.finna.fi
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://bcpcouncil.gov.uk
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://libcatalog.ugent.be
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://lemu.fi
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://biblioteca.uach.cl
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://jaakiekkomuseo.fi
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://reglibsliven.iradeum.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://bessemerhallofhistory.blogspot.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://ccp.org.au
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://ub.unibe.ch
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://salzburger-seenland.at
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://hn.sld.pa
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://itosam.org.tr
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://actd.iict.pt
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://agro.uba.ar
+    segment: institutional
+    tags: [drupal]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://airandspace.si.edu
+    segment: institutional
+    tags: [drupal]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://gitlab.thuanthanhtech.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://bridgevillelibrary.org
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://anpuh.org
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://blandfordfashionmuseum.co.uk
+    segment: institutional
+    tags: [wix]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://blazovice.eu
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://andelsbuecherei.bvoe.at
+    segment: institutional
+    tags: [drupal]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://javornikuvlasimi.cz
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://baldramsdorf.gv.at
+    segment: institutional
+    tags: [typo3]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://ebenext.blogspot.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://primaria-glina.ro
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://chbmuseum.co.nz
+    segment: institutional
+    tags: [drupal]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://heritage-centre.co.uk
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://borgarsogusafn.is
+    segment: institutional
+    tags: [nextjs]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://hokkaido.jcho.go.jp
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://kosary-lib.uni-mate.hu
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://fmnf.pt
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://nlu.org.ua
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://comune.montescudo-montecolombo.rn.it
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://artpool.hu
+    segment: institutional
+    tags: [nuxt]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://dsc.smv.org
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://altlengbuch.noebib.at
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://ixcateopan.gob.mx
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://ouka.fi
+    segment: institutional
+    tags: [drupal]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://atlanty.pl
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://linnamuuseum.ee
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://glebychevo.vbglenobl.ru
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://bandadopinheiro.pt
+    segment: institutional
+    tags: [joomla]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://horizonnb.ca
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://biblioteka.vu.lt
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://remunomex.uas.edu.mx
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://klana.hr
+    segment: institutional
+    tags: [joomla, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://knihovnastrasice.eu
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://naklo.si
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://amsterdammuseum.nl
+    segment: institutional
+    tags: [nextjs]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://obecstretavka.webnode.sk
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://gbpizs.gov.pl
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://odinsodense.dk
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://bystranadjizerou.cz
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://ext-geodatakatalog.lansstyrelsen.se
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://libgabrovo.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://glk.nl
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://bodensee-geschichtsverein.eu
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://marabouparken.se
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://belgrado.cervantes.es
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://goldiwil.ch
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://bruksmuseum.fi
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://svkbb.eu
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://nzafa.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: http://museu-sbras.com
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://arnfels.gv.at
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://aneurinleisure.org.uk
+    segment: institutional
+    tags: [squarespace]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://ndl.iitkgp.ac.in
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://gkfb.si
+    segment: institutional
+    tags: [joomla]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://muzeuetnocta.ro
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://univen.ac.za
+    segment: institutional
+    tags: [woocommerce, wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://gminakrasnosielc.pl
+    segment: institutional
+    tags: [wordpress]
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://noe.gv.at
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://almonaciddetoledo.sedelectronica.es
+    segment: institutional
+    note: публічна або некомерційна установа за класифікацією джерела
+  - url: https://5livesstudios.com
+    segment: saas
+    tags: [squarespace]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://coronalabs.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://doublemoose.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://niceplay-games.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://nomadgames.co.uk
+    segment: saas
+    tags: [squarespace]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://nyu-media.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://clockup.net
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://madaboutpandas.de
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://firebrandgames.com
+    segment: saas
+    tags: [wix]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://hitcents.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://modokastudios.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://groundshatter.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://pinkertonroad.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://databricks.com
+    segment: saas
+    tags: [drupal]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://creoteam.com
+    segment: saas
+    tags: [woocommerce, wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://invaderstudiosofficial.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://actosgames.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://xard.eu
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://nomorerobots.io
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://4drulers.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://sirlingames.com
+    segment: saas
+    tags: [squarespace]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://tappsgames.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://selectbutton.jp
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://abel-jp.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://manavoid.com
+    segment: saas
+    tags: [squarespace]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://officialmetafox.io
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://jujubee.pl
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://sweet.clearrave.co.jp
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://bumble.com
+    segment: saas
+    tags: [nextjs]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://spacelizardstudio.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://recotech.es
+    segment: saas
+    tags: [woocommerce, wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://panthergames.com
+    segment: saas
+    tags: [opencart]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://corp.sooplive.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://land-karte.net
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://heartshapedgames.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://soaphog.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://columbusglobal.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://mz.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://returntoadventuremountain.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://minotaurproject.co.uk
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://idioplatform.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://killerfishgames.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://wellore.ru
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://gosatsu.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://stuffedwomb.at
+    segment: saas
+    tags: [jekyll]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://ex-one.cc
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://veloow.net
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://blackroseindustries.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://aocagamelab.games
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://maginteractive.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://thornburysoftware.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://stadia.google.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://umbrella.wtf
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://game-mill.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://microsoft.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://softlinegroup.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://cheesysoftware.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://illwinter.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://creepybrothers.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://kwalee.com
+    segment: saas
+    tags: [nextjs]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://hacon.de
+    segment: saas
+    tags: [typo3]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://poorcat.ru
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://seeds-of-chaos.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://mountains.studio
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://framed-game.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://mobile1up.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://sap.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://sapphiredragonproductions.com
+    segment: saas
+    tags: [woocommerce, wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://voidstudios.com.br
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://lothianlabs.com
+    segment: saas
+    tags: [wix]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://squeez-soft.jp
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://limasky.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://chubbypixel.com
+    segment: saas
+    tags: [woocommerce, wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://beholdstudios.com.br
+    segment: saas
+    tags: [wix]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://strangescaffold.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://sledgehammergames.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://company.nexon.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://flazm.com
+    segment: saas
+    tags: [tilda]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://uniana.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://satur.biz
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://valiant.se
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://9ratones.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://nightschoolstudio.com
+    segment: saas
+    tags: [woocommerce, wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://silktide.com
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://mentaldrink.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://triband.net
+    segment: saas
+    tags: [squarespace]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://monstars.co.jp
+    segment: saas
+    tags: [wordpress]
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://picorinnesoft.game-ss.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: https://defiantdev.com
+    segment: saas
+    note: софтверна або технологічна компанія за класифікацією джерела
+  - url: http://explodingart.com
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://cocoon.apache.org
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: http://mumble.net
+    segment: documentation
+    note: сайт документації або відкритого проєкту
+  - url: https://bk02.sourceforge.net
+    segment: documentation
+    note: сайт документації або відкритого проєкту

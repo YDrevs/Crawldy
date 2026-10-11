@@ -1,0 +1,74 @@
+# Калібрувальна вибірка. Рівень — гіпотеза, а не істина: розбіжність
+# між ним і оцінкою є те, що варто дивитися руками.
+#
+# верх — професійно зроблені, активно підтримувані
+https://dronehub.ai/
+https://stripe.com/
+https://docs.stripe.com/
+https://linear.app/
+https://www.anthropic.com/
+https://developer.mozilla.org/
+https://web.dev/
+https://www.gov.uk/
+https://developers.cloudflare.com/
+https://www.cloudflare.com/
+https://supabase.com/docs
+https://huggingface.co/
+https://www.shopify.com/
+https://www.mintlify.com/docs
+https://ahrefs.com/
+https://moz.com/
+https://www.semrush.com/
+https://www.hubspot.com/
+# середина — робочі, але без особливих зусиль у наших пʼяти вимірах
+https://www.python.org/
+https://fastapi.tiangolo.com/
+https://vercel.com/
+https://backlinko.com/
+https://searchengineland.com/
+https://www.searchenginejournal.com/
+https://www.jasper.ai/blog
+https://ka-dent.com.ua/
+# низ — занедбані
+#
+# Рівень тут — гіпотеза, як і скрізь у цьому файлі. Двадцять сайтів
+# малого місцевого бізнесу додані саме тому, що без них нижній рівень
+# складався з двох адрес (1csmart редиректить на smartkp), і кожне
+# твердження про розділення трималось на одному сайті.
+https://crustula.com.ua/
+https://1csmart.com.ua/
+# 1csmart редиректить сюди; зіставлення йде за кінцевим хостом
+https://smartkp.com.ua/
+# сантехніка, опалення, кондиціонування
+https://24hourplumberdfw.com/
+https://www.risingsonplumbing.com/
+https://rightpricerooter.com/
+https://www.gocplumbing.com/
+https://hvac-oc.com/
+https://www.airtechsolutionsinc.com/
+https://seversonheating.com/
+https://perryairebuilders.com/
+# бухгалтерія, стоматологія, громадські організації
+# не віддав жодної сторінки: має давати overall=None
+https://kendanielscpa.com/
+# редиректить на twohillscpas.com — зіставлення йде за кінцевим хостом
+https://www.twohillsaccounting.com/
+https://www.norwood-dental.net/
+https://www.aldg.org/
+# акаунт у хостера призупинено: єдина сторінка на 14 слів. Перевіряє,
+# що ми не даємо впевненого бала сайту, якого немає
+https://oldetownhall.com/
+# Прибрано 25.09.2026: знімок цього сайту ніс понад пʼятдесят тисяч
+# справжніх адрес зі спам-коментарів. Не повертати: повторний краул
+# імпортує їх знову. Клас «зламаний сайт» лишається за іншими адресами.
+# редиректить на creativecustomcutouts.weebly.com
+https://www.twelvestrike.com/
+https://americanhps.wixsite.com/americanhps
+# невеликі ІТ-компанії
+https://clouddimension.in/
+https://www.microtechia.com/
+https://powertronglobal.com/
+https://anchoredgetechno.com/
+# без рівня — блокують агента: мають давати overall=None, а не високий бал
+https://openai.com/
+https://aequo.ua/

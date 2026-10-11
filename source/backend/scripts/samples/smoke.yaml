@@ -1,0 +1,60 @@
+# Димовий корпус: перевірка інфраструктури живими сайтами перед
+# нічним прогоном. Не калібрувальна вибірка — з одинадцяти сайтів
+# висновків про пороги не роблять.
+#
+# `segment` і `tags` — курована людиною метадані, а не виміряна
+# властивість сайту. Там, де підстави немає, стоїть `other` і порожні
+# теґи: вигадати «nextjs» за виглядом домену не можна, а помилкова
+# мітка отруїть будь-який майбутній зріз.
+#
+# `note` каже, чому сайт тут, — це і є критерій відбору.
+sites:
+  - url: https://auditlensapp.com
+    segment: saas
+    tags: [spa]
+    note: JS-важкий; перевірка відкриття посилань лише після рендеру
+
+  - url: https://fastapi.tiangolo.com
+    segment: documentation
+    tags: [multilingual]
+    note: багато навігації, тринадцять мовних версій — hreflang і меню
+
+  - url: https://www.python.org
+    segment: documentation
+    note: велика статична документація, звичайний випадок
+
+  - url: https://www.aldg.org
+    segment: local
+    note: у попередніх прогонах HTTP/1.1 без стиснення — докази транспорту
+
+  - url: https://web.dev
+    segment: documentation
+    note: контентний сайт про веб; звичайний SSR/статика
+
+  - url: https://about.gitlab.com
+    segment: enterprise
+    note: корпоративний сайт; міжнародні сигнали в HTML і карті сайту
+
+  - url: https://www.mozilla.org
+    segment: enterprise
+    tags: [multilingual]
+    note: велика організація, багатомовність
+
+  - url: https://microtechia.com
+    segment: other
+    note: у вибірці заради доказів змішаного вмісту
+
+  - url: https://crustula.com.ua
+    segment: ecommerce
+    note: магазин; індекс карти сайту з дітьми та відокремлення медіа
+
+  - url: https://dronehub.ai
+    segment: enterprise
+    note: B2B-корпоративний сайт
+
+  # Одинадцятий — з наявного корпусу, щоб малий бізнес був представлений
+  # окремо від нонпрофіту (aldg.org). Ecommerce уже покриває crustula.
+  - url: https://ka-dent.com.ua
+    segment: local
+    tags: [wordpress]
+    note: локальний бізнес, українська; у смоук — заради сегмента SMB

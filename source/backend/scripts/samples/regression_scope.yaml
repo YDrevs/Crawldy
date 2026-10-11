@@ -1,0 +1,40 @@
+# Цільова регресія дефекту межі сайту. Уражені випадки з night1 плюс
+# контролі, які дефект не зачіпав, — щоб побачити не лише «стало краще»,
+# а й «нічого зайвого не зламалося».
+sites:
+  - url: https://kernel.org
+    segment: documentation
+    note: 91 посилання на www.kernel.org, прочитано 1 сторінку
+  - url: http://hospitalsancarlos.cl
+    segment: local
+    note: 20 внутрішніх посилань на https, прочитано 1 сторінку
+  - url: http://cms2.chiba-c.ed.jp
+    segment: education
+    note: 2827 посилань відкинуто за схемою
+  - url: http://hokkaido.jcho.go.jp
+    segment: institutional
+    note: 1124 посилання відкинуто за схемою
+  - url: http://museu-sbras.com
+    segment: institutional
+    note: 513 посилань відкинуто за схемою
+  - url: http://waspsystems.co.uk
+    segment: corporate
+    note: 276 посилань відкинуто за схемою
+  - url: https://flutetree.com.au
+    segment: other
+    note: карта на 3991 адресу, прочитано 1 сторінку
+  - url: http://fernandes.co.jp
+    segment: corporate
+    note: 4 внутрішніх посилання на https, прочитано 1 сторінку
+  - url: https://auditlensapp.com
+    segment: saas
+    note: контроль — SPA, дефект не зачіпав
+  - url: https://www.python.org
+    segment: documentation
+    note: контроль — 25 сторінок і до правки
+  - url: https://crustula.com.ua
+    segment: ecommerce
+    note: контроль — магазин, 25 сторінок і до правки
+  - url: https://dronehub.ai
+    segment: corporate
+    note: контроль — найвищий бал вибірки

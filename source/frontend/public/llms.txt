@@ -1,0 +1,25 @@
+# Crawldy
+
+> Crawldy is one product — a website analysis — that answers three questions: whether search engines and AI systems can access and understand a site, whether its pages can be used as a source, and whether AI assistants actually mention the brand. The third answer comes from Actual AI Presence, a real measurement included with paid analyses: it asks the provider APIs behind ChatGPT, Claude, Perplexity and Gemini a fixed set of prompts and records whether a brand was mentioned, cited or linked.
+
+Facts worth keeping straight: the site audit measures readiness and citability of the site itself; Actual AI Presence measures observed answers of provider APIs and its numbers are reported apart from the site audit score — never as a guarantee of rankings or future citations. One analysis can be bought without a subscription; the preview is free.
+
+## Product
+
+- [Home](https://crawldy.ai/): what Crawldy analyses and for whom
+- [Website analysis](https://crawldy.ai/website-audit): the six dimensions of the full report
+- [SEO audit](https://crawldy.ai/seo-audit): what stops search engines from crawling and indexing
+- [AI visibility](https://crawldy.ai/ai-visibility): access, understanding and citability for AI systems, and Actual AI Presence
+- [GEO audit](https://crawldy.ai/geo-audit): what generative engine optimisation can and cannot measure
+- [Technical SEO audit](https://crawldy.ai/technical-seo-audit): response behavior, redirects, transport
+- [Pricing](https://crawldy.ai/pricing): free preview, single analysis, packs, monthly
+
+## Company
+
+- [Methodology](https://crawldy.ai/methodology): findings, evidence, coverage and confidence
+- [About](https://crawldy.ai/about): what exists today and what is deliberately not claimed
+- [Contact](https://crawldy.ai/contact): how to reach us
+
+## Developers
+
+- [Developer documentation](https://crawldy.ai/developers): how Crawldy crawls, renders and scores

@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seo-agent-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    # З `[email]`: схеми користуються EmailStr, а без валідатора
+    # застосунок не імпортується взагалі. Локально він приїжджав
+    # транзитивно, тому чиста збірка образу падала, а тести — ні.
+    "pydantic[email]>=2.9",
+    "pydantic-settings>=2.6",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30",
+    "alembic>=1.14",
+    "arq>=0.26",
+    "redis>=5.2",
+    "httpx[http2]>=0.28",
+    "selectolax>=0.3.21",
+    "structlog>=24.4",
+    "tenacity>=9.0",
+    "python-docx>=1.1",
+    "playwright>=1.49",
+    "anthropic>=0.120",
+    # Автентифікація Vertex AI (ADC / workload identity). Імпортується
+    # ліниво в адаптері google: відсутність пакета не валить імпорт.
+    "google-auth>=2.35",
+    # Транспорт google-auth для оновлення токена Vertex
+    # (google.auth.transport.requests — офіційно підтримуваний шлях).
+    # Використовується ЛИШЕ там: увесь власний HTTP проєкту — httpx.
+    # Без пакета живий смок 2026-09-02 падав ImportError ще до мережі.
+    "requests>=2.32",
+    # Другий адаптер збагачення. Обидва SDK імпортуються ліниво, всередині
+    # виклику: відсутність пакета чи ключа не має валити імпорт модулів.
+    "openai>=2.0",
+    "argon2-cffi>=23.1",
+    # Дані часових зон IANA. На Windows їх немає в системі, а розклади
+    # зберігають локальний час клієнта — без них zoneinfo не працює.
+    "tzdata>=2025.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.8", "mypy>=1.13", "respx>=0.22"]
+
+# Явний список пакетів: alembic/ і scripts/ лежать поруч з app/ у корені backend,
+# і flat-layout автодискавері setuptools на це падає.
+[tool.setuptools]
+packages = ["app"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC", "BLE", "RUF"]
+# RUF001-003: кирилиця в рядках/коментарях — не «двозначні символи», а мова проєкту.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+"alembic/*" = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
