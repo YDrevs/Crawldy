@@ -1,0 +1,296 @@
+{
+ "schema": "crawldy.package-state/2",
+ "task": "CRAWLDY-COMPLETE-PRODUCT-HANDOFF-02",
+ "supersedes": "Crawldy_Complete_Product_Handoff_2026-09-24.zip (withdrawn draft: it carried a staged-only sanitized variant that matched no canonical product)",
+ "packaged_utc": "2026-09-25T12:47:12Z",
+ "repository": {
+  "branch": "main",
+  "head": "e016ea75739a436a5f2b4cd52b5eb426e3ce12d0",
+  "staged_paths": [],
+  "commit_created_by_this_task": false,
+  "pushed_by_this_task": false
+ },
+ "migration_head": "0054",
+ "engine": {
+  "detector_version": "3b9a556ab798",
+  "scoring_version": "aa4ecc62a5a3",
+  "DETECTOR_RULES": "14",
+  "SCORING_RULES": "5",
+  "CRAWLER_VERSION": "4",
+  "registry_checks": 80,
+  "check_declarations": 80,
+  "by_module": {
+   "accessibility": 2,
+   "ai_ready": 12,
+   "tech": 14,
+   "llm_visibility": 9,
+   "performance": 11,
+   "seo": 32
+  }
+ },
+ "product_baseline": {
+  "schema": "crawldy.product-baseline/3",
+  "files": 949,
+  "bytes": 111590459,
+  "allowlist_digest": "e9273a5f251ad439960862d1ef09b30ab0415f9941c0126a213e348ad5eff155"
+ },
+ "packaged_source": {
+  "files": 947,
+  "bytes": 111584548,
+  "every_file_byte_identical_to_the_repository": true,
+  "staged_only_transformations": 0
+ },
+ "protected_local_files_excluded": {
+  "paths": [
+   ".claude/settings.local.json",
+   "backend/.env"
+  ],
+  "reason": "local configuration that may hold credentials; the baseline records their size but never their hash"
+ },
+ "privacy_cleanup_applied_to_the_repository": {
+  "personal_dataset_removed": "backend/benchmark/snapshots/https-myfriendlythai-ca.json and its byte-identical copy inside snapshots-auditlens-set.tar.gz",
+  "addresses_replaced": "1401 occurrences, 112 unique, with deterministic .invalid synthetics",
+  "cookie_values_redacted": 283,
+  "third_party_keys_redacted": 193,
+  "machine_paths_replaced_in_files": 9,
+  "crawler_contact": "CRAWLER_CONTACT setting; empty by default; scripts refuse to run without it",
+  "site_removed_from_calibration_list": true,
+  "permanent_gate": "backend/tests/test_benchmark_privacy.py, six classes, each mutation-tested"
+ },
+ "benchmark_impact": {
+  "procedure": "scripts/rescore_dir.py over backend/benchmark/snapshots, before and after the canonical sanitization. Same rules, same tool, only the evidence changed.",
+  "snapshots_before": 56,
+  "snapshots_after": 55,
+  "scored_rows_before": 55,
+  "scored_rows_after": 54,
+  "sites_removed": [
+   "https://myfriendlythai.ca"
+  ],
+  "sites_appeared": [],
+  "scores_changed": {
+   "https://smartkp.com.ua": [
+    57,
+    58
+   ]
+  },
+  "scores_unchanged": 53,
+  "tiers_before": {
+   "top": {
+    "n": 17,
+    "median": 70
+   },
+   "middle": {
+    "n": 8,
+    "median": 72.5
+   },
+   "bottom": {
+    "n": 18,
+    "median": 61.5
+   }
+  },
+  "tiers_after": {
+   "top": {
+    "n": 17,
+    "median": 70
+   },
+   "middle": {
+    "n": 8,
+    "median": 72.5
+   },
+   "bottom": {
+    "n": 17,
+    "median": 62
+   }
+  },
+  "top_bottom_gap_before": -7,
+  "top_bottom_gap_after": -7,
+  "inversions_before": 18,
+  "inversions_after": 18,
+  "cause_of_the_single_change": "tech.demo_content counts independent signals. One address carried two of them in its own content - a theme-vendor name in the local part and a placeholder domain. Replacing the address removes that signal, the finding drops one severity band, and smartkp.com.ua gains one point. This follows directly from the approved sanitization.",
+  "detector_behaviour_changed_for_unrelated_reasons": false,
+  "engine_identity_unchanged": true,
+  "stored_expectations_updated": "none required; no test asserts a count over the snapshots and no assertion reads the content of an address, cookie or key"
+ },
+ "latest_verification": {
+  "task": "CRAWLDY-COMPLETE-PRODUCT-HANDOFF-01",
+  "executed_in": "the owner's working tree (no disposable copy for this task)",
+  "stack": {
+   "postgresql": "seoagent-postgres-1 (the owner's own container, already running)",
+   "redis": "seoagent-redis-1",
+   "note": "The integration suite creates and drops its own crawldy_test_<uuid> database; the owner's `seo` database was not used by the suite."
+  },
+  "frontend": [
+   {
+    "command": "npx tsc --noEmit",
+    "result": "clean",
+    "exit": 0
+   },
+   {
+    "command": "npm run build",
+    "result": "compiled; /forgot and /reset prerendered as static",
+    "exit": 0
+   },
+   {
+    "command": "npx vitest run (after the production build)",
+    "files": 39,
+    "passed": 756,
+    "skipped": 0,
+    "failed": 0,
+    "exit": 0,
+    "note": "Zero skips. The 23 previously skipped tests are gated by describe.skipIf(!BUILT) on .next/BUILD_ID, evaluated at collection, so the build must exist before vitest starts. They spawn a real `next start` on 127.0.0.1:3477 and assert the four security headers, each exactly once, plus the absence of X-Powered-By, across nine routes. The gate was not modified and no assertion was weakened; the wait for the server moved from inside the first test into beforeAll, because vitest's 5s default applied there while the helper budgets 60s for it."
+   }
+  ],
+  "backend": [
+   {
+    "command": "ruff check app tests scripts",
+    "result": "All checks passed",
+    "exit": 0
+   },
+   {
+    "command": "mypy --strict app/audit app/core app/identity app/sites app/billing app/scheduling app/enrich",
+    "result": "no issues found in 136 source files",
+    "exit": 0
+   },
+   {
+    "command": "pytest -q -p no:randomly -rs (complete suite, database available)",
+    "passed": 3433,
+    "failed": 0,
+    "skipped": 3,
+    "warnings": 10,
+    "duration_seconds": 568.77,
+    "exit": 0
+   }
+  ],
+  "remaining_skips": [
+   {
+    "count": 3,
+    "location": "tests/test_site_scope.py:111",
+    "reason": "Parametrized cases whose URL is not http/https. The extractor filters those schemes earlier, so the assertion does not apply. An in-test guard, unrelated to PostgreSQL and requiring no external credentials. Carried forward unchanged from CRAWLDY-FINAL-GREEN-CLOSURE-01.",
+    "postgresql_related": false,
+    "external_credentials_required": false
+   }
+  ],
+  "observed_skip_lines": [
+   {
+    "count": 3,
+    "file": "tests\\test_site_scope.py",
+    "line": 111,
+    "reason": "екстрактор такі схеми відсіює раніше"
+   }
+  ],
+  "end_to_end": {
+   "what": "One complete local recovery flow through the queue and the capture transport",
+   "steps": [
+    "request from /forgot for a known and an unknown address - identical 202 and body",
+    "exactly one letter produced; the unknown address produced none",
+    "link read from the captured letter, not from the database",
+    "reset screen validated the link before asking for a password",
+    "mismatched confirmation refused; correct one accepted",
+    "redirected to sign-in with a localized success notice; signed in with the new password",
+    "reused link reported as expired, in German, proving locale beyond Ukrainian",
+    "Change password in the cabinet: wrong current refused, correct one revoked the session"
+   ],
+   "real_email_sent": false
+  },
+  "credentials_and_tokens": {
+   "smtp_credentials_in_repository": false,
+   "smtp_credentials_in_env": false,
+   "mail_keys_present_in_backend_env": [],
+   "raw_reset_tokens_in_database": false,
+   "password_resets_rows": 0,
+   "token_column": "token_hash varchar(64) - the schema has no column able to hold a clear-text token",
+   "raw_reset_tokens_in_access_log": false,
+   "access_log_evidence": "GET /v1/auth/password/reset?token=*** - verified on the live stack after the AUTH-011 fix; zero occurrences of the probe token in the log",
+   "captured_eml_files_retained": 0
+  },
+  "database_state": {
+   "audits": 66,
+   "real_accounts": 4,
+   "accounts_created_by_this_work_removed": 5,
+   "organizations_created_by_this_work_removed": 5
+  },
+  "failures": [],
+  "passed": true
+ },
+ "clean_database_bootstrap_proven": {
+  "proven": true,
+  "method": "A disposable PostgreSQL 16 container created for this task only: --rm, a tmpfs data directory, no named volume, its own port 127.0.0.1:55433, and a password generated in memory. The owner's seoagent_pgdata volume was never named, mounted or touched. Redis logical database 1 was used so the owner's queue on database 0 was untouched.",
+  "migrations": {
+   "from": "an empty database, 0 tables",
+   "command": "alembic upgrade head",
+   "reached": "0054",
+   "tables_created": 42
+  },
+  "bootstrap_data_created_by_the_migrations": {
+   "plans": 4,
+   "plan_codes": [
+    "free",
+    "starter",
+    "pro",
+    "agency"
+   ],
+   "system_organizations": 1,
+   "seed_file_required": false,
+   "note": "Migration 0014 seeds the four plan definitions with their entitlement sets using ON CONFLICT, so a repeated run neither fails nor overwrites a changed set. Nothing is read from the database at startup: the API lifespan touches only logging and the rate limiter."
+  },
+  "personal_and_commercial_data_copied": {
+   "users": 0,
+   "organizations_beyond_the_system_one": 0,
+   "audits": 0,
+   "audit_pages": 0,
+   "audit_issues": 0,
+   "one_off_purchases": 0,
+   "billing_customers": 0,
+   "sessions": 0,
+   "password_resets": 0,
+   "commercial_offers": 0,
+   "plan_prices": 0
+  },
+  "services": {
+   "api_started": true,
+   "worker_started": true,
+   "worker_functions_registered": 6,
+   "health": 200,
+   "health_ready": 200
+  },
+  "public_configuration_the_frontend_reads": {
+   "/v1/plans": "200 {\"locale\":\"en\",\"plans\":[]}",
+   "/v1/offers": "200 []",
+   "note": "Empty lists rather than an error. Commercial rows are owner decisions and were not exported; the pricing page renders without prices and checkout answers 503 checkout.unavailable instead of failing."
+  },
+  "first_administrator": {
+   "mechanism": "backend/scripts/grant_platform_role.py",
+   "creates_a_credential": false,
+   "has_an_http_route": false,
+   "idempotent": true,
+   "proof": "On the clean stack: register through the product returned 201; GET /v1/admin/commerce/offers returned 403; after --role admin the same session returned 200. An unknown address is refused with exit 1 and creates no user.",
+   "tests": "backend/tests/integration/test_platform_bootstrap.py (11 tests)"
+  },
+  "teardown": "The disposable container was removed; it had no volume, so nothing persisted."
+ },
+ "archive_exclusions": [
+  ".git and all repository history",
+  "backend/.env and .claude/settings.local.json",
+  "any credential, API key, SMTP secret, webhook secret, token or cookie of ours",
+  "the seoagent_pgdata Docker volume and any PostgreSQL or Redis dump",
+  "all real users, organizations, audits, pages, issues, payments and sessions",
+  "operational and session logs",
+  "captured .eml files and mailboxes",
+  "browser profiles and browser data",
+  ".next, node_modules, .venv, __pycache__, .pytest_cache, coverage, compiled output",
+  "Docker images and build cache",
+  "temporary task directories and previous archives"
+ ],
+ "remaining_owner_supplied_configuration": [
+  "MAIL_SMTP_HOST, MAIL_SMTP_PORT, MAIL_SMTP_USERNAME, MAIL_SMTP_PASSWORD",
+  "MAIL_SENDER on an SPF/DKIM aligned domain; MAIL_REPLY_TO optional",
+  "PUBLIC_APP_URL as an https origin - production refuses to start otherwise",
+  "SPF, DKIM and DMARC records, then real deliverability testing",
+  "production Paddle account, API key, client token, webhook and secret",
+  "your own plans, offers and prices, created in the admin cabinet",
+  "Turnstile site and secret keys",
+  "model provider credentials for AI Presence",
+  "PSI_API_KEY for Core Web Vitals",
+  "CRAWLER_CONTACT before running the corpus-harvesting scripts"
+ ]
+}
