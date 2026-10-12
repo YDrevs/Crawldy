@@ -1,5 +1,7 @@
+import json
 import uuid
 from functools import lru_cache
+from typing import Any
 
 from arq import create_pool
 from arq.connections import ArqRedis, RedisSettings
@@ -14,10 +16,27 @@ def redis_settings() -> RedisSettings:
     return RedisSettings.from_dsn(settings.redis_url)
 
 
+def serialize_job(obj: Any) -> bytes:
+    """JSON замість типового pickle arq.
+
+    Воркер розпаковує все, що лежить у Redis. З pickle це означало, що
+    будь-хто з доступом до Redis виконує свій код у воркері — а Redis у
+    compose був відкритий назовні без пароля. Аргументи задач — рядки й
+    числа, тож JSON нічого не втрачає; `default=str` — для результатів.
+    """
+    return json.dumps(obj, default=str).encode()
+
+
+def deserialize_job(data: bytes) -> Any:
+    return json.loads(data)
+
+
 async def get_pool() -> ArqRedis:
     global _pool
     if _pool is None:
-        _pool = await create_pool(redis_settings())
+        _pool = await create_pool(
+            redis_settings(), job_serializer=serialize_job, job_deserializer=deserialize_job
+        )
     return _pool
 
 

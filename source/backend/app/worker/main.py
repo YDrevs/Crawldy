@@ -7,6 +7,7 @@ from app.core.config import settings
 from app.core.logging import configure_logging, log
 from app.worker.enrichment_task import run_enrichment_task
 from app.worker.presence_task import run_presence_task
+from app.worker.queue import deserialize_job, serialize_job
 from app.worker.recovery_task import send_password_reset_task
 from app.worker.retention_job import sweep
 from app.worker.scheduler import tick
@@ -79,6 +80,10 @@ class WorkerSettings:
     ]
     on_startup = startup
     redis_settings = RedisSettings.from_dsn(settings.redis_url)
+    # Той самий формат, що й у `queue.get_pool`: інакше воркер не прочитає
+    # жодного завдання, а pickle тут — виконання коду з Redis.
+    job_serializer = serialize_job
+    job_deserializer = deserialize_job
     max_jobs = 4
     job_timeout = settings.audit_timeout_s
     keep_result = 3600

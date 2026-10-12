@@ -5,7 +5,9 @@ services:
       POSTGRES_USER: seo
       POSTGRES_PASSWORD: seo
       POSTGRES_DB: seo
-    ports: ["5432:5432"]
+    # Лише localhost: стенд розробника не має віддавати базу з паролем
+    # `seo` у локальну мережу.
+    ports: ["127.0.0.1:5432:5432"]
     volumes: ["pgdata:/var/lib/postgresql/data"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U seo"]
@@ -14,7 +16,8 @@ services:
 
   redis:
     image: redis:7-alpine
-    ports: ["6379:6379"]
+    # Без пароля, тож лише localhost: хто пише в чергу, той керує воркером.
+    ports: ["127.0.0.1:6379:6379"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -27,7 +30,7 @@ services:
       context: ./backend
       target: base
     env_file: [./backend/.env]
-    ports: ["8000:8000"]
+    ports: ["127.0.0.1:8000:8000"]
     depends_on:
       postgres: {condition: service_healthy}
       redis: {condition: service_healthy}
@@ -52,8 +55,7 @@ services:
     working_dir: /app
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8000
-      NEXT_PUBLIC_API_KEY: dev-key-change-me
-    ports: ["3000:3000"]
+    ports: ["127.0.0.1:3000:3000"]
     volumes:
       - ./frontend:/app
       # Свої .next і node_modules у контейнера. Без цього він тримає
