@@ -52,7 +52,16 @@ describe("ціль входу", () => {
   });
 
   it("чужа адреса не стає ціллю: форма входу не редиректор", () => {
-    for (const hostile of ["https://evil.example", "//evil.example", "javascript:alert(1)"]) {
+    for (const hostile of [
+      "https://evil.example",
+      "//evil.example",
+      "javascript:alert(1)",
+      // Браузер читає `\` як `/` і викидає табуляцію й перенос рядка.
+      "/\\evil.example",
+      "/\\/evil.example",
+      "/\t/evil.example",
+      "/\n/evil.example",
+    ]) {
       expect(safeNext(hostile), hostile).toBe("/app");
       expect(landingFor("STAFF", hostile), hostile).toBe("/app");
     }

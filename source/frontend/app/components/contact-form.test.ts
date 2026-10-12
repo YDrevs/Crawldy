@@ -180,7 +180,10 @@ describe("запасний маршрут не обходить жодної п�
   });
 
   it("повернення лише на свій шлях — відкритого редіректу немає", () => {
-    expect(route).toContain('if (!raw.startsWith("/") || raw.startsWith("//")) return "/";');
+    // Правило спільне з формою входу (`isLocalPath`), і там його
+    // перевіряють на `//host`, `/\\host` та керуючі символи.
+    expect(route).toContain('import { isLocalPath } from "../../lib/landing";');
+    expect(route).toContain('return isLocalPath(raw) ? raw : "/";');
   });
 
   it("адреса клієнта передається для лічильника частоти", () => {

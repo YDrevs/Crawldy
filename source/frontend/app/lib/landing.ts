@@ -15,13 +15,36 @@ export function isStaff(role: string | null | undefined): boolean {
   return typeof role === "string" && role.length > 0;
 }
 
+// Будь-яке походження, якого не буває насправді: потрібне лише як база,
+// щоб побачити, куди браузер розвʼяже відносну адресу.
+const PROBE_ORIGIN = "https://local.invalid";
+
+/**
+ * Чи це власний шлях сайту, а не чужа адреса.
+ *
+ * Перевірки «починається з `/`, але не з `//`» мало: браузер читає `\`
+ * як `/`, а табуляцію й перенос рядка викидає з адреси, тож `/\evil.com`
+ * і `/<TAB>/evil.com` стають `//evil.com`. Тому відкидаємо ці символи й
+ * звіряємо, куди адреса розвʼязується насправді.
+ */
+export function isLocalPath(raw: string): boolean {
+  if (!raw.startsWith("/") || raw.startsWith("//")) return false;
+  // eslint-disable-next-line no-control-regex
+  if (/[\\\u0000-\u001f\u007f]/.test(raw)) return false;
+  try {
+    return new URL(raw, PROBE_ORIGIN).origin === PROBE_ORIGIN;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Куди йти після входу. Лише власні відносні адреси: зовнішня або
  * протокольно-відносна (`//host`) ціль перетворила б форму входу на
  * відкритий редиректор.
  */
 export function safeNext(raw: string | null): string {
-  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/app";
+  if (!raw || !isLocalPath(raw)) return "/app";
   return raw;
 }
 
