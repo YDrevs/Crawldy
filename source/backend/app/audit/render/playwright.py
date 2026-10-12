@@ -10,8 +10,9 @@ from __future__ import annotations
 import asyncio
 import time
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
+from app.audit.fetcher import MAX_REDIRECTS, UnsafeUrlError, resolve_public
 from app.audit.types import RenderResult, ResourceLoad
 from app.core.config import settings
 from app.core.logging import log
@@ -36,6 +37,103 @@ _OUR_OWN_FAILURES = ("net::err_failed", "failed to load resource")
 def _is_our_own_doing(text: str) -> bool:
     lowered = text.lower()
     return any(marker in lowered for marker in _OUR_OWN_FAILURES)
+
+
+_NETWORK_SCHEMES = ("http", "https", "ws", "wss")
+
+
+class _Guard:
+    """SSRF-перевірка для браузера аудиту, один екземпляр на рендер.
+
+    Сторінка чужого сайту керує браузером повністю: навігація, iframe,
+    `fetch` зі скрипта — усе це запити з нашої мережі. Перевірка та сама,
+    що й у `Fetcher`; вердикт кешується по хосту на один рендер.
+
+    Playwright викликає `page.route` лише для ПЕРШОЇ адреси запиту: за
+    перенаправленням, яке браузер отримав (навіть через `route.fulfill`),
+    він іде сам, повз обробник. Тому навігацію завантажуємо через
+    `route.fetch` без перенаправлень. Відповідь 3xx головному фрейму не
+    віддаємо: запамʼятовуємо ціль, перериваємо запит, і `goto` до неї
+    робить рендер — новим запитом, який знову проходить перевірку.
+    """
+
+    def __init__(self) -> None:
+        self._verdicts: dict[str, bool] = {}
+        self.redirect_to: str | None = None
+
+    async def is_public(self, url: str) -> bool:
+        if settings.allow_private_hosts:
+            return True
+        parsed = urlparse(url)
+        host = parsed.hostname
+        if parsed.scheme not in _NETWORK_SCHEMES or not host:
+            return False
+        if host not in self._verdicts:
+            try:
+                await resolve_public(host)
+                self._verdicts[host] = True
+            except UnsafeUrlError:
+                self._verdicts[host] = False
+            except Exception:  # noqa: BLE001 — не змогли перевірити, значить не пускаємо
+                self._verdicts[host] = False
+        return self._verdicts[host]
+
+    async def route(self, route: Any) -> None:
+        request = route.request
+        if request.resource_type in BLOCKED_RESOURCES:
+            await route.abort()
+            return
+        if not await self.is_public(request.url):
+            log.warning("render_blocked", url=request.url[:300])
+            await route.abort("blockedbyclient")
+            return
+        if not request.is_navigation_request():
+            await route.continue_()
+            return
+        response = await route.fetch(max_redirects=0, timeout=settings.http_timeout_s * 1000)
+        location = response.headers.get("location")
+        if not (300 <= response.status < 400 and location):
+            await route.fulfill(response=response)
+            return
+        target = urljoin(request.url, location)
+        if not await self.is_public(target):
+            log.warning("render_blocked", url=target[:300])
+            await route.abort("blockedbyclient")
+            return
+        if request.frame.parent_frame is None:
+            self.redirect_to = target
+            await route.abort("aborted")
+            return
+        # Перенаправлення всередині iframe: наступний крок браузер зробить
+        # сам. Вміст чужого iframe у `page.content()` не потрапляє, тож
+        # прочитати внутрішню відповідь звідти не можна; лишковий ризик
+        # «сліпого» запиту закриває мережевий фільтр воркера, не код.
+        await route.fulfill(response=response)
+
+    async def websocket(self, ws: Any) -> None:
+        """Вебсокети `page.route` не бачить; перевірка та сама."""
+        if await self.is_public(ws.url):
+            ws.connect_to_server()
+        else:
+            log.warning("render_blocked", url=ws.url[:300])
+            await ws.close()
+
+    async def goto(self, page: Any, url: str) -> None:
+        """`page.goto`, де кожен крок перенаправлення — окремий перевірений запит."""
+        target = url
+        for _ in range(MAX_REDIRECTS + 1):
+            self.redirect_to = None
+            try:
+                await page.goto(
+                    target, wait_until="domcontentloaded", timeout=settings.http_timeout_s * 1000
+                )
+            except Exception:
+                if self.redirect_to is None:
+                    raise
+            if self.redirect_to is None:
+                return
+            target = self.redirect_to
+        raise RuntimeError(f"більше {MAX_REDIRECTS} перенаправлень")
 
 
 # Лічильники впізнаються за слідом у самій сторінці, а не за адресою
@@ -224,7 +322,11 @@ class PlaywrightRenderer:
             context = await browser.new_context(
                 viewport={"width": self._viewport[0], "height": self._viewport[1]},
                 user_agent=settings.user_agent,
+                # Запити service worker'а `page.route` не перехоплює взагалі,
+                # тобто це був би обхід перевірки адрес.
+                service_workers="block",
             )
+            guard = _Guard()
             try:
                 page = await context.new_page()
                 page.on(
@@ -254,17 +356,9 @@ class PlaywrightRenderer:
                     "requestfinished",
                     lambda req: finished.append(req) if len(finished) < 400 else None,
                 )
-                await page.route(
-                    "**/*",
-                    lambda route: (
-                        route.abort()
-                        if route.request.resource_type in BLOCKED_RESOURCES
-                        else route.continue_()
-                    ),
-                )
-                await page.goto(
-                    url, wait_until="domcontentloaded", timeout=settings.http_timeout_s * 1000
-                )
+                await page.route("**/*", guard.route)
+                await page.route_web_socket("**/*", guard.websocket)
+                await guard.goto(page, url)
                 try:
                     await page.wait_for_load_state("networkidle", timeout=IDLE_TIMEOUT_MS)
                 except Exception:  # noqa: BLE001
