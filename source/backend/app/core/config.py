@@ -4,6 +4,9 @@ from typing import Annotated, Literal
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
+# Службові ключі, які стоять у прикладах конфігурації й тому відомі всім.
+PUBLIC_EXAMPLE_KEYS = frozenset({"dev-key-change-me"})
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -12,9 +15,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     # NoDecode обовʼязковий: для list[str] pydantic-settings пробує json.loads
     # ще до валідаторів, і `API_KEYS=dev-key` з .env валить старт застосунку.
-    api_keys: Annotated[list[str], NoDecode] = Field(
-        default_factory=lambda: ["dev-key-change-me"]
-    )
+    #
+    # Без значення за замовчуванням: ключ із прикладу конфігурації відомий
+    # усім, хто бачив репозиторій, а він давав роль OWNER службової
+    # організації. Порожньо — службового ключа немає взагалі.
+    api_keys: Annotated[list[str], NoDecode] = Field(default_factory=list)
 
     # Звідки браузеру дозволено ходити в API. Точні origin'и, а не "*":
     # cookie-сесія вимагає `allow_credentials`, а з ним браузер відкидає
@@ -190,6 +195,10 @@ class Settings(BaseSettings):
     # Заголовку `X-Forwarded-For` можна вірити лише за нашим проксі.
     # На прямому доступі він обходить лічильник одним рядком.
     trust_proxy_headers: bool = False
+    # Скільки НАШИХ проксі дописують адресу в `X-Forwarded-For`. Кожен
+    # дописує праворуч, тож справжній клієнт — N-й запис справа; усе, що
+    # лівіше, прислав сам клієнт і довіри не має.
+    trusted_proxy_hops: int = Field(default=1, ge=1)
 
     # ── контактна форма ────────────────────────────────────────────────
     #
@@ -232,6 +241,14 @@ class Settings(BaseSettings):
     # чужі адреси, а один відправник глушить власну скриньку.
     recovery_rate_limit: int = 5
     recovery_rate_window_seconds: int = 3600
+    # Вхід і створення акаунта за IP. Замикання після десяти невдач
+    # тримає підбір ОДНОГО пароля, але не перебір одного пароля по
+    # тисячі акаунтів і не навмисне замикання чужих. Кожна спроба ще й
+    # рахує argon2 — дорогу за памʼяттю операцію.
+    login_rate_limit: int = 30
+    login_rate_window_seconds: int = 900
+    signup_rate_limit: int = 20
+    signup_rate_window_seconds: int = 3600
 
     # Пошта для листів КОРИСТУВАЧЕВІ. Окрема від `contact_*` навмисно:
     # там одержувач зашитий у налаштування й завжди один (ми самі), а
@@ -318,6 +335,18 @@ class Settings(BaseSettings):
             )
         if not self.public_app_url.lower().startswith("https://"):
             raise ValueError("PUBLIC_APP_URL у проді мусить бути https://")
+        return self
+
+    @model_validator(mode="after")
+    def _production_service_keys_are_secret(self) -> "Settings":
+        """Ключ із `.env.example` у проді — це пароль, надрукований у README."""
+        if self.app_env != "prod":
+            return self
+        weak = [k for k in self.api_keys if k in PUBLIC_EXAMPLE_KEYS or len(k) < 24]
+        if weak:
+            raise ValueError(
+                "API_KEYS у проді містить ключ із прикладу або коротший за 24 символи"
+            )
         return self
 
     @field_validator("api_keys", "cors_origins", mode="before")

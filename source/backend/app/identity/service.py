@@ -15,7 +15,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.identity import passwords
@@ -180,8 +180,16 @@ async def authenticate(session: AsyncSession, *, email: str, password: str) -> U
         return None
 
     if not passwords.verify(user.password_hash, password):
-        user.failed_login_count += 1
-        if user.failed_login_count >= MAX_FAILED_LOGINS:
+        # Інкремент у базі, а не в Python: паралельні спроби читали те
+        # саме значення й записували те саме «+1», тож десять одночасних
+        # невдач рахувались як одна, і межа підбору не спрацьовувала.
+        failed = await session.scalar(
+            update(User)
+            .where(User.id == user.id)
+            .values(failed_login_count=User.failed_login_count + 1)
+            .returning(User.failed_login_count)
+        )
+        if failed is not None and failed >= MAX_FAILED_LOGINS:
             user.locked_until = _now() + LOCKOUT
             user.failed_login_count = 0
         return None
@@ -227,12 +235,24 @@ async def create_session(
 
 
 async def resolve_session(db: AsyncSession, token: str) -> Session | None:
-    """Чинна сесія або None. Прострочена й відкликана — однаково None."""
-    stmt = select(Session).where(Session.token_hash == hash_token(token))
-    record = (await db.execute(stmt)).scalar_one_or_none()
-    if record is None or record.revoked_at is not None:
+    """Чинна сесія або None. Прострочена й відкликана — однаково None.
+
+    Так само None, коли власник більше не може входити (вимкнений чи
+    видалений): вхід йому вже заборонено, а видана раніше сесія інакше
+    жила б ще тридцять днів.
+    """
+    stmt = (
+        select(Session, User)
+        .join(User, User.id == Session.user_id)
+        .where(Session.token_hash == hash_token(token))
+    )
+    row = (await db.execute(stmt)).one_or_none()
+    if row is None:
         return None
-    if record.expires_at <= _now():
+    record, user = row
+    if record.revoked_at is not None or record.expires_at <= _now():
+        return None
+    if user.deleted_at is not None or not user.status.can_sign_in:
         return None
     return record
 

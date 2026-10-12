@@ -269,3 +269,45 @@ async def test_one_organization_does_not_see_the_keys_of_another(client):
     listed = (await client.get("/v1/auth/api-keys")).json()
 
     assert listed == []
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("change", ["disabled", "deleted"])
+async def test_a_disabled_or_deleted_user_loses_the_session_already_issued(
+    client, db_session, change
+):
+    """Вхід такому користувачу заборонено, а видана раніше сесія жила б
+    ще тридцять днів, бо перевірка сесії на власника не дивилась."""
+    from datetime import UTC, datetime
+
+    from app.identity.enums import UserStatus
+
+    await register(client, "leaver@example.com")
+    assert (await client.get("/v1/auth/me")).status_code == 200
+
+    user = await db_session.scalar(select(User).where(User.email == "leaver@example.com"))
+    if change == "disabled":
+        user.status = UserStatus.DISABLED
+    else:
+        user.deleted_at = datetime.now(UTC)
+    await db_session.commit()
+
+    assert (await client.get("/v1/auth/me")).status_code == 401
+
+
+@pytest.mark.asyncio
+async def test_login_attempts_from_one_address_are_limited(client, monkeypatch):
+    """Замикання тримає підбір одного пароля, але не перебір по багатьох
+    акаунтах: без ліміту за адресою кожна спроба йшла до argon2."""
+    from app.core.config import settings
+
+    monkeypatch.setattr(settings, "login_rate_limit", 3)
+    statuses = [
+        (
+            await client.post(
+                "/v1/auth/login", json={"email": f"u{i}@example.com", "password": PASSWORD}
+            )
+        ).status_code
+        for i in range(4)
+    ]
+    assert statuses == [401, 401, 401, 429]

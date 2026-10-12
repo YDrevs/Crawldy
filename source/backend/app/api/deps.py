@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import hmac
 from collections.abc import Awaitable, Callable
 from datetime import UTC, datetime
 from typing import Annotated
@@ -37,6 +38,60 @@ SESSION_COOKIE = "crawldy_session" if settings.app_env == "local" else "__Host-c
 API_KEY_HEADER = "X-API-Key"
 
 
+def client_ip(request: Request) -> str:
+    """Адреса клієнта для лічильників частоти.
+
+    `X-Forwarded-For` читається лише за нашим проксі (`trust_proxy_headers`)
+    і СПРАВА: проксі дописують адресу в кінець, а перший запис — те, що
+    клієнт прислав сам. Брати його означало обходити будь-який ліміт
+    одним заголовком.
+    """
+    peer = request.client.host if request.client else ""
+    if not settings.trust_proxy_headers:
+        return peer
+    chain = [
+        part.strip()
+        for part in request.headers.get("x-forwarded-for", "").split(",")
+        if part.strip()
+    ]
+    if len(chain) < settings.trusted_proxy_hops:
+        return peer
+    return chain[-settings.trusted_proxy_hops]
+
+
+async def auth_rate_limited(request: Request, action: str) -> None:
+    """Ліміт спроб входу або створення акаунта з однієї адреси."""
+    limit, window = {
+        "login": (settings.login_rate_limit, settings.login_rate_window_seconds),
+        "signup": (settings.signup_rate_limit, settings.signup_rate_window_seconds),
+    }[action]
+    limiter = getattr(request.app.state, "rate_limiter", None)
+    if limiter is None:  # pragma: no cover — ставиться в lifespan
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="сервіс недоступний"
+        )
+    decision = await limiter.check(
+        f"auth:{action}:ip:{client_ip(request)}", limit=limit, window=window
+    )
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={"reason": "auth.too_many"},
+            headers={"Retry-After": str(decision.reset_after)},
+        )
+
+
+def _is_service_key(token: str | None) -> bool:
+    """Чи це один зі службових ключів. Порівняння за сталий час.
+
+    Порожній перелік — ключа немає, а не «пускаємо всіх».
+    """
+    if not token:
+        return False
+    given = token.encode()
+    return any(hmac.compare_digest(given, key.encode()) for key in settings.api_keys)
+
+
 async def require_api_key(x_api_key: Annotated[str | None, Header()] = None) -> str:
     """Історичний глобальний ключ. Лишається для службових викликів.
 
@@ -45,9 +100,7 @@ async def require_api_key(x_api_key: Annotated[str | None, Header()] = None) -> 
     доживає рівно доти, доки маршрути аудиту не перейдуть на
     `current_actor`, і його зняття — окремий крок, а не побічний ефект.
     """
-    if not settings.api_keys:
-        return "anonymous"
-    if x_api_key not in settings.api_keys:
+    if x_api_key is None or not _is_service_key(x_api_key):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="невалідний або відсутній X-API-Key"
         )
@@ -121,7 +174,7 @@ def _actor_from_legacy_key(token: str) -> ActorContext | None:
     Ключі організації перевіряються **перед** ним: якщо той самий рядок
     виявиться і тим, і тим, виграє той, у якого є власник.
     """
-    if not settings.api_keys or token not in settings.api_keys:
+    if not _is_service_key(token):
         return None
     return ActorContext(
         organization_id=LEGACY_ORGANIZATION_ID,

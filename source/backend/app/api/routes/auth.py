@@ -18,7 +18,9 @@ from app.api.deps import (
     ActorDep,
     AdminDep,
     SessionDep,
+    auth_rate_limited,
     clear_session_cookie,
+    client_ip,
     set_session_cookie,
 )
 from app.audit.i18n import parse as parse_locale
@@ -141,6 +143,7 @@ async def register(
     Просити людину увійти відразу після реєстрації — зайвий крок, на
     якому губляться: вона щойно довела, що знає пароль.
     """
+    await auth_rate_limited(request, "signup")
     try:
         registration = await service.register(
             db,
@@ -189,6 +192,7 @@ async def login(
     Розрізняти їх означало б безкоштовно розповідати сторонньому, що
     відбувається з чужим акаунтом.
     """
+    await auth_rate_limited(request, "login")
     user = await service.authenticate(db, email=payload.email, password=payload.password)
     if user is None:
         # Коміт потрібен: невдала спроба збільшила лічильник, і без нього
@@ -344,15 +348,6 @@ def _limiter(request: Request) -> RateLimiter:
     return limiter  # type: ignore[no-any-return]
 
 
-def _client_ip(request: Request) -> str:
-    """Те саме правило, що в контактній формі й анонімній воронці."""
-    if settings.trust_proxy_headers:
-        forwarded = request.headers.get("x-forwarded-for", "")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else ""
-
-
 async def _recovery_rate_limited(request: Request) -> None:
     """Два відра, не одне.
 
@@ -362,7 +357,7 @@ async def _recovery_rate_limited(request: Request) -> None:
     можна повторити.
     """
     limiter = _limiter(request)
-    keys = [f"recovery:ip:{_client_ip(request)}"]
+    keys = [f"recovery:ip:{client_ip(request)}"]
     try:
         body = await request.json()
     except Exception:  # noqa: BLE001 — некоректне тіло тут не наша турбота
