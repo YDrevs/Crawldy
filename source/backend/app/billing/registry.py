@@ -31,8 +31,14 @@ _FAKE = FakeBillingProvider()
 # на процес рівно з тієї ж причини, що й фейк: передбачуваність.
 _PADDLE = PaddleProvider()
 
+# Фейк — лише локально, як і перехоплення пошти. Staging доступний
+# ззовні, а фейк приймає будь-який вебхук із `x-fake-signature: valid`
+# і будь-яким `organization_id` у тілі: це безкоштовні покупки для всіх,
+# хто знає адресу стенда.
+_FAKE_ALLOWED = settings.app_env == "local"
+
 _PROVIDERS: dict[str, BillingProvider] = {PADDLE_NAME: _PADDLE}
-if settings.app_env != "prod":
+if _FAKE_ALLOWED:
     _PROVIDERS[FAKE_NAME] = _FAKE
 
 
@@ -41,7 +47,7 @@ if settings.app_env != "prod":
 _FAKE_PRICES = FakePricePublisher()
 _PADDLE_PRICES = PaddlePricePublisher()
 _PUBLISHERS: dict[str, PricePublisher] = {PADDLE_NAME: _PADDLE_PRICES}
-if settings.app_env != "prod":
+if _FAKE_ALLOWED:
     _PUBLISHERS[FAKE_NAME] = _FAKE_PRICES
 
 

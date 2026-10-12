@@ -12,7 +12,7 @@ import uuid
 from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel, Field
 
-from app.api.deps import ActorDep, SessionDep
+from app.api.deps import OwnerDep, SessionDep
 from app.application import commerce
 from app.application.catalog import localized_text
 from app.application.locale import resolve as resolve_locale
@@ -88,8 +88,9 @@ async def list_offers(
 
 @router.post("/checkout", status_code=status.HTTP_201_CREATED)
 async def open_checkout(
-    payload: OfferCheckoutIn, session: SessionDep, actor: ActorDep
+    payload: OfferCheckoutIn, session: SessionDep, actor: OwnerDep
 ) -> OfferCheckoutOut:
+    """Лише власник: гроші організації — не дія учасника й не дія ключа API."""
     try:
         opened = await commerce.open_offer_checkout(
             session,

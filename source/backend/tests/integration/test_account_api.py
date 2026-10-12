@@ -104,3 +104,20 @@ async def test_clearing_the_locale_means_follow_the_organization(client):
 
     cleared = await client.patch("/v1/auth/me", json={"locale": ""})
     assert cleared.json()["user"]["locale"] == ""
+
+
+@pytest.mark.asyncio
+async def test_an_api_key_cannot_touch_the_organizations_money(client):
+    """Ключ організації діє «не білінгом»: каса, підписка й портал провайдера
+    (скасування, картка) — лише для власника-людини."""
+    await register(client, "owner@example.com")
+    token = (await client.post("/v1/auth/api-keys", json={})).json()["token"]
+    await client.post("/v1/auth/logout")
+    client.cookies.clear()
+    headers = {"X-API-Key": token}
+
+    assert (await client.post("/v1/account/portal-session", headers=headers)).status_code == 403
+    assert (
+        await client.post("/v1/offers/checkout", json={"offer_code": "x"}, headers=headers)
+    ).status_code == 403
+    assert (await client.post("/v1/plans/pro/checkout", headers=headers)).status_code == 403

@@ -260,7 +260,7 @@ async def purchase_state(
 @router.post(
     "/portal-session", response_model=PortalOut, status_code=status.HTTP_201_CREATED
 )
-async def create_portal_session(session: SessionDep, actor: ActorDep) -> PortalOut:
+async def create_portal_session(session: SessionDep, actor: OwnerDep) -> PortalOut:
     """Створити свіжу сесію хостованого кабінету провайдера.
 
     POST, бо це дія зі станом: кожен виклик породжує нову тимчасову
@@ -268,6 +268,9 @@ async def create_portal_session(session: SessionDep, actor: ActorDep) -> PortalO
     платіжні методи, рахунки, скасування підписки живуть там. Посилання
     одноразове, ніде не зберігається й не кешується — клієнт одразу
     переходить за ним.
+
+    Лише власник: там скасовують підписку й міняють картку, а ключ API
+    діє «не білінгом», як і рядовий учасник.
     """
     from app.application import billing as billing_app
     try:

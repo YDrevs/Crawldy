@@ -160,16 +160,20 @@ def test_production_is_not_the_default_anywhere() -> None:
     assert defaults["paddle_webhook_secret"].default is None
 
 
-def test_the_fake_provider_does_not_exist_in_production() -> None:
+def test_the_fake_provider_exists_only_locally() -> None:
     """Фейк приймає будь-який вебхук із заголовком `x-fake-signature`.
 
-    У проді це не тестовий інструмент, а спосіб отримати платний звіт
-    одним curl. Гейт у реєстрі, і перевіряється він читанням реєстру, а
-    не довірою до коментаря.
+    Поза локальним стендом це не тестовий інструмент, а спосіб отримати
+    платний звіт одним curl — і staging тут не виняток: він доступний
+    ззовні. Гейт у реєстрі, і перевіряється він читанням реєстру, а не
+    довірою до коментаря.
     """
     source = (BACKEND / "app/billing/registry.py").read_text(encoding="utf-8")
-    assert 'settings.app_env != "prod"' in source
-    assert "_PROVIDERS[FAKE_NAME] = _FAKE" in source
+    assert '_FAKE_ALLOWED = settings.app_env == "local"' in source
+    assert "if _FAKE_ALLOWED:\n    _PROVIDERS[FAKE_NAME] = _FAKE" in source.replace("\r\n", "\n")
+    assert "if _FAKE_ALLOWED:\n    _PUBLISHERS[FAKE_NAME] = _FAKE_PRICES" in source.replace(
+        "\r\n", "\n"
+    )
 
 
 # ── подія без підпису не існує ─────────────────────────────────────────────

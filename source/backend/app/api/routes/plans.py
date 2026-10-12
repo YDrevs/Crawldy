@@ -9,7 +9,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel
 
-from app.api.deps import ActorDep, SessionDep
+from app.api.deps import OwnerDep, SessionDep
 from app.application import commerce
 from app.application.catalog import public_plan
 from app.application.locale import resolve as resolve_locale
@@ -61,7 +61,7 @@ async def list_plans(
     status_code=status.HTTP_201_CREATED,
 )
 async def open_checkout(
-    plan_code: str, session: SessionDep, actor: ActorDep
+    plan_code: str, session: SessionDep, actor: OwnerDep
 ) -> PlanCheckoutOut:
     """Відкрити касу підписки на публічний тариф.
 
@@ -69,6 +69,8 @@ async def open_checkout(
     подія провайдера, і саме вона — а не повернення з каси — вмикає
     наділ. Непублічний чи безпрайсовий тариф каси не має (404 — та сама
     відповідь, що й на неіснуючий), чинна підписка — 409.
+
+    Лише власник: гроші організації — не дія учасника й не дія ключа API.
     """
     try:
         opened = await commerce.open_plan_checkout(
