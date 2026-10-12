@@ -93,9 +93,12 @@ async def list_links(session: AsyncSession, audit_id: uuid.UUID) -> list[ReportL
     return list((await session.scalars(stmt)).all())
 
 
-async def revoke(session: AsyncSession, link_id: uuid.UUID) -> ReportLink | None:
+async def revoke(
+    session: AsyncSession, audit_id: uuid.UUID, link_id: uuid.UUID
+) -> ReportLink | None:
+    """Відкликає посилання саме цього аудиту; чуже — None, без запису."""
     link = await session.get(ReportLink, link_id)
-    if link is None:
+    if link is None or link.audit_id != audit_id:
         return None
     if link.revoked_at is None:
         link.revoked_at = datetime.now(UTC)

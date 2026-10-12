@@ -338,3 +338,64 @@ async def test_an_audit_creates_the_site_it_audits(client, db_session):
     assert stored.site_id is not None
     site = await db_session.get(Site, stored.site_id)
     assert site.origin == "https://example.com"
+
+
+@pytest.mark.asyncio
+async def test_foreign_share_links_can_be_neither_listed_nor_revoked(client, db_session):
+    """Перелік і відкликання стояли на спільному службовому ключі без
+    організації, а відкликання ще й комітилось до перевірки аудиту — тобто
+    чуже посилання (зокрема оплачене) гасилося навіть під відповіддю 404."""
+    from app.models.audit import ReportLink
+
+    await register(client, "victim@example.com")
+    audit = await _make_audit(db_session, organization_id=await _own_organization(client))
+    await db_session.commit()
+    created = await client.post(f"/v1/audits/{audit.id}/links", json={})
+    assert created.status_code == 201
+    link_id = created.json()["id"]
+
+    await sign_in_as(client, "attacker@example.com")
+    own = await _make_audit(db_session, organization_id=await _own_organization(client))
+    await db_session.commit()
+
+    assert (await client.get(f"/v1/audits/{audit.id}/links")).status_code == 404
+    assert (await client.delete(f"/v1/audits/{audit.id}/links/{link_id}")).status_code == 404
+    # Свій аудит у шляху не відкриває чужого посилання.
+    assert (await client.delete(f"/v1/audits/{own.id}/links/{link_id}")).status_code == 404
+
+    stored = await db_session.get(ReportLink, uuid.UUID(link_id))
+    await db_session.refresh(stored)
+    assert stored.revoked_at is None
+
+
+@pytest.mark.asyncio
+async def test_a_verdict_on_a_foreign_finding_is_refused(client, db_session):
+    from app.models.audit import AuditIssue, IssueVerdict
+
+    await register(client, "victim@example.com")
+    audit = await _make_audit(db_session, organization_id=await _own_organization(client))
+    target = (
+        await db_session.scalars(select(AuditTarget).where(AuditTarget.audit_id == audit.id))
+    ).one()
+    issue = AuditIssue(
+        audit_id=audit.id,
+        target_id=target.id,
+        module="seo",
+        code="seo.title",
+        severity="high",
+        title="Немає title",
+        weight=5,
+    )
+    db_session.add(issue)
+    await db_session.commit()
+
+    await sign_in_as(client, "attacker@example.com")
+    response = await client.put(
+        f"/v1/audits/issues/{issue.id}/verdict", json={"verdict": "wrong"}
+    )
+
+    assert response.status_code == 404
+    stored = await db_session.scalar(
+        select(IssueVerdict).where(IssueVerdict.issue_id == issue.id)
+    )
+    assert stored is None

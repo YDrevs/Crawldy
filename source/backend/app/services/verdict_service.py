@@ -16,7 +16,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.audit.enums import AGAINST_THE_CHECK, Verdict
-from app.models.audit import AuditIssue, IssueVerdict
+from app.models.audit import Audit, AuditIssue, IssueVerdict
 
 # Скільки вердиктів по коду треба, щоб частка помилок щось означала.
 # На двох відповідях 50% помилок — це одна незгода, а не властивість чека.
@@ -58,6 +58,7 @@ async def record(
     issue_id: uuid.UUID,
     verdict: Verdict,
     *,
+    organization_id: uuid.UUID,
     note: str = "",
     author: str = "",
 ) -> IssueVerdict | None:
@@ -66,7 +67,14 @@ async def record(
     Думка може змінитися — тоді запис оновлюється, а не додається
     другий: потрібна нинішня відповідь, а не історія вагань.
     """
-    issue = await session.get(AuditIssue, issue_id)
+    # Знахідка чужої організації для питаючого не існує: без цього
+    # фільтра будь-який акаунт переписував чужі вердикти, а з ними й
+    # зведення якості детекції.
+    issue = await session.scalar(
+        select(AuditIssue)
+        .join(Audit, Audit.id == AuditIssue.audit_id)
+        .where(AuditIssue.id == issue_id, Audit.organization_id == organization_id)
+    )
     if issue is None:
         return None
 
