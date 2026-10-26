@@ -89,7 +89,7 @@ if start "$sha" && healthy; then
   exit 0
 fi
 
-log "ПРОВАЛ: $sha не пройшов перевірку здоровʼя"
+log "ПРОВАЛ: $sha не розгорнувся або не пройшов перевірку здоровʼя"
 "${COMPOSE[@]}" logs --tail 40 api worker migrate || true
 if [[ -n "$previous" ]]; then
   log "відкат → $previous"
