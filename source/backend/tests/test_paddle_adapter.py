@@ -466,6 +466,18 @@ def test_a_stale_timestamp_is_refused() -> None:
         PaddleProvider().verify_webhook(headers=_sign(body, at=old), body=body)
 
 
+@pytest.mark.parametrize("tolerance", [0, -1])
+def test_the_replay_window_cannot_be_switched_off(
+    monkeypatch: pytest.MonkeyPatch, tolerance: int
+) -> None:
+    """Нуль у налаштуванні раніше вимикав перевірку часу взагалі."""
+    monkeypatch.setattr(settings, "paddle_signature_tolerance_s", tolerance)
+    body = _envelope("transaction.completed", _completed(purchase_id=str(uuid.uuid4())))
+    old = int(datetime.now(UTC).timestamp()) - 3600
+    with pytest.raises(InvalidWebhook):
+        PaddleProvider().verify_webhook(headers=_sign(body, at=old), body=body)
+
+
 def test_without_a_configured_secret_nothing_is_accepted(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

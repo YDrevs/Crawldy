@@ -410,6 +410,11 @@ def _parse_signature(raw: str) -> tuple[str, str]:
     return timestamp, signature
 
 
+DEFAULT_SIGNATURE_TOLERANCE_S = 300
+# Добу повтор усе ще прийнятний для розбіжності годинника, але не довше.
+MAX_SIGNATURE_TOLERANCE_S = 86_400
+
+
 def _reject_if_stale(timestamp: str) -> None:
     """Захист від повтору перехопленого запиту.
 
@@ -420,8 +425,12 @@ def _reject_if_stale(timestamp: str) -> None:
     два випадки, лишаючись захистом від повтору.
     """
     tolerance = runtime.get_int("paddle_signature_tolerance_s")
+    # Нуль чи відʼємне значення раніше ВИМИКАЛО перевірку, а задати його
+    # може будь-хто з персоналу в адмінці. Вимкнути захист від повтору
+    # налаштуванням не можна: некоректне значення — це типове вікно.
     if tolerance <= 0:
-        return
+        tolerance = DEFAULT_SIGNATURE_TOLERANCE_S
+    tolerance = min(tolerance, MAX_SIGNATURE_TOLERANCE_S)
     try:
         sent_at = int(timestamp)
     except ValueError as exc:
