@@ -7,6 +7,9 @@ from dataclasses import dataclass, field
 from urllib.parse import urljoin, urlparse
 from xml.etree import ElementTree
 
+from defusedxml import DefusedXmlException
+from defusedxml.ElementTree import fromstring as safe_fromstring
+
 from app.audit import robots as robots_rfc
 from app.audit.fetcher import Fetcher
 from app.audit.standards import AI_CRAWLERS
@@ -212,7 +215,13 @@ def _direct_loc(entry: ElementTree.Element) -> str:
 
 def _parse_sitemap(xml: str) -> ParsedSitemap:
     """XML карти → її записи, діти й медіа, кожне окремо."""
-    root = ElementTree.fromstring(xml.encode("utf-8", errors="replace"))
+    # Карту присилає чужий сайт. Сутності й зовнішні посилання в ній не
+    # потрібні ніколи, тож defusedxml відмовляє на них незалежно від
+    # версії expat в образі; для викликачів це той самий ParseError.
+    try:
+        root = safe_fromstring(xml.encode("utf-8", errors="replace"))
+    except DefusedXmlException as exc:
+        raise ElementTree.ParseError(f"заборонена конструкція XML: {type(exc).__name__}") from exc
     parsed = ParsedSitemap(is_index=_local(root.tag) == "sitemapindex")
 
     for entry in root:
