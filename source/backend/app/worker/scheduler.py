@@ -50,7 +50,7 @@ async def tick(_ctx: dict[str, Any]) -> dict[str, int]:
                         scheduled_for=run.scheduled_for.isoformat(),
                         error=str(exc),
                     )
-                    await _fail_queued(run.audit_id, run.schedule_id, str(exc))
+                    await _fail_queued(run.audit_id, run.schedule_id)
             else:
                 missed += 1
                 log.info(
@@ -69,7 +69,7 @@ async def tick(_ctx: dict[str, Any]) -> dict[str, int]:
         structlog.contextvars.clear_contextvars()
 
 
-async def _fail_queued(audit_id: Any, schedule_id: Any, error: str) -> None:
+async def _fail_queued(audit_id: Any, schedule_id: Any) -> None:
     """Запис є, черги немає.
 
     Спроби тут не було: жоден воркер за аудит не брався, тож у журналі
@@ -81,7 +81,9 @@ async def _fail_queued(audit_id: Any, schedule_id: Any, error: str) -> None:
     from app.scheduling import service as schedules
     from app.services import audit_service
 
-    reason = f"черга недоступна: {error}"
+    # Текст винятку вже в журналі (`tick`); поле `error` аудиту бачить
+    # клієнт, і адресі Redis там не місце.
+    reason = "черга недоступна"
     async with SessionLocal() as session:
         await audit_service.mark_failed(
             session, audit_id, reason, failure=FailureClass.INTERNAL_ERROR

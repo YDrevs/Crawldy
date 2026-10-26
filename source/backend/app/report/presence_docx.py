@@ -24,6 +24,7 @@ from docx.shared import Pt
 
 from app.audit.i18n import DEFAULT_LOCALE, parse
 from app.report.docx_brand import MUTED, add_footer_for, style_document
+from app.report.filenames import host_part
 from app.report.i18n import t as label
 
 # Офіційні назви провайдерів — номінативне використання торгових назв;
@@ -327,8 +328,7 @@ def filename_for(url: str, lang: str, *, kind: str = "technical") -> str:
     сайту одного дня доведеться розрізнятися датою файлу — те саме
     правило, що й для аудиту.
     """
-    host = url.replace("https://", "").replace("http://", "").strip("/").split("/")[0]
-    return f"ai-presence-{host or 'site'}-{kind}-{lang}.docx"
+    return f"ai-presence-{host_part(url)}-{kind}-{host_part(lang, fallback='en')}.docx"
 
 
 def render_presence_docx(

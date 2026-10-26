@@ -42,11 +42,18 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     await close_pool()
 
 
+# Інтерактивна документація й схема — для розробки. У проді вони
+# віддавали б перелік усіх маршрутів, зокрема службових, будь-кому.
+_DOCS = settings.app_env != "prod"
+
 app = FastAPI(
     title="Crawldy",
     version="0.1.0",
     description="Аудит сайту: швидкість, SEO, AI-ready/LLMO, придатність до цитування.",
     lifespan=lifespan,
+    docs_url="/docs" if _DOCS else None,
+    redoc_url="/redoc" if _DOCS else None,
+    openapi_url="/openapi.json" if _DOCS else None,
 )
 
 # Точні origin'и й `allow_credentials`: інтерфейс автентифікується

@@ -13,9 +13,10 @@ from app.application.visibility import history_window
 from app.audit.enums import AuditStatus, AuditTrigger, Module, Severity
 from app.audit.fetcher import origin_of
 from app.audit.i18n import FALLBACK_LOCALE, Locale
+from app.core.logging import log
 from app.core.run_enums import FailureClass
 from app.report.builder import build_report
-from app.report.docx import filename_for, render_docx
+from app.report.docx import filename_for, llms_filename_for, render_docx
 from app.report.docx_owner import filename_for as owner_filename
 from app.report.docx_owner import render_owner_docx
 from app.report.history import compare, needs_recompute, timeline
@@ -119,7 +120,10 @@ async def create_audit(payload: AuditCreate, session: SessionDep, actor: ActorDe
         # Квота повертається: аудит не виконається з нашої причини, а не
         # через сайт клієнта. Списане за роботу, якої не було, — це
         # рахунок за нашу поломку.
-        await audit_service.mark_failed(session, started.audit.id, f"черга недоступна: {exc}")
+        # Текст винятку — у журнал, а не в аудит: там адреса й порт
+        # Redis, а поле `error` читає клієнт.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await application.settle_quota(
             session, started.audit, failure=FailureClass.INTERNAL_ERROR
         )
@@ -351,12 +355,11 @@ async def get_report(
                 status_code=409,
                 detail="немає з чого скласти llms.txt: сайт не віддав сторінок із назвами",
             )
-        host = str(document.target.get("origin", "")).replace("https://", "").strip("/")
         return Response(
             content=draft,
             media_type="text/plain; charset=utf-8",
             headers={
-                "Content-Disposition": f'attachment; filename="llms-{host or "site"}.txt"'
+                "Content-Disposition": f'attachment; filename="{llms_filename_for(document)}"'
             },
         )
 

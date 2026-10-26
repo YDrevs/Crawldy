@@ -84,3 +84,43 @@ def test_client_ip_reads_the_forwarded_chain_from_the_right(
     monkeypatch.setattr(settings, "trust_proxy_headers", trust)
     monkeypatch.setattr(settings, "trusted_proxy_hops", hops)
     assert deps.client_ip(_request("10.0.0.2", forwarded)) == expected
+
+
+# --- що прод не показує ------------------------------------------------------
+
+
+def test_production_does_not_publish_the_api_map() -> None:
+    """`/docs` і `/openapi.json` перелічують усі маршрути, службові теж.
+
+    Окремий процес: рішення ухвалюється при імпорті застосунку, і
+    перевантажувати `app.main` посеред набору тестів не можна.
+    """
+    import os
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    probe = (
+        "import httpx, asyncio\n"
+        "from app.main import app\n"
+        "async def main():\n"
+        "    t = httpx.ASGITransport(app=app)\n"
+        "    async with httpx.AsyncClient(transport=t, base_url='http://x') as c:\n"
+        "        print([(await c.get(p)).status_code for p in ('/docs', '/redoc', '/openapi.json')])\n"
+        "asyncio.run(main())\n"
+    )
+    env = {
+        **os.environ,
+        **{f"{k.upper()}": str(v) for k, v in PROD.items()},
+        "API_KEYS": "",
+    }
+    out = subprocess.run(
+        [sys.executable, "-c", probe],
+        cwd=Path(__file__).resolve().parents[1],
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=60,
+        check=True,
+    )
+    assert out.stdout.strip().splitlines()[-1] == "[404, 404, 404]"

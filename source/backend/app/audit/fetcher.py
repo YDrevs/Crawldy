@@ -170,7 +170,10 @@ async def resolve_public(host: str) -> list[str]:
         raw = str(info[4][0]).split("%", 1)[0]
         ip = ipaddress.ip_address(raw)
         if is_forbidden_ip(ip):
-            raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP {ip}")
+            # Самої адреси в повідомленні немає: воно доходить до клієнта,
+            # і `http://redis/` інакше відповідав би внутрішньою IP стенда.
+            log.warning("ssrf_blocked", host=host, ip=str(ip))
+            raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP")
         if raw not in addresses:
             addresses.append(raw)
     if not addresses:
