@@ -11,12 +11,12 @@
  *
  * ## Чого тут немає і чому
  *
- * Немає жодного твердження про `Content-Security-Policy` і
- * `Strict-Transport-Security` — ані що вони є, ані що їх немає. Обидва —
- * законні майбутні задачі: CSP потребує проходу по сторінках (інлайнові
- * стилі, Paddle, Turnstile), HSTS — реального HTTPS і домену. Заборонити
- * їх тестом означало б перетворити межу ЦІЄЇ задачі на властивість
- * продукту й зламати ту роботу, коли вона прийде.
+ * `Content-Security-Policy` перевіряється лише в частині, що не залежить
+ * від джерел (`frame-ancestors`, `object-src`, `base-uri`, `form-action`).
+ * Немає твердження про `script-src`/`style-src` і `Strict-Transport-Security`:
+ * перші потребують проходу по сторінках (інлайнові стилі, Paddle,
+ * Turnstile), другий ставить зворотний проксі, де є HTTPS і домен.
+ * Заборонити їх тестом означало б зламати ту роботу, коли вона прийде.
  *
  * З тієї ж причини немає твердження про те, які заголовки стоять на самій
  * 308-відповіді перенаправлення. Зараз їх там немає (`redirects()` відповідає
@@ -67,6 +67,10 @@ const EXPECTED: ReadonlyArray<readonly [string, string]> = [
   ["referrer-policy", "strict-origin-when-cross-origin"],
   ["x-frame-options", "DENY"],
   ["permissions-policy", "camera=(), geolocation=(), microphone=()"],
+  [
+    "content-security-policy",
+    "frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'",
+  ],
 ];
 
 interface Reply {
@@ -138,7 +142,7 @@ afterAll(() => {
 });
 
 describe("конфігурація оголошує рівно затверджений набір", () => {
-  it("headers() віддає чотири заголовки в сталому порядку на всі маршрути", async () => {
+  it("headers() віддає пʼять заголовків у сталому порядку на всі маршрути", async () => {
     const config = (await import("../next.config.mjs")).default as {
       headers: () => Promise<{ source: string; headers: { key: string; value: string }[] }[]>;
     };
@@ -192,7 +196,7 @@ describe.skipIf(!BUILT)("справжня відповідь next start", () => 
     "/robots.txt", "/sitemap.xml", "/this-route-does-not-exist-header-probe"];
 
   for (const route of ROUTES) {
-    it(`${route}: чотири заголовки присутні, кожен рівно один раз`, async () => {
+    it(`${route}: пʼять заголовків присутні, кожен рівно один раз`, async () => {
       await serve();
       const reply = await fetchRaw(route);
       for (const [name, value] of EXPECTED) {

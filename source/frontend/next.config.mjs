@@ -38,13 +38,18 @@ const MIRROR_HOSTS = ["crawldy.com", "www.crawldy.com", "www.crawldy.ai"];
  * Те, що залежить від TLS, домену чи переліку джерел, тут свідомо
  * відсутнє, і його відсутність — не недогляд:
  *
- * - `Strict-Transport-Security` тримається на HTTPS і домені, яких ще
- *   немає. Поставлений наосліп, він або не робить нічого, або замикає
- *   браузер на схему, якої сайт не віддає.
- * - `Content-Security-Policy` вимагає перелічити джерела, а сторінки
- *   віддають інлайнові стилі й тягнуть Paddle і Turnstile. «Увімкнути
- *   CSP» без проходу по сторінках означає зламати їх мовчки; це окрема
- *   робота з вимірюванням.
+ * - `Strict-Transport-Security` тримається на HTTPS і домені. Поставлений
+ *   наосліп, він або не робить нічого, або замикає браузер на схему, якої
+ *   сайт не віддає. Тому його ставить зворотний проксі сервера
+ *   (`deploy/Caddyfile`), де HTTPS і домен уже є.
+ * - `Content-Security-Policy` лише в тій частині, що НЕ залежить від
+ *   переліку джерел: `frame-ancestors`, `object-src`, `base-uri`,
+ *   `form-action`. `script-src`/`style-src` вимагають перелічити джерела
+ *   (інлайнові стилі, Paddle, Turnstile), і «увімкнути» їх без проходу
+ *   по сторінках означає зламати сторінки мовчки — це окрема робота з
+ *   вимірюванням. Єдина форма з `action` постить на власний `/api/contact`,
+ *   тож `form-action 'self'` нічого не ламає, а підмінений `<base>` чи
+ *   ін'єкція форми вже не відправлять дані на чужий хост.
  *
  * Порядок масиву — це порядок у відповіді, і він навмисно сталий:
  * інакше порівняння двох збірок показувало б різницю там, де її немає.
@@ -63,6 +68,10 @@ const SECURITY_HEADERS = [
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Permissions-Policy", value: "camera=(), geolocation=(), microphone=()" },
+  {
+    key: "Content-Security-Policy",
+    value: "frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'",
+  },
 ];
 
 /** @type {import('next').NextConfig} */
