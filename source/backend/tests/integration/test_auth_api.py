@@ -311,3 +311,16 @@ async def test_login_attempts_from_one_address_are_limited(client, monkeypatch):
         for i in range(4)
     ]
     assert statuses == [401, 401, 401, 429]
+
+
+@pytest.mark.asyncio
+async def test_logout_really_clears_the_cookie(client):
+    """Маршрут повертав власний `Response`, і `Set-Cookie` з інжектованого
+    губився: сесія на сервері гасла, а cookie лишалась у браузері."""
+    await register(client, "a@example.com")
+    response = await client.post("/v1/auth/logout")
+
+    header = response.headers.get("set-cookie", "")
+    assert SESSION_COOKIE in header
+    assert "max-age=0" in header.lower()
+    assert "httponly" in header.lower()

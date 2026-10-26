@@ -288,7 +288,18 @@ def set_session_cookie(response: Response, *, token: str, expires_at: datetime) 
 
 
 def clear_session_cookie(response: Response) -> None:
-    response.delete_cookie(key=SESSION_COOKIE, path="/")
+    """Стирає cookie сесії з тими самими атрибутами, з якими її ставили.
+
+    Без `secure` браузер відкидає `Set-Cookie` для імені з префіксом
+    `__Host-`, і cookie лишалась у браузері після виходу.
+    """
+    response.delete_cookie(
+        key=SESSION_COOKIE,
+        path="/",
+        httponly=True,
+        samesite="lax",
+        secure=settings.app_env != "local",
+    )
 
 
 __all__ = [

@@ -220,14 +220,18 @@ async def login(
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
-async def logout(request: Request, response: Response, db: SessionDep) -> Response:
+async def logout(request: Request, db: SessionDep) -> Response:
     """Вихід. Без cookie теж 204 — це не помилка, а бажаний стан."""
     token = request.cookies.get(SESSION_COOKIE)
     if token:
         await service.revoke_session(db, token)
         await db.commit()
-    clear_session_cookie(response)
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    # Cookie стирається на ТІЙ відповіді, що повертається: заголовки
+    # інжектованого `response` FastAPI не копіює, коли маршрут віддає
+    # власний обʼєкт, і `Set-Cookie` раніше губився.
+    done = Response(status_code=status.HTTP_204_NO_CONTENT)
+    clear_session_cookie(done)
+    return done
 
 
 @router.get("/me", response_model=MeOut)
@@ -367,7 +371,10 @@ async def _recovery_rate_limited(request: Request) -> None:
         if isinstance(raw, str) and raw.strip():
             # Адреса в ключі — у вигляді хеша: лічильник не має ставати
             # переліком адрес, які хтось намагався відновити.
-            keys.append(f"recovery:email:{service.hash_token(raw.strip().lower())}")
+            # Нормалізація та сама, що й у пошуку акаунта: інакше варіанти
+            # адреси в Unicode (повноширинні літери тощо) знаходили той самий
+            # акаунт, але потрапляли в різні відра ліміту.
+            keys.append(f"recovery:email:{service.hash_token(service.normalize_email(raw))}")
     for key in keys:
         decision = await limiter.check(
             key,
@@ -484,7 +491,7 @@ async def reset_password(payload: ResetIn, db: SessionDep) -> Response:
 
 @router.post("/password/change", status_code=status.HTTP_204_NO_CONTENT)
 async def change_password(
-    payload: ChangeIn, actor: ActorDep, response: Response, db: SessionDep
+    payload: ChangeIn, actor: ActorDep, db: SessionDep
 ) -> Response:
     """Зміна відомого пароля. Поточний обовʼязковий.
 
@@ -510,5 +517,6 @@ async def change_password(
             status_code=status.HTTP_403_FORBIDDEN, detail={"reason": "password.wrong_current"}
         )
     await db.commit()
-    clear_session_cookie(response)
-    return Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
+    done = Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
+    clear_session_cookie(done)
+    return done
