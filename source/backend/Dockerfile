@@ -15,10 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 # Спершу лише залежності: цей шар кешується й не перезбирається на кожну
 # правку коду. Сам пакет поставити тут не можна — app/ ще не скопійований,
 # а pyproject оголошує його явно.
-COPY pyproject.toml ./
+#
+# З lockfile і з перевіркою хешів: інакше образ брав найновіше на момент
+# збірки, тобто збирав не те, що пройшло тести, а підмінений пакет у
+# дзеркалі проходив би мовчки. Оновлення — `uv pip compile` (див. ../deploy/README.md).
+COPY pyproject.toml requirements.lock ./
 RUN pip install --upgrade pip && \
-    python -c "import tomllib; print('\n'.join(tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']))" > /tmp/requirements.txt && \
-    pip install -r /tmp/requirements.txt
+    pip install --require-hashes --no-deps -r requirements.lock
 
 COPY . .
 RUN pip install -e . --no-deps
