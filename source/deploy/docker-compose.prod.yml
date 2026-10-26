@@ -1,6 +1,12 @@
-# Продакшн-стек для одного VPS. Запуск — з теки `source/deploy`:
+# Продакшн-стек для одного VPS. Запуск — з теки `source/deploy`.
 #
+# Автодеплой (GitHub Actions → GHCR → deploy.sh) бере готові образи:
+#   IMAGE_TAG=<sha> docker compose -f docker-compose.prod.yml --env-file .env up -d --no-build
+# Перший запуск або перевірка без реєстру — збірка на місці:
 #   docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+#
+# IMAGE_REGISTRY (deploy/.env) — звідки образи, напр. ghcr.io/ydrevs;
+# IMAGE_TAG — SHA коміту, який зібрав CI. Без них — локальна збірка `local/…:latest`.
 #
 # Відмінності від `../docker-compose.yml` (той — для розробки):
 # - назовні відкриті лише 80/443 Caddy; база, Redis, API й воркер портів
@@ -55,7 +61,7 @@ services:
   # їхнього успіху, тож нова версія коду не працює на старій схемі.
   migrate:
     build: {context: ../backend, target: base}
-    image: crawldy-api:latest
+    image: ${IMAGE_REGISTRY:-local}/crawldy-api:${IMAGE_TAG:-latest}
     env_file: [../backend/.env]
     environment: *backend-env
     command: ["alembic", "upgrade", "head"]
@@ -65,7 +71,7 @@ services:
     restart: "no"
 
   api:
-    image: crawldy-api:latest
+    image: ${IMAGE_REGISTRY:-local}/crawldy-api:${IMAGE_TAG:-latest}
     restart: unless-stopped
     env_file: [../backend/.env]
     environment: *backend-env
@@ -83,7 +89,7 @@ services:
 
   worker:
     build: {context: ../backend, target: worker}
-    image: crawldy-worker:latest
+    image: ${IMAGE_REGISTRY:-local}/crawldy-worker:${IMAGE_TAG:-latest}
     restart: unless-stopped
     env_file: [../backend/.env]
     environment: *backend-env
@@ -106,7 +112,7 @@ services:
       context: ../frontend
       args:
         NEXT_PUBLIC_API_URL: https://${API_DOMAIN:?set API_DOMAIN in deploy/.env}
-    image: crawldy-frontend:latest
+    image: ${IMAGE_REGISTRY:-local}/crawldy-frontend:${IMAGE_TAG:-latest}
     restart: unless-stopped
     networks: [web]
     security_opt: ["no-new-privileges:true"]

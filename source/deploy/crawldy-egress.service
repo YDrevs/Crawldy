@@ -2,8 +2,9 @@
 # правила iptables не переживають reboot.
 #
 #   sudo cp crawldy-egress.service /etc/systemd/system/
-#   sudo sed -i "s|/opt/crawldy|$(cd .. && pwd)|" /etc/systemd/system/crawldy-egress.service
 #   sudo systemctl daemon-reload && sudo systemctl enable --now crawldy-egress
+#
+# Шлях нижче — /opt/crawldy, як у README; клонували деінде — виправте його.
 
 [Unit]
 Description=Crawldy worker egress filter

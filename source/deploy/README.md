@@ -45,9 +45,20 @@ Caddy не отримає сертифікати.
 
 ## 3. Код і секрети
 
+Усе, що стосується продукту, на сервері належить окремому користувачу `deploy`:
+від його імені працює автодеплой (розділ 6).
+
 ```bash
-sudo mkdir -p /opt/crawldy && sudo chown $USER /opt/crawldy
-git clone https://github.com/YDrevs/Crawldy.git /opt/crawldy
+sudo adduser --disabled-password --gecos "" deploy
+sudo usermod -aG docker deploy          # група docker = фактично root; див. розділ 6
+sudo mkdir -p /opt/crawldy && sudo chown deploy:deploy /opt/crawldy
+sudo -iu deploy
+
+# Репозиторій приватний: read-only ключ лише для читання коду.
+ssh-keygen -t ed25519 -N "" -f ~/.ssh/github_read -C "crawldy-vps-read"
+cat ~/.ssh/github_read.pub    # → GitHub: Settings → Deploy keys → Add (Allow write — НЕ ставити)
+printf 'Host github.com\n  IdentityFile ~/.ssh/github_read\n  IdentitiesOnly yes\n' >> ~/.ssh/config
+git clone git@github.com:YDrevs/Crawldy.git /opt/crawldy
 cd /opt/crawldy/source
 
 cp deploy/.env.example deploy/.env
@@ -77,14 +88,18 @@ chmod 600 deploy/.env backend/.env
 
 ```bash
 cd /opt/crawldy/source/deploy
+# Перший запуск — збірка на сервері; далі образи приносить автодеплой (розділ 6).
 docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+exit    # назад до свого користувача: далі потрібен sudo
 
 # фільтр вихідного трафіку воркера + автозапуск після reboot
-sudo chmod +x egress-firewall.sh
+cd /opt/crawldy/source/deploy
 sudo cp crawldy-egress.service /etc/systemd/system/
 sudo systemctl daemon-reload && sudo systemctl enable --now crawldy-egress
 sudo ./egress-firewall.sh --check
 ```
+
+`crawldy-egress.service` уже вказує на `/opt/crawldy` — шлях міняти не треба.
 
 Перший адміністратор: зареєструйтесь на сайті, потім
 
@@ -108,17 +123,73 @@ docker compose -f docker-compose.prod.yml exec worker python -c "import httpx; p
 docker compose -f docker-compose.prod.yml exec worker python -c "import httpx; httpx.get('http://169.254.169.254/', timeout=3)"   # має впасти
 ```
 
-## 6. Оновлення
+## 6. Автодеплой з GitHub
+
+Після разового налаштування кожен push (або мердж PR) у `main` проходить
+`.github/workflows/ci-cd.yml`:
+
+1. **backend** і **frontend** — тести, лінтер, типи, збірка, `npm audit`;
+2. **images** — образи api, worker, frontend у GHCR з тегом SHA коміту;
+3. **deploy** — SSH на сервер → `deploy.sh <sha>`: код → образи → міграції й
+   перезапуск → перевірка `https://API_DOMAIN/health` і головної → при провалі
+   відкат на попередню версію (`deploy/.last-good`).
+
+PR і інші гілки лише тестуються: на сервер потрапляє тільки `main`.
+
+### Разове налаштування
+
+**На сервері** (від імені `deploy`):
+
+```bash
+# 1. Ключ, яким GitHub Actions заходить на сервер. Він дозволяє ЛИШЕ deploy.sh:
+#    forced command не дає shell, переадресації портів чи терміналу.
+ssh-keygen -t ed25519 -N "" -f ~/ci_deploy -C "github-actions"
+echo "command=\"/opt/crawldy/source/deploy/deploy.sh\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty $(cat ~/ci_deploy.pub)" >> ~/.ssh/authorized_keys
+cat ~/ci_deploy        # приватний ключ → секрет VPS_SSH_KEY на GitHub; потім:
+rm ~/ci_deploy ~/ci_deploy.pub
+
+# 2. Доступ до образів у GHCR (репозиторій приватний — образи теж).
+#    GitHub → Settings → Developer settings → Personal access tokens (classic),
+#    право лише read:packages.
+echo "<токен>" | docker login ghcr.io -u <ваш-логін-github> --password-stdin
+
+# 3. У deploy/.env:
+IMAGE_REGISTRY=ghcr.io/ydrevs
+```
+
+**На GitHub** (Settings репозиторію):
+
+| Де | Що |
+|---|---|
+| Environments → `production` → Secrets | `VPS_HOST` (IP або домен сервера), `VPS_USER` = `deploy`, `VPS_SSH_KEY` (приватний ключ з кроку 1), `VPS_KNOWN_HOSTS` — вивід `ssh-keyscan -t ed25519 <IP>` **з вашої машини** |
+| Secrets and variables → Actions → Variables | `API_DOMAIN` (напр. `api.crawldy.ai`), `DEPLOY_ENABLED` = `true` — лише коли сервер готовий |
+| Branches → Branch protection для `main` | Require status checks: `backend`, `frontend`; Require a pull request before merging |
+| Environments → `production` | за бажанням — Required reviewers, якщо колись захочете підтверджувати деплой вручну |
+
+Поки `DEPLOY_ENABLED` не `true`, пайплайн тестує й збирає образи, а деплой
+пропускає.
+
+### Якщо деплой упав
+
+- У вкладці **Actions** — лог кроку `deploy`: там вивід `deploy.sh` і останні
+  рядки логів api/worker/migrate.
+- Відкат повертає код і образи попередньої версії, але **не відкочує
+  міграції бази**. Якщо нова версія встигла змінити схему, а стара з нею не
+  працює: `docker compose -f docker-compose.prod.yml exec api alembic downgrade -1`
+  (по одній міграції) — і лише потім відкат коду.
+- Вручну, на сервері: `./deploy.sh <sha>` — та сама процедура для будь-якого коміту.
+
+### Без GitHub (аварійно)
 
 ```bash
 cd /opt/crawldy && git pull
 cd source/deploy && docker compose -f docker-compose.prod.yml --env-file .env up -d --build
 ```
 
-Міграції виконує сервіс `migrate` перед стартом API. Черга при оновленні має
-бути порожньою: завдання з попереднього формату воркер не прочитає.
+### Залежності
 
-Оновлення Python-залежностей — лише через lockfile:
+Черга при оновленні має бути порожньою: завдання з попереднього формату воркер
+не прочитає. Python-залежності оновлюються лише через lockfile:
 
 ```bash
 cd source/backend

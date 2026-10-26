@@ -1,0 +1,158 @@
+# Тести на кожен PR і push; на push у main ще й образи в GHCR і деплой на VPS.
+#
+# Порядок: backend + frontend → images → deploy. Деплой не стартує, якщо
+# впав хоч один тест, і вмикається змінною репозиторію DEPLOY_ENABLED=true
+# (поки сервер не налаштовано, образи збираються, а деплой пропускається).
+# Разове налаштування — source/deploy/README.md, розділ «Автодеплой».
+
+name: CI/CD
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# За замовчуванням — лише читання коду. Ширші права дає кожен job окремо.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  # Новий коміт у PR скасовує старий прогін; у main прогони йдуть до кінця.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source/backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: seo
+          POSTGRES_PASSWORD: seo
+          POSTGRES_DB: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U seo"
+          --health-interval 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql+asyncpg://seo:seo@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: source/backend/requirements.lock
+      - name: Install dependencies (locked, hash-checked)
+        run: |
+          pip install --require-hashes --no-deps -r requirements.lock
+          pip install --no-deps -e .
+          # Інструменти перевірки — ті самі версії, на яких набір зелений локально.
+          pip install pytest==9.1.1 pytest-asyncio==1.4.0 respx==0.23.1 ruff==0.17.0 mypy==2.4.0
+      - name: Lint
+        run: ruff check app tests scripts
+      - name: Type check
+        run: mypy --strict app/audit app/core app/identity app/sites app/billing app/scheduling app/enrich
+      - name: Tests
+        run: pytest -q
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: source/frontend/package-lock.json
+      - run: npm ci
+      - run: npx tsc --noEmit
+      # Збірка ДО тестів: мережева половина security-headers.test.ts піднімає
+      # `next start` на зібраному і без збірки пропускається.
+      - run: npm run build
+      - run: npx vitest run
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+  images:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Registry names
+        run: |
+          # Імена в GHCR мусять бути в нижньому регістрі.
+          echo "REGISTRY=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_ENV"
+          test -n "${{ vars.API_DOMAIN }}" || { echo "::error::Задайте змінну репозиторію API_DOMAIN"; exit 1; }
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: api
+        uses: docker/build-push-action@v6
+        with:
+          context: source/backend
+          target: base
+          push: true
+          tags: ${{ env.REGISTRY }}/crawldy-api:${{ github.sha }},${{ env.REGISTRY }}/crawldy-api:latest
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+      - name: worker
+        uses: docker/build-push-action@v6
+        with:
+          context: source/backend
+          target: worker
+          push: true
+          tags: ${{ env.REGISTRY }}/crawldy-worker:${{ github.sha }},${{ env.REGISTRY }}/crawldy-worker:latest
+          cache-from: type=gha,scope=worker
+          cache-to: type=gha,scope=worker,mode=max
+      - name: frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: source/frontend
+          push: true
+          build-args: NEXT_PUBLIC_API_URL=https://${{ vars.API_DOMAIN }}
+          tags: ${{ env.REGISTRY }}/crawldy-frontend:${{ github.sha }},${{ env.REGISTRY }}/crawldy-frontend:latest
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,scope=frontend,mode=max
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
+    needs: images
+    runs-on: ubuntu-latest
+    environment: production
+    # Два деплої одночасно не йдуть; другий чекає, а не скасовує перший.
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - name: Deploy over SSH
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          # Хост перевіряється за відбитком із секрету: без цього підмінений
+          # сервер отримав би ключ деплою.
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # На сервері ключ має forced command (deploy.sh): передаємо лише SHA,
+          # усе інше скрипт робить сам.
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o BatchMode=yes \
+            "$VPS_USER@$VPS_HOST" "$GITHUB_SHA"
