@@ -1,0 +1,144 @@
+# Продакшн-стек для одного VPS. Запуск — з теки `source/deploy`:
+#
+#   docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+#
+# Відмінності від `../docker-compose.yml` (той — для розробки):
+# - назовні відкриті лише 80/443 Caddy; база, Redis, API й воркер портів
+#   не публікують;
+# - паролі бази й Redis беруться з `deploy/.env`, а не `seo/seo`;
+# - без `--reload` і без змонтованого коду: працює те, що зібране в образ;
+# - три мережі замість однієї, щоб воркер, який відкриває чужі сайти, не
+#   мав мережевого шляху туди, куди йому не треба (див. README).
+
+name: crawldy
+
+x-backend-env: &backend-env
+  APP_ENV: prod
+  # Застосунок стоїть за Caddy, який дописує адресу клієнта праворуч.
+  TRUST_PROXY_HEADERS: "true"
+  TRUSTED_PROXY_HOPS: "1"
+  DATABASE_URL: postgresql+asyncpg://crawldy:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in deploy/.env}@postgres:5432/crawldy
+  REDIS_URL: redis://:${REDIS_PASSWORD:?set REDIS_PASSWORD in deploy/.env}@redis:6379/0
+  PUBLIC_APP_URL: https://${SITE_DOMAIN:?set SITE_DOMAIN in deploy/.env}
+  CORS_ORIGINS: https://${SITE_DOMAIN}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: crawldy
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: crawldy
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crawldy"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    # Пароль обовʼязковий: хто пише в чергу, той керує воркером. Без
+    # `appendonly` — Redis тримає лише чергу й лічильники, не дані.
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}", "--save", ""]
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" --no-auth-warning ping | grep PONG"]
+      interval: 5s
+      retries: 10
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+  # Міграції — окремим кроком, один раз на запуск. API стартує лише після
+  # їхнього успіху, тож нова версія коду не працює на старій схемі.
+  migrate:
+    build: {context: ../backend, target: base}
+    image: crawldy-api:latest
+    env_file: [../backend/.env]
+    environment: *backend-env
+    command: ["alembic", "upgrade", "head"]
+    networks: [data]
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: "no"
+
+  api:
+    image: crawldy-api:latest
+    restart: unless-stopped
+    env_file: [../backend/.env]
+    environment: *backend-env
+    # `--no-proxy-headers`: адресу клієнта розбирає `client_ip` застосунку
+    # (справа, за TRUSTED_PROXY_HOPS). Uvicorn із `--forwarded-allow-ips *`
+    # узяв би лівий запис `X-Forwarded-For`, який задає сам клієнт.
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000",
+              "--no-proxy-headers", "--workers", "2"]
+    # `data` — база й черга; `web` — Caddy і вихід у мережу (Paddle, пошта,
+    # Turnstile). Чужих адрес API не відкриває за інваріантом.
+    networks: [data, web]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+
+  worker:
+    build: {context: ../backend, target: worker}
+    image: crawldy-worker:latest
+    restart: unless-stopped
+    env_file: [../backend/.env]
+    environment: *backend-env
+    # `crawl` — єдиний вихід воркера назовні, і саме його фільтрує
+    # `egress-firewall.sh`: туди не проходять приватні мережі й метадані.
+    networks: [data, crawl]
+    # Публічні резолвери явно: фільтр не пускає воркера в приватні мережі,
+    # а резолвер провайдера VPS часто саме там (AWS — 169.254.169.253).
+    dns: [1.1.1.1, 9.9.9.9]
+    # Chromium без власної пісочниці: обмежуємо, що він може в контейнері.
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    shm_size: "1gb"
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+
+  frontend:
+    build:
+      context: ../frontend
+      args:
+        NEXT_PUBLIC_API_URL: https://${API_DOMAIN:?set API_DOMAIN in deploy/.env}
+    image: crawldy-frontend:latest
+    restart: unless-stopped
+    networks: [web]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+      API_DOMAIN: ${API_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in deploy/.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [web]
+    depends_on: [api, frontend]
+
+networks:
+  # Без виходу назовні взагалі: базі й Redis інтернет не потрібен.
+  data:
+    internal: true
+  web: {}
+  # Фіксована підмережа — за нею правила фаєрвола впізнають трафік воркера.
+  crawl:
+    ipam:
+      config:
+        - subnet: 172.31.250.0/24
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

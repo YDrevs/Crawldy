@@ -1,0 +1,19 @@
+# Відновлює мережевий фільтр воркера після перезавантаження сервера:
+# правила iptables не переживають reboot.
+#
+#   sudo cp crawldy-egress.service /etc/systemd/system/
+#   sudo sed -i "s|/opt/crawldy|$(cd .. && pwd)|" /etc/systemd/system/crawldy-egress.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now crawldy-egress
+
+[Unit]
+Description=Crawldy worker egress filter
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/opt/crawldy/source/deploy/egress-firewall.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,39 @@
+# Зворотний проксі: HTTPS (сертифікати Let's Encrypt — автоматично), HSTS
+# і єдина точка входу ззовні. Домени й пошта — з deploy/.env.
+
+{
+	email {$ACME_EMAIL}
+}
+
+(common) {
+	header {
+		# HSTS тут, а не у фронтенді: він тримається на HTTPS і домені, а
+		# вони є саме тут. `preload` не ставимо — це рішення на роки,
+		# відкликати його довго; додайте свідомо, коли домен усталився.
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+		-Via
+	}
+	encode zstd gzip
+}
+
+{$SITE_DOMAIN} {
+	import common
+	reverse_proxy frontend:3000
+}
+
+{$API_DOMAIN} {
+	import common
+	# API не віддається в рамці й не вгадує типи — незалежно від маршруту.
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+	}
+	# Тіло запиту до API не буває великим; ліміт відсікає спроби забити
+	# памʼять одним запитом ще до застосунку.
+	request_body {
+		max_size 2MB
+	}
+	reverse_proxy api:8000
+}
