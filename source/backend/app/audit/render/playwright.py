@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import asyncio
 import time
+from collections.abc import Awaitable, Callable
 from typing import Any
 from urllib.parse import urlparse
 
+from app.audit import fetcher
 from app.audit.types import RenderResult, ResourceLoad
 from app.core.config import settings
 from app.core.logging import log
@@ -30,7 +32,68 @@ BLOCKED_RESOURCES = ("media", "font")
 # Ми самі обриваємо завантаження шрифтів і відео — і браузер чесно пише
 # про це в консоль. Без цього фільтра кожен сайт отримував би від нас
 # звинувачення у зламаному JS за те, що зламали ми.
-_OUR_OWN_FAILURES = ("net::err_failed", "failed to load resource")
+_OUR_OWN_FAILURES = (
+    "net::err_failed",
+    "failed to load resource",
+    # Так браузер підписує запит, який зарізала SSRF-межа нижче.
+    "net::err_blocked_by_client",
+)
+
+# Схеми без мережі: браузер їх не маршрутизує, але й не обмежуємо.
+_LOCAL_SCHEMES = frozenset({"data", "blob"})
+_WS_TO_HTTP = {"ws": "http", "wss": "https"}
+
+
+class _RouteGuard:
+    """SSRF-межа браузера: кожен запит сторінки — через ту саму перевірку адреси.
+
+    Без неї `page.route` відсікав лише тип ресурсу, і навігація,
+    редирект, XHR, iframe чи вебсокет сторінки клієнта могли піти на
+    `169.254.169.254`, а `page.content()` поклав би відповідь у знімок.
+    Вердикт кешується по хосту на один рендер: сотня скриптів із одного
+    CDN не означає сотні резолвів.
+
+    Межа не закриває DNS rebinding повністю: ми резолвимо імʼя самі, а
+    Chromium — удруге, своїм резолвером. Повний захист — egress-фільтр
+    на мережі воркера (див. ARCHITECTURE.md, «SSRF»).
+    """
+
+    def __init__(self, check: Callable[[str], Awaitable[None]] | None = None) -> None:
+        self._check = check or fetcher.assert_public_host
+        self._verdicts: dict[str, bool] = {}
+
+    async def allows(self, url: str) -> bool:
+        parsed = urlparse(url)
+        scheme = _WS_TO_HTTP.get(parsed.scheme, parsed.scheme)
+        if scheme not in ("http", "https") or not parsed.hostname:
+            return False
+        host = parsed.hostname
+        if host not in self._verdicts:
+            try:
+                await self._check(f"{scheme}://{parsed.netloc}/")
+                self._verdicts[host] = True
+            except Exception:  # noqa: BLE001 — збій перевірки не є дозволом
+                self._verdicts[host] = False
+        return self._verdicts[host]
+
+    async def __call__(self, route: Any) -> None:
+        request = route.request
+        if request.resource_type in BLOCKED_RESOURCES:
+            await route.abort()
+            return
+        scheme = urlparse(request.url).scheme
+        if scheme in _LOCAL_SCHEMES or await self.allows(request.url):
+            await route.continue_()
+        else:
+            log.info("render_request_blocked", url=request.url[:200])
+            await route.abort("blockedbyclient")
+
+    async def websocket(self, ws: Any) -> None:
+        if await self.allows(ws.url):
+            ws.connect_to_server()
+        else:
+            log.info("render_websocket_blocked", url=ws.url[:200])
+            await ws.close()
 
 
 def _is_our_own_doing(text: str) -> bool:
@@ -221,11 +284,18 @@ class PlaywrightRenderer:
         finished: list[Any] = []
         try:
             browser = await self._ensure_browser()
+            guard = _RouteGuard()
             context = await browser.new_context(
                 viewport={"width": self._viewport[0], "height": self._viewport[1]},
                 user_agent=settings.user_agent,
+                # Запити, які перехопив Service Worker, `route` не бачить.
+                service_workers="block",
             )
             try:
+                # На контексті, а не на сторінці: так межа покриває й
+                # спливні вікна, які сторінка відкриє сама.
+                await context.route("**/*", guard)
+                await context.route_web_socket("**/*", guard.websocket)
                 page = await context.new_page()
                 page.on(
                     "console",
@@ -254,14 +324,6 @@ class PlaywrightRenderer:
                     "requestfinished",
                     lambda req: finished.append(req) if len(finished) < 400 else None,
                 )
-                await page.route(
-                    "**/*",
-                    lambda route: (
-                        route.abort()
-                        if route.request.resource_type in BLOCKED_RESOURCES
-                        else route.continue_()
-                    ),
-                )
                 await page.goto(
                     url, wait_until="domcontentloaded", timeout=settings.http_timeout_s * 1000
                 )
@@ -271,6 +333,11 @@ class PlaywrightRenderer:
                     # Мережа не заспокоїлась — беремо, що є. Це не помилка:
                     # аналітика й вебсокети шумлять на сторінці вічно.
                     pass
+                # Кожен запит уже пройшов межу, але куди сторінка прийшла,
+                # перевіряємо окремо: вміст іде в знімок, і помилка тут
+                # коштує дорожче за зайву перевірку.
+                if not await guard.allows(page.url):
+                    raise fetcher.UnsafeUrlError("рендер завершився на забороненій адресі")
                 html = await page.content()
                 try:
                     analytics = list(await page.evaluate(DETECT_GLOBALS_JS))
