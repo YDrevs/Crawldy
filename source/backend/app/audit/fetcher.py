@@ -6,9 +6,11 @@ import asyncio
 import ipaddress
 import socket
 import time
+from collections.abc import Awaitable, Callable, Iterable
 from dataclasses import dataclass
 from urllib.parse import urljoin, urlparse, urlunparse
 
+import httpcore
 import httpx
 
 from app.core.config import settings
@@ -178,6 +180,100 @@ async def assert_public_host(url: str) -> None:
             raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP {ip}")
 
 
+Resolver = Callable[[str, int], Awaitable[list[str]]]
+
+
+async def _system_resolve(host: str, port: int) -> list[str]:
+    infos = await asyncio.get_running_loop().getaddrinfo(
+        host, port, type=socket.SOCK_STREAM, proto=socket.IPPROTO_TCP
+    )
+    # Порядок відповіді зберігаємо (його вже впорядкував резолвер),
+    # дублікати — ні. Scope у `fe80::1%eth0` зрізаємо.
+    return list(dict.fromkeys(str(info[4][0]).split("%", 1)[0] for info in infos))
+
+
+class _GuardedBackend(httpcore.AsyncNetworkBackend):
+    """Мережевий бекенд, у якому перевірка адреси й зʼєднання — одна дія.
+
+    Без нього httpx резолвить імʼя вдруге сам, і DNS із TTL 0 віддає
+    публічну адресу перевірці й `127.0.0.1` — зʼєднанню (rebinding).
+    Тут імʼя резолвиться один раз, кожна адреса відповіді проходить
+    `_is_forbidden`, і зʼєднання відкривається саме на перевірений IP.
+    SNI й `Host` лишаються оригінальними: httpcore бере їх з адреси
+    запиту, а не з того, куди ми конектимося. Кожен крок редиректу
+    відкриває своє зʼєднання й проходить тут само.
+    """
+
+    def __init__(
+        self,
+        inner: httpcore.AsyncNetworkBackend | None = None,
+        resolve: Resolver | None = None,
+    ) -> None:
+        self._inner = inner or httpcore.AnyIOBackend()
+        self._resolve = resolve or _system_resolve
+
+    async def connect_tcp(
+        self,
+        host: str,
+        port: int,
+        timeout: float | None = None,  # noqa: ASYNC109 — сигнатура httpcore
+        local_address: str | None = None,
+        socket_options: Iterable[httpcore.SOCKET_OPTION] | None = None,
+    ) -> httpcore.AsyncNetworkStream:
+        try:
+            ips = await asyncio.wait_for(self._resolve(host, port), timeout)
+        except (OSError, TimeoutError) as exc:
+            raise httpcore.ConnectError(f"DNS не резолвиться: {host}") from exc
+        if not ips:
+            raise httpcore.ConnectError(f"DNS не резолвиться: {host}")
+        if not settings.allow_private_hosts:
+            for raw in ips:
+                if _is_forbidden(ipaddress.ip_address(raw)):
+                    raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP {raw}")
+
+        last: Exception | None = None
+        for ip in ips:
+            try:
+                return await self._inner.connect_tcp(
+                    ip,
+                    port,
+                    timeout=timeout,
+                    local_address=local_address,
+                    socket_options=socket_options,
+                )
+            except httpcore.ConnectError as exc:
+                last = exc
+        assert last is not None
+        raise last
+
+    async def sleep(self, seconds: float) -> None:
+        await self._inner.sleep(seconds)
+
+
+def guarded_transport(
+    *,
+    verify: bool = True,
+    limits: httpx.Limits | None = None,
+) -> httpx.AsyncHTTPTransport:
+    """Транспорт httpx, усі зʼєднання якого проходять `_GuardedBackend`.
+
+    Публічного параметра для бекенду в `AsyncHTTPTransport` немає, тож
+    підмінюється поле пулу; `test_fetcher_pinning` ловить, якщо оновлення
+    httpx його перейменує. `trust_env=False`: проксі з оточення зʼєднувався
+    б сам, повз перевірку.
+    """
+    transport = httpx.AsyncHTTPTransport(
+        verify=verify,
+        http2=True,
+        trust_env=False,
+        limits=limits or httpx.Limits(max_connections=20, max_keepalive_connections=10),
+    )
+    pool = transport._pool
+    assert hasattr(pool, "_network_backend"), "httpcore змінив внутрішнє поле пулу"
+    pool._network_backend = _GuardedBackend()
+    return transport
+
+
 class Fetcher:
     """httpx з таймаутами, лімітом тіла й SSRF-перевіркою кожного редіректу ДО переходу."""
 
@@ -202,7 +298,8 @@ class Fetcher:
             # прочитана. Кожен наступний крок має пройти SSRF-перевірку
             # до того, як ми туди підемо.
             follow_redirects=False,
-            transport=transport,
+            trust_env=False,
+            transport=transport or guarded_transport(verify=verify_tls),
             timeout=httpx.Timeout(settings.http_timeout_s),
             headers={
                 # Рядок приходить з опцій аудиту, а не лише з глобальних
