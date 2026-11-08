@@ -7,7 +7,7 @@ import ipaddress
 import socket
 import time
 from dataclasses import dataclass
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urljoin, urlparse, urlunparse
 
 import httpx
 
@@ -44,6 +44,11 @@ class SiteUnreachable(RuntimeError):
 
 class UnsafeUrlError(ValueError):
     pass
+
+
+# Скільки переходів ми готові пройти. Шостий — це вже `redirect_limit_exceeded`,
+# рівно як `max_redirects=5` у httpx, на якому стояла поведінка до цього.
+MAX_REDIRECTS = 5
 
 
 @dataclass(frozen=True, slots=True)
@@ -138,7 +143,7 @@ async def assert_public_host(url: str) -> None:
 
 
 class Fetcher:
-    """Обгортка httpx з таймаутами, лімітом розміру тіла й SSRF-перевіркою редіректів."""
+    """httpx з таймаутами, лімітом тіла й SSRF-перевіркою кожного редіректу ДО переходу."""
 
     def __init__(
         self,
@@ -146,6 +151,7 @@ class Fetcher:
         *,
         verify_tls: bool = True,
         user_agent: str | None = None,
+        transport: httpx.AsyncBaseTransport | None = None,
     ) -> None:
         # verify_tls=False вмикається лише після того, як звичайна спроба
         # впала саме на сертифікаті: інакше сайт зі зламаним HTTPS не можна
@@ -154,8 +160,13 @@ class Fetcher:
         self._client = httpx.AsyncClient(
             verify=verify_tls,
             http2=True,
-            follow_redirects=True,
-            max_redirects=5,
+            # Редиректи ведемо самі: httpx проходить увесь ланцюг ДО того,
+            # як ми побачимо хоч один крок, тож перевірка `history` після
+            # запиту вже нічого не захищала — внутрішня адреса була
+            # прочитана. Кожен наступний крок має пройти SSRF-перевірку
+            # до того, як ми туди підемо.
+            follow_redirects=False,
+            transport=transport,
             timeout=httpx.Timeout(settings.http_timeout_s),
             headers={
                 # Рядок приходить з опцій аудиту, а не лише з глобальних
@@ -192,49 +203,72 @@ class Fetcher:
 
         async with self._sem:
             try:
-                async with self._client.stream("GET", url) as response:
-                    hops: list[RedirectHop] = []
-                    for hop in response.history:
-                        await assert_public_host(str(hop.url))
-                        # Куди вів цей крок, а не звідки: ланцюг читається
-                        # як послідовність адрес, на які нас відправляли.
-                        hops.append(
-                            RedirectHop(
-                                status_code=hop.status_code,
-                                url=str(hop.headers.get("location") or hop.url),
-                            )
-                        )
-                    body = bytearray()
-                    async for chunk in response.aiter_bytes():
-                        body.extend(chunk)
-                        if len(body) > settings.max_response_bytes:
-                            break
-                    raw = bytes(body[: settings.max_response_bytes])
-                    encoding = response.encoding or "utf-8"
-                    return FetchResult(
-                        url=url,
-                        final_url=str(response.url),
-                        status_code=response.status_code,
-                        content_type=response.headers.get("content-type", "").split(";")[0].strip()
-                        or None,
-                        text=raw.decode(encoding, errors="replace"),
-                        body_bytes=len(raw),
-                        elapsed_ms=int((time.perf_counter() - started) * 1000),
-                        headers={k.lower(): v for k, v in response.headers.items()},
-                        redirects=tuple(hops),
-                        http_version=response.http_version,
-                        accept_encoding=response.request.headers.get(
-                            "accept-encoding", ""
-                        ),
-                    )
-            except httpx.TooManyRedirects as exc:
-                log.warning("fetch_redirect_limit", url=url, error=str(exc))
-                return _failed(
-                    url, f"{type(exc).__name__}: {exc}", started, redirect_limit=True
-                )
+                return await self._follow(url, started)
+            except UnsafeUrlError as exc:
+                log.warning("fetch_redirect_blocked", url=url, error=str(exc))
+                return _failed(url, str(exc), started)
             except httpx.HTTPError as exc:
                 log.warning("fetch_failed", url=url, error=str(exc))
                 return _failed(url, f"{type(exc).__name__}: {exc}", started)
+
+    async def _follow(self, url: str, started: float) -> FetchResult:
+        hops: list[RedirectHop] = []
+        current = url
+        while True:
+            request = self._client.build_request("GET", current)
+            response = await self._client.send(request, stream=True)
+            try:
+                location = response.headers.get("location")
+                if not (response.is_redirect and location):
+                    return await self._read(url, response, hops, started)
+                # Куди вів цей крок, а не звідки: ланцюг читається як
+                # послідовність адрес, на які нас відправляли. Значення
+                # заголовка як є — відносне розвʼязує `redirects.py`.
+                hops.append(RedirectHop(status_code=response.status_code, url=location))
+            finally:
+                await response.aclose()
+
+            if len(hops) > MAX_REDIRECTS:
+                log.warning("fetch_redirect_limit", url=url, hops=len(hops))
+                return _failed(
+                    url,
+                    f"TooManyRedirects: більше {MAX_REDIRECTS} перенаправлень",
+                    started,
+                    redirect_limit=True,
+                )
+            nxt = urljoin(current, location)
+            if urlparse(nxt).scheme not in ("http", "https"):
+                raise UnsafeUrlError("перенаправлення на непідтримувану схему")
+            await assert_public_host(nxt)
+            current = nxt
+
+    async def _read(
+        self,
+        url: str,
+        response: httpx.Response,
+        hops: list[RedirectHop],
+        started: float,
+    ) -> FetchResult:
+        body = bytearray()
+        async for chunk in response.aiter_bytes():
+            body.extend(chunk)
+            if len(body) > settings.max_response_bytes:
+                break
+        raw = bytes(body[: settings.max_response_bytes])
+        encoding = response.encoding or "utf-8"
+        return FetchResult(
+            url=url,
+            final_url=str(response.url),
+            status_code=response.status_code,
+            content_type=response.headers.get("content-type", "").split(";")[0].strip() or None,
+            text=raw.decode(encoding, errors="replace"),
+            body_bytes=len(raw),
+            elapsed_ms=int((time.perf_counter() - started) * 1000),
+            headers={k.lower(): v for k, v in response.headers.items()},
+            redirects=tuple(hops),
+            http_version=response.http_version,
+            accept_encoding=response.request.headers.get("accept-encoding", ""),
+        )
 
 
 def _failed(
