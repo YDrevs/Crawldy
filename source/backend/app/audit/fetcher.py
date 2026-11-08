@@ -26,11 +26,46 @@ BLOCKED_NETWORKS = [
         "192.0.0.0/24",
         "192.168.0.0/16",
         "198.18.0.0/15",
+        "224.0.0.0/4",
+        "240.0.0.0/4",
+        "::/96",
         "::1/128",
+        "64:ff9b:1::/48",
         "fc00::/7",
         "fe80::/10",
+        "ff00::/8",
     )
 ]
+
+# NAT64 (RFC 6052): останні 32 біти — це IPv4, куди насправді піде запит.
+_NAT64 = ipaddress.ip_network("64:ff9b::/96")
+
+IpAddress = ipaddress.IPv4Address | ipaddress.IPv6Address
+
+
+def _is_forbidden(ip: IpAddress) -> bool:
+    """Чи заборонено ходити на цю адресу.
+
+    IPv6-обгортки IPv4 (mapped, 6to4, NAT64) розгортаються: інакше
+    `::ffff:127.0.0.1` чи `64:ff9b::a9fe:a9fe` ведуть у loopback і
+    метадані хмари, хоча як IPv6 не схожі ні на те, ні на інше. Teredo
+    забороняється цілком — тунель на чужий сервер нам не потрібен.
+    Головна умова — `is_global`; `BLOCKED_NETWORKS` лишається явним
+    списком поверх неї, бо `is_global` не відсікає ані multicast, ані
+    зарезервоване.
+    """
+    if isinstance(ip, ipaddress.IPv6Address):
+        if ip.ipv4_mapped is not None:
+            return _is_forbidden(ip.ipv4_mapped)
+        if ip.sixtofour is not None:
+            return _is_forbidden(ip.sixtofour)
+        if ip in _NAT64:
+            return _is_forbidden(ipaddress.IPv4Address(int(ip) & 0xFFFFFFFF))
+        if ip.teredo is not None:
+            return True
+    if not ip.is_global or ip.is_multicast or ip.is_reserved or ip.is_unspecified:
+        return True
+    return any(ip in net for net in BLOCKED_NETWORKS)
 
 
 class SiteUnreachable(RuntimeError):
@@ -137,8 +172,9 @@ async def assert_public_host(url: str) -> None:
     except socket.gaierror as exc:
         raise UnsafeUrlError(f"DNS не резолвиться: {host}") from exc
     for info in infos:
-        ip = ipaddress.ip_address(info[4][0])
-        if any(ip in net for net in BLOCKED_NETWORKS):
+        # IPv6 link-local приходить зі scope: `fe80::1%eth0`.
+        ip = ipaddress.ip_address(str(info[4][0]).split("%", 1)[0])
+        if _is_forbidden(ip):
             raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP {ip}")
 
 
