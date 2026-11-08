@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException, Query, Response, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from app.api.deps import ActorDep, ApiKeyDep, SessionDep
+from app.api.deps import ActorDep, SessionDep
 from app.application import audits as application
 from app.application.locale import resolve as resolve_locale
 from app.application.visibility import history_window
@@ -434,18 +434,24 @@ async def create_share_link(
 
 @router.get("/{audit_id}/links", response_model=list[ShareLinkOut])
 async def list_share_links(
-    audit_id: uuid.UUID, session: SessionDep, _: ApiKeyDep
+    audit_id: uuid.UUID, session: SessionDep, actor: ActorDep
 ) -> list[ShareLinkOut]:
+    audit = await audit_service.get_audit(session, audit_id, organization_id=actor.organization_id)
+    if audit is None:
+        raise HTTPException(status_code=404, detail="аудит не знайдено")
     links = await link_service.list_links(session, audit_id)
     return [ShareLinkOut.model_validate(link) for link in links]
 
 
 @router.delete("/{audit_id}/links/{link_id}", response_model=ShareLinkOut)
 async def revoke_share_link(
-    audit_id: uuid.UUID, link_id: uuid.UUID, session: SessionDep, _: ApiKeyDep
+    audit_id: uuid.UUID, link_id: uuid.UUID, session: SessionDep, actor: ActorDep
 ) -> ShareLinkOut:
-    link = await link_service.revoke(session, link_id)
-    if link is None or link.audit_id != audit_id:
+    audit = await audit_service.get_audit(session, audit_id, organization_id=actor.organization_id)
+    if audit is None:
+        raise HTTPException(status_code=404, detail="посилання не знайдено")
+    link = await link_service.revoke(session, audit_id, link_id)
+    if link is None:
         raise HTTPException(status_code=404, detail="посилання не знайдено")
     return ShareLinkOut.model_validate(link)
 
