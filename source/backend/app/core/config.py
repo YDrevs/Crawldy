@@ -4,6 +4,10 @@ from typing import Annotated, Literal
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
+# Глобальний ключ розробки. Він у публічному репозиторії, тож поза
+# `local` його присутність — помилка конфігурації, а не зручність.
+DEV_API_KEY = "dev-key-change-me"
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -12,8 +16,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     # NoDecode обовʼязковий: для list[str] pydantic-settings пробує json.loads
     # ще до валідаторів, і `API_KEYS=dev-key` з .env валить старт застосунку.
+    # Дефолт — лише для локальної розробки: поза `local` старт із ним
+    # відмовляє (`_no_dev_api_key_outside_local`), бо рядок публічний, а
+    # ключ діє як OWNER службової організації.
     api_keys: Annotated[list[str], NoDecode] = Field(
-        default_factory=lambda: ["dev-key-change-me"]
+        default_factory=lambda: [DEV_API_KEY]
     )
 
     # Звідки браузеру дозволено ходити в API. Точні origin'и, а не "*":
@@ -318,6 +325,23 @@ class Settings(BaseSettings):
             )
         if not self.public_app_url.lower().startswith("https://"):
             raise ValueError("PUBLIC_APP_URL у проді мусить бути https://")
+        return self
+
+    @model_validator(mode="after")
+    def _no_dev_api_key_outside_local(self) -> "Settings":
+        """Поза `local` дефолтний ключ і порожні записи не приймаються.
+
+        Порожній `API_KEYS` поза `local` — валідний стан: глобального
+        ключа немає, працюють лише ключі організацій.
+        """
+        if self.app_env == "local":
+            return self
+        if DEV_API_KEY in self.api_keys:
+            raise ValueError(
+                f"API_KEYS містить {DEV_API_KEY}: задайте власний ключ або порожнє значення"
+            )
+        if any(not key.strip() for key in self.api_keys):
+            raise ValueError("API_KEYS містить порожній ключ")
         return self
 
     @field_validator("api_keys", "cors_origins", mode="before")

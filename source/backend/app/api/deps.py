@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import hmac
 from collections.abc import Awaitable, Callable
 from datetime import UTC, datetime
 from typing import Annotated
@@ -37,6 +38,22 @@ SESSION_COOKIE = "crawldy_session" if settings.app_env == "local" else "__Host-c
 API_KEY_HEADER = "X-API-Key"
 
 
+def _is_global_key(token: str | None) -> bool:
+    """Чи це один із глобальних ключів. Порожній список — завжди «ні».
+
+    Порівняння за сталий час по кожному ключу: `in` по списку рядків
+    виходить на першому різному символі й відкриває вимір часу.
+    """
+    if not token:
+        return False
+    candidate = token.encode()
+    matched = False
+    for key in settings.api_keys:
+        if key and hmac.compare_digest(candidate, key.encode()):
+            matched = True
+    return matched
+
+
 async def require_api_key(x_api_key: Annotated[str | None, Header()] = None) -> str:
     """Історичний глобальний ключ. Лишається для службових викликів.
 
@@ -45,9 +62,9 @@ async def require_api_key(x_api_key: Annotated[str | None, Header()] = None) -> 
     доживає рівно доти, доки маршрути аудиту не перейдуть на
     `current_actor`, і його зняття — окремий крок, а не побічний ефект.
     """
-    if not settings.api_keys:
-        return "anonymous"
-    if x_api_key not in settings.api_keys:
+    # Порожній список ключів — зачинені двері, а не відчинені: раніше тут
+    # поверталось "anonymous", і вимкнений ключ пускав усіх.
+    if x_api_key is None or not _is_global_key(x_api_key):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="невалідний або відсутній X-API-Key"
         )
@@ -121,7 +138,7 @@ def _actor_from_legacy_key(token: str) -> ActorContext | None:
     Ключі організації перевіряються **перед** ним: якщо той самий рядок
     виявиться і тим, і тим, виграє той, у якого є власник.
     """
-    if not settings.api_keys or token not in settings.api_keys:
+    if not _is_global_key(token):
         return None
     return ActorContext(
         organization_id=LEGACY_ORGANIZATION_ID,
