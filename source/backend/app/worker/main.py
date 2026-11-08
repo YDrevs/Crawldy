@@ -10,6 +10,7 @@ from app.worker.presence_task import run_presence_task
 from app.worker.recovery_task import send_password_reset_task
 from app.worker.retention_job import sweep
 from app.worker.scheduler import tick
+from app.worker.serialization import deserialize, serialize
 from app.worker.tasks import run_audit_task
 
 
@@ -79,6 +80,9 @@ class WorkerSettings:
     ]
     on_startup = startup
     redis_settings = RedisSettings.from_dsn(settings.redis_url)
+    # JSON, а не pickle: читання завдання з Redis не має виконувати код.
+    job_serializer = staticmethod(serialize)
+    job_deserializer = staticmethod(deserialize)
     max_jobs = 4
     job_timeout = settings.audit_timeout_s
     keep_result = 3600

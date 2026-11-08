@@ -5,6 +5,7 @@ from arq import create_pool
 from arq.connections import ArqRedis, RedisSettings
 
 from app.core.config import settings
+from app.worker.serialization import deserialize, serialize
 
 _pool: ArqRedis | None = None
 
@@ -17,7 +18,11 @@ def redis_settings() -> RedisSettings:
 async def get_pool() -> ArqRedis:
     global _pool
     if _pool is None:
-        _pool = await create_pool(redis_settings())
+        # Той самий серіалізатор, що й у WorkerSettings: інакше воркер не
+        # прочитає жодного завдання.
+        _pool = await create_pool(
+            redis_settings(), job_serializer=serialize, job_deserializer=deserialize
+        )
     return _pool
 
 
