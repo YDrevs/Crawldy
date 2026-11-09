@@ -42,11 +42,23 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     await close_pool()
 
 
+def docs_settings(app_env: str) -> dict[str, None]:
+    """У проді немає ні `/docs`, ні `/redoc`, ні `/openapi.json`.
+
+    Схема перелічує кожен маршрут зі службовими й тілами запитів —
+    готова карта для перебору. Локально й на staging вона потрібна.
+    """
+    if app_env == "prod":
+        return {"docs_url": None, "redoc_url": None, "openapi_url": None}
+    return {}
+
+
 app = FastAPI(
     title="Crawldy",
     version="0.1.0",
     description="Аудит сайту: швидкість, SEO, AI-ready/LLMO, придатність до цитування.",
     lifespan=lifespan,
+    **docs_settings(settings.app_env),
 )
 
 # Точні origin'и й `allow_credentials`: інтерфейс автентифікується
