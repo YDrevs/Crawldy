@@ -23,6 +23,9 @@ dependencies = [
     # <1: у 1.0 бекенд Modest (selectolax.parser) прибрано, імпорт падає.
     # Перехід на lexbor змінює розбір HTML, тобто бали, — окреме рішення.
     "selectolax>=0.3.21,<1",
+    # Карти сайту пише чужий сервер: stdlib ElementTree розкриває сутності
+    # («billion laughs»). defusedxml відмовляє на DTD-сутностях.
+    "defusedxml>=0.7.1",
     "structlog>=24.4",
     "tenacity>=9.0",
     "python-docx>=1.1",
@@ -46,7 +49,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.8", "mypy>=1.13", "respx>=0.22"]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.8", "mypy>=1.13", "respx>=0.22", "types-defusedxml>=0.7"]
 
 # Явний список пакетів: alembic/ і scripts/ лежать поруч з app/ у корені backend,
 # і flat-layout автодискавері setuptools на це падає.
