@@ -51,6 +51,12 @@ services:
       context: ./backend
       target: worker
     env_file: [./backend/.env]
+    # Стандартний профіль seccomp забороняє user namespaces, без яких
+    # sandbox Chromium не стартує. Цей профіль — стандартний плюс
+    # clone/unshare/setns; альтернатива — --no-sandbox, тобто чужий JS
+    # без пісочниці.
+    security_opt:
+      - seccomp=./deploy/seccomp/chromium.json
     environment:
       REDIS_URL: redis://:${REDIS_PASSWORD:-crawldy-local-redis}@redis:6379/0
     depends_on:

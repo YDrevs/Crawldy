@@ -231,10 +231,22 @@ class PlaywrightRenderer:
         from playwright.async_api import async_playwright
 
         self._playwright = await async_playwright().start()
+        # Без --disable-dev-shm-usage Chromium падає в контейнері з
+        # /dev/shm за замовчуванням.
+        args = ["--disable-dev-shm-usage"]
+        sandbox = settings.render_chromium_sandbox
+        if not sandbox:
+            # Аварійний вихід для хоста, де профіль seccomp не підключити.
+            # Браузер виконує чужий JS: без sandbox вразливість рушія —
+            # це вже код у процесі воркера.
+            log.warning("render_sandbox_disabled")
+            args.append("--no-sandbox")
         self._browser = await self._playwright.chromium.launch(
             headless=True,
-            # Без цього Chromium падає в контейнері з /dev/shm за замовчуванням.
-            args=["--no-sandbox", "--disable-dev-shm-usage"],
+            # Явно: Playwright сам додає --no-sandbox, якщо не попросити.
+            # У Docker sandbox потребує профілю deploy/seccomp/chromium.json.
+            chromium_sandbox=sandbox,
+            args=args,
         )
         return self._browser
 

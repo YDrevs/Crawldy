@@ -150,6 +150,10 @@ class Settings(BaseSettings):
     render_enabled: bool = True
     render_max_pages: int = 3
     render_timeout_s: float = 30.0
+    # Sandbox Chromium. У Docker потребує профілю seccomp
+    # deploy/seccomp/chromium.json (стандартний профіль забороняє user
+    # namespaces). Вимикати лише там, де профіль не підключити.
+    render_chromium_sandbox: bool = True
 
     crawl_max_pages: int = 25
     crawl_max_depth: int = 2

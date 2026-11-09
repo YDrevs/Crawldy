@@ -116,3 +116,47 @@ async def test_final_url_check() -> None:
     assert not await guard.allows("file:///etc/passwd")
     # about:blank — сторінка, яку ще не завантажили; про мережу вона не каже.
     assert not await guard.allows("about:blank")
+
+
+class _FakeChromium:
+    def __init__(self) -> None:
+        self.kwargs: dict[str, object] = {}
+
+    async def launch(self, **kwargs: object) -> object:
+        self.kwargs = kwargs
+        return object()
+
+
+class _FakePlaywright:
+    def __init__(self) -> None:
+        self.chromium = _FakeChromium()
+
+
+async def _launch_kwargs(monkeypatch: pytest.MonkeyPatch, sandbox: bool) -> dict[str, object]:
+    import app.audit.render.playwright as module
+
+    fake = _FakePlaywright()
+
+    class _Starter:
+        async def start(self) -> _FakePlaywright:
+            return fake
+
+    monkeypatch.setattr(module.settings, "render_chromium_sandbox", sandbox)
+    monkeypatch.setattr("playwright.async_api.async_playwright", lambda: _Starter())
+    await module.PlaywrightRenderer()._ensure_browser()
+    return fake.chromium.kwargs
+
+
+async def test_chromium_runs_with_its_sandbox_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Playwright сам додає `--no-sandbox`, якщо не попросити інакше."""
+    kwargs = await _launch_kwargs(monkeypatch, sandbox=True)
+
+    assert kwargs["chromium_sandbox"] is True
+    assert "--no-sandbox" not in kwargs["args"]  # type: ignore[operator]
+
+
+async def test_the_sandbox_can_be_switched_off_explicitly(monkeypatch: pytest.MonkeyPatch) -> None:
+    kwargs = await _launch_kwargs(monkeypatch, sandbox=False)
+
+    assert kwargs["chromium_sandbox"] is False
+    assert "--no-sandbox" in kwargs["args"]  # type: ignore[operator]
