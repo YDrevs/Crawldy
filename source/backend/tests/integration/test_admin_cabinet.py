@@ -45,7 +45,7 @@ async def staff(client, db_session):
     await db_session.execute(
         sa_update(User)
         .where(User.id == uuid.UUID(body["user"]["id"]))
-        .values(platform_role=PlatformRole.STAFF)
+        .values(platform_role=PlatformRole.ADMIN)  # змінює гроші й конфігурацію — ADMIN
     )
     await db_session.commit()
     return client

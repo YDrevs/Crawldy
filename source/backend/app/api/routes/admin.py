@@ -18,7 +18,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
 
-from app.api.deps import SessionDep, StaffDep
+from app.api.deps import PlatformAdminDep, SessionDep, StaffDep
 from app.schemas.ai_admin import AnalysisSettingsOut, PresenceSettingsOut
 from app.services import verdict_service
 
@@ -65,7 +65,7 @@ async def ai_analysis_settings(session: SessionDep, _: StaffDep) -> AnalysisSett
 
 @router.put("/ai/analysis")
 async def update_ai_analysis(
-    payload: dict[str, Any], session: SessionDep, _: StaffDep
+    payload: dict[str, Any], session: SessionDep, _: PlatformAdminDep
 ) -> AnalysisSettingsOut:
     from app.enrich import policy as analysis_policy
     from app.services.ai_policy_service import save_analysis
@@ -95,7 +95,7 @@ async def ai_presence_settings(session: SessionDep, _: StaffDep) -> PresenceSett
 
 @router.put("/ai/presence")
 async def update_ai_presence(
-    payload: dict[str, Any], session: SessionDep, _: StaffDep
+    payload: dict[str, Any], session: SessionDep, _: PlatformAdminDep
 ) -> PresenceSettingsOut:
     from app.presence import policy as presence_policy
     from app.services import presence_service
@@ -229,7 +229,7 @@ async def list_commerce_offers(
 
 @router.put("/commerce/offers/{code}")
 async def upsert_commerce_offer(
-    code: str, payload: OfferIn, session: SessionDep, _: StaffDep
+    code: str, payload: OfferIn, session: SessionDep, _: PlatformAdminDep
 ) -> OfferAdminOut:
     if payload.offer_type not in ("single", "pack"):
         raise HTTPException(status_code=422, detail="offer_type: single або pack")
@@ -317,7 +317,7 @@ class CampaignSavedOut(BaseModel):
 
 @router.put("/commerce/campaigns/{code}")
 async def upsert_campaign(
-    code: str, payload: CampaignIn, session: SessionDep, _: StaffDep
+    code: str, payload: CampaignIn, session: SessionDep, _: PlatformAdminDep
 ) -> CampaignSavedOut:
     from app.billing import catalog as billing_catalog
     from app.services import commerce_service
@@ -402,7 +402,7 @@ async def list_commerce_plans(
 
 @router.put("/commerce/plans/{code}")
 async def upsert_commerce_plan(
-    code: str, payload: PlanIn, session: SessionDep, _: StaffDep
+    code: str, payload: PlanIn, session: SessionDep, _: PlatformAdminDep
 ) -> PlanAdminOut:
     from app.billing import catalog as billing_catalog
     from app.billing import entitlements
@@ -522,7 +522,7 @@ async def grant_credits(
     organization_id: uuid.UUID,
     payload: GrantIn,
     session: SessionDep,
-    staff: StaffDep,
+    staff: PlatformAdminDep,
 ) -> GrantOut:
     """Ручний грант — промо чи корекція. Причина обовʼязкова: рядок
     без пояснення не зможе пояснити себе через пів року."""

@@ -21,7 +21,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from app.api.deps import SessionDep, StaffDep
+from app.api.deps import PlatformAdminDep, SessionDep, StaffDep
 from app.audit.enums import AuditStatus
 from app.audit.i18n import Locale
 from app.report.builder import build_report
@@ -124,7 +124,7 @@ class SweepIn(BaseModel):
 
 @router.post("/payments/sweep")
 async def sweep_payments(
-    payload: SweepIn, session: SessionDep, _: StaffDep
+    payload: SweepIn, session: SessionDep, _: PlatformAdminDep
 ) -> dict[str, Any]:
     """Погасити каси, за які не заплатили, щоб перелік не заростав.
 
@@ -166,7 +166,7 @@ async def verify_payment(
 
 @router.post("/payments/{purchase_id}/credit")
 async def credit_payment(
-    purchase_id: uuid.UUID, session: SessionDep, actor: StaffDep
+    purchase_id: uuid.UUID, session: SessionDep, actor: PlatformAdminDep
 ) -> dict[str, Any]:
     """Зарахувати покупку, якщо провайдер підтверджує оплату.
 
