@@ -180,7 +180,7 @@ describe("запасний маршрут не обходить жодної п�
   });
 
   it("повернення лише на свій шлях — відкритого редіректу немає", () => {
-    expect(route).toContain('if (!raw.startsWith("/") || raw.startsWith("//")) return "/";');
+    expect(route).toContain('return localPath(raw) ?? "/";');
   });
 
   it("адреса клієнта передається для лічильника частоти", () => {

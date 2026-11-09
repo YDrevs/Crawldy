@@ -104,8 +104,12 @@ describe("форма входу існує всіма шістьма мовам�
     // `lib/landing.ts` разом із правилом «куди вести після входу»
     // (сторінка Next не може експортувати власних помічників).
     expect(login.includes("landingFor")).toBe(true);
+    // Сама перевірка — у `lib/local-path.ts`, спільна з поверненням
+    // контактної форми; поведінку тримає `local-path.test.ts`.
     const landing = readFileSync(join(__dirname, "landing.ts"), "utf-8");
-    expect(landing.includes('raw.startsWith("//")')).toBe(true);
+    expect(landing.includes("localPath(raw)")).toBe(true);
+    const localPathSource = readFileSync(join(__dirname, "local-path.ts"), "utf-8");
+    expect(localPathSource.includes('raw.startsWith("//")')).toBe(true);
   });
 });
 

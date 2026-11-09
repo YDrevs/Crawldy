@@ -39,16 +39,16 @@
 import { API_URL } from "../../lib/api";
 import { CONTACT_FALLBACK, type FallbackStrings } from "../../content/contact/fallback";
 import { trustedForwardedFor, trustedProxyCount } from "../../lib/forwarded";
+import { localPath } from "../../lib/local-path";
 
 /** Сторінка живе на сервері: відповідь залежить від тіла запиту. */
 export const dynamic = "force-dynamic";
 
 /** Куди повертатися. Лише свій шлях — і ніколи чужий сайт. */
 function safeReturn(raw: string): string {
-  // `//evil.example` — теж «починається зі слеша», і саме так роблять
-  // відкриті редіректи. Другий символ перевіряється окремо.
-  if (!raw.startsWith("/") || raw.startsWith("//")) return "/";
-  return raw;
+  // `//evil.example` і `/\evil.example` теж «починаються зі слеша» —
+  // вирішує не префікс, а куди піде браузер (lib/local-path.ts).
+  return localPath(raw) ?? "/";
 }
 
 function escapeHtml(value: string): string {
