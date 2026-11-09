@@ -33,12 +33,13 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.core.untrusted import UNTRUSTED_NOTICE, untrusted_block
 from app.enrich.contracts import TaskType
 from app.enrich.tasks.base import TaskSpec, require_keys
 
 # v2: успадкування причинної впевненості від груп, факти покриття у вході.
 SCHEMA_VERSION = "2"
-PROMPT_VERSION = "2"
+PROMPT_VERSION = "3"
 TASK_VERSION = "2"
 
 # Сила причинного твердження кроку. `none` — крок нічого не стверджує про
@@ -140,7 +141,7 @@ SYSTEM = (
     "diagnosis, and keep the limitation visible where a step depends on it.\n\n"
     "Explain ordering through dependencies and shared work surfaces. Do not estimate "
     "engineering hours or money, and do not promise traffic, ranking or AI-visibility "
-    "gains — none of that was measured."
+    "gains — none of that was measured.\n\n" + UNTRUSTED_NOTICE
 )
 
 
@@ -167,10 +168,11 @@ def render_prompt(payload: dict[str, Any]) -> str:
         )
         or "(no clusters)"
     )
-    site = payload.get("site") or "(no site context)"
+    site = untrusted_block(str(payload.get("site") or "(no site context)"), source="site")
     return (
-        f"Site context: {site}\n{_coverage_line(payload)}\n\n"
-        f"Findings:\n{findings}\n\nClusters:\n{groups}"
+        f"Site context:\n{site}\n{_coverage_line(payload)}\n\n"
+        f"Findings:\n{untrusted_block(findings, source='audit findings')}\n\n"
+        f"Clusters:\n{untrusted_block(groups, source='clusters')}"
     )
 
 

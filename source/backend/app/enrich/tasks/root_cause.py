@@ -41,6 +41,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.core.untrusted import UNTRUSTED_NOTICE, untrusted_block
 from app.enrich.contracts import TaskType
 from app.enrich.tasks.base import TaskSpec, require_keys
 
@@ -49,7 +50,7 @@ MAX_EVIDENCE_CHARS = 300
 
 # v2: кластер відокремлено від причини, додано факти покриття у вхід.
 SCHEMA_VERSION = "2"
-PROMPT_VERSION = "2"
+PROMPT_VERSION = "3"
 TASK_VERSION = "2"
 
 # Порядок має значення: на ньому тримається правило, що план виправлень
@@ -159,7 +160,8 @@ SYSTEM = (
     "- Never reference a finding that is not in the input. Never invent a finding.\n"
     "- Respect coverage: if only part of the site was read, do not describe anything as "
     "site-wide, and let partial coverage lower your confidence in broad causes.\n"
-    "- Say 'on the pages read' rather than 'site-wide' whenever coverage is not full."
+    "- Say 'on the pages read' rather than 'site-wide' whenever coverage is not full.\n\n"
+    + UNTRUSTED_NOTICE
 )
 
 
@@ -184,10 +186,10 @@ def render_prompt(payload: dict[str, Any]) -> str:
             + (f" :: examples: {examples}" if examples else "")
             + (f" :: evidence: {f['evidence']}" if f.get("evidence") else "")
         )
-    site = payload.get("site") or "(no site context)"
-    return (
-        f"Site context: {site}\n{_coverage_line(payload)}\n\nFindings:\n" + "\n".join(lines)
-    )
+    site = untrusted_block(str(payload.get("site") or "(no site context)"), source="site")
+    # Знахідки — наші, але titles і evidence цитують сайт: блок цілком.
+    findings = untrusted_block("\n".join(lines), source="audit findings")
+    return f"Site context:\n{site}\n{_coverage_line(payload)}\n\nFindings:\n{findings}"
 
 
 def validate(output: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:

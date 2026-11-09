@@ -17,6 +17,7 @@ from app.audit.llm.base import Fact, OwnerNotes, PageInsight, SiteBrief, SiteFac
 from app.core import runtime_config as runtime
 from app.core.config import settings
 from app.core.logging import log
+from app.core.untrusted import UNTRUSTED_NOTICE, untrusted_block
 
 # Скільки тексту сторінки віддаємо моделі. Довші сторінки коштують більше,
 # а відповідь на питання «про що ця сторінка» дає вже перша частина.
@@ -172,7 +173,7 @@ OWNER_SYSTEM = (
     "in customers. Never add a finding that is not in the list, never soften one that "
     "is, and never explain how to fix anything — that is not what this document is for. "
     "No technical terms at all: no SEO, no indexing, no markup, no language models. "
-    "Write in the language of the problem descriptions you are given."
+    "Write in the language of the problem descriptions you are given.\n\n" + UNTRUSTED_NOTICE
 )
 
 FACTS_SYSTEM = (
@@ -180,7 +181,7 @@ FACTS_SYSTEM = (
     "or an AI assistant can read on it. For each listed fact, say whether the site "
     "states it anywhere in this text. Judge only what is written: if it is not there, "
     "it is not stated, no matter how obvious it seems for a company like this. "
-    "When it is stated, quote the exact words and give the page URL."
+    "When it is stated, quote the exact words and give the page URL.\n\n" + UNTRUSTED_NOTICE
 )
 
 PAGE_SYSTEM = (
@@ -188,15 +189,20 @@ PAGE_SYSTEM = (
     "what you actually found — never what a page like this usually contains. "
     "If the page does not state something, it is missing; do not infer it from the "
     "company name, the URL, or your own knowledge of the industry. "
-    "Answer in the language the page is written in."
+    "Answer in the language the page is written in.\n\n" + UNTRUSTED_NOTICE
 )
 
 BRIEF_SYSTEM = (
     "You are given several pages from one website. Describe the company exactly as "
     "these pages present it, using their own terms for products and services. "
     "Invent nothing: if the pages never say who the audience is, say so plainly. "
-    "Answer in the language the pages are written in."
+    "Answer in the language the pages are written in.\n\n" + UNTRUSTED_NOTICE
 )
+
+
+def _comparable(text: str) -> str:
+    """Текст для звірки цитати: регістр і пробіли не мають значення."""
+    return " ".join(text.lower().split())
 
 
 class AnthropicAnalyst:
@@ -214,9 +220,8 @@ class AnthropicAnalyst:
         return self._client
 
     async def read_page(self, url: str, title: str, text: str) -> PageInsight:
-        prompt = (
-            f"URL: {url}\nTitle: {title or '(no title)'}\n\n"
-            f"Page text:\n{text[:MAX_PAGE_CHARS]}"
+        prompt = "Page:\n" + untrusted_block(
+            f"Title: {title or '(no title)'}\n{text[:MAX_PAGE_CHARS]}", source=url
         )
         data = await self._ask(PAGE_SYSTEM, prompt, PAGE_SCHEMA)
         if isinstance(data, str):
@@ -232,8 +237,9 @@ class AnthropicAnalyst:
         )
 
     async def brief(self, origin: str, pages: list[tuple[str, str]]) -> SiteBrief:
-        joined = "\n\n---\n\n".join(
-            f"{title or '(no title)'}\n{body[:2000]}" for title, body in pages[:5]
+        joined = "\n\n".join(
+            untrusted_block(f"Title: {title or '(no title)'}\n{body[:2000]}", source=origin)
+            for title, body in pages[:5]
         )
         data = await self._ask(BRIEF_SYSTEM, f"Site: {origin}\n\n{joined}", BRIEF_SCHEMA)
         if isinstance(data, str):
@@ -251,9 +257,12 @@ class AnthropicAnalyst:
         """`pages` — трійки (url, title, text). URL потрібен моделі, щоб
         показати, на якій саме сторінці вона знайшла факт."""
         body = "\n\n".join(
-            f"=== {url}\n{title or '(no title)'}\n{text[:MAX_FACT_CHARS]}"
+            untrusted_block(f"Title: {title or '(no title)'}\n{text[:MAX_FACT_CHARS]}", source=url)
             for url, title, text in pages
         )
+        read_text = {
+            url: _comparable(f"{title or ''} {text[:MAX_FACT_CHARS]}") for url, title, text in pages
+        }
         asked = "\n".join(f"- {key}: {description}" for key, description in FACT_KEYS)
         data = await self._ask(
             FACTS_SYSTEM, f"Facts to check:\n{asked}\n\nSite pages:\n{body}", FACTS_SCHEMA
@@ -262,6 +271,22 @@ class AnthropicAnalyst:
             return SiteFacts(analysed=False, error=data)
 
         seen = {str(item.get("key", "")): item for item in data.get("facts", [])}
+
+        def evidence(key: str) -> tuple[str, str]:
+            """Цитата лишається доказом, лише якщо вона є на названій сторінці.
+
+            Інакше це вигадка моделі або результат інʼєкції в тексті сайту.
+            `stated` від цього не змінюється (мовчання вважаємо «сказано»),
+            але в звіт така цитата не йде.
+            """
+            item = seen.get(key, {})
+            quote = str(item.get("quote", ""))
+            url = str(item.get("url", ""))
+            page = read_text.get(url)
+            if not quote or page is None or _comparable(quote) not in page:
+                return "", ""
+            return quote, url
+
         return SiteFacts(
             analysed=True,
             facts=[
@@ -271,8 +296,8 @@ class AnthropicAnalyst:
                     # мовчання — не доказ відсутності, а звинувачувати сайт
                     # у тому, чого ми не питали, гірше за пропуск.
                     stated=bool(seen.get(key, {}).get("stated", True)),
-                    quote=str(seen.get(key, {}).get("quote", "")),
-                    page_url=str(seen.get(key, {}).get("url", "")),
+                    quote=evidence(key)[0],
+                    page_url=evidence(key)[1],
                 )
                 for key, _ in FACT_KEYS
             ],
@@ -287,7 +312,9 @@ class AnthropicAnalyst:
         """`problems` — пари (ключ, наслідок простою мовою) з каталогу."""
         listed = "\n".join(f"- {key}: {text}" for key, text in problems)
         prompt = (
-            f"The business, as its own site describes it:\n{business or '(unknown)'}\n\n"
+            "The business, as its own site describes it:\n"
+            + untrusted_block(business or "(unknown)", source="site description")
+            + "\n\n"
             f"Overall state of the site: {band}\n\n"
             f"Problems found:\n{listed}"
         )

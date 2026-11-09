@@ -224,7 +224,11 @@ async def test_facts_request_carries_the_page_urls():
 @pytest.mark.asyncio
 async def test_facts_are_parsed_with_their_evidence():
     analyst = _analyst_with(_Response(FACTS_JSON))
-    facts = await analyst.facts("https://e.com", [("https://e.com/", "Головна", "текст")])
+    # Цитата мусить бути на сторінці, яку модель назвала: інакше вона не
+    # доказ, а вигадка (див. test_analyst_untrusted).
+    facts = await analyst.facts(
+        "https://e.com", [("https://e.com/", "Головна", "Ремонт ноутбуків у Львові")]
+    )
 
     assert facts.analysed
     assert [f.key for f in facts.missing()] == ["location", "pricing"]
