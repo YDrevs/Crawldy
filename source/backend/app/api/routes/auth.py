@@ -22,6 +22,7 @@ from app.api.deps import (
     clear_session_cookie,
     set_session_cookie,
 )
+from app.api.registration_notice import notify_address_owner
 from app.audit.i18n import parse as parse_locale
 from app.core.config import settings
 from app.core.ratelimit import RateLimiter
@@ -197,6 +198,9 @@ async def register(
             display_name=payload.display_name,
         )
     except service.EmailTaken as exc:
+        # 409 — рішення власника (зрозуміло людині). Ціну — перевірку,
+        # чи адреса зареєстрована, — бачить власник адреси листом.
+        await notify_address_owner(request, payload.email)
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="ця пошта вже зареєстрована"
         ) from exc

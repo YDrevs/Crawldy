@@ -307,3 +307,18 @@ def rate_limiter() -> Iterator[MemoryRateLimiter]:
     app.state.rate_limiter = limiter
     yield limiter
     app.state.rate_limiter = None
+
+
+@pytest.fixture(autouse=True)
+def registration_notices(monkeypatch: pytest.MonkeyPatch) -> list[str]:
+    """Листи «спроба реєстрації на вашу пошту» — списком адрес.
+
+    Без підміни кожен 409 на реєстрації чекав би ретраїв Redis.
+    """
+    queued: list[str] = []
+
+    async def _enqueue(*, email: str, lang: str = "") -> None:
+        queued.append(email)
+
+    monkeypatch.setattr("app.api.registration_notice.enqueue_registration_notice", _enqueue)
+    return queued

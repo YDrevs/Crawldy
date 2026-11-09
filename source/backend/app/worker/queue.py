@@ -96,3 +96,13 @@ async def enqueue_password_reset(*, email: str, lang: str = "") -> None:
     """
     pool = await get_pool()
     await pool.enqueue_job("send_password_reset_task", email, lang)
+
+
+async def enqueue_registration_notice(*, email: str, lang: str = "") -> None:
+    """Лист власнику адреси про спробу реєстрації на неї.
+
+    Без ідентифікатора завдання: частоту обмежує маршрут (раз на годину
+    на адресу), а не черга.
+    """
+    pool = await get_pool()
+    await pool.enqueue_job("send_registration_notice_task", email, lang)

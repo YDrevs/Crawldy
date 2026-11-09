@@ -34,6 +34,7 @@ from pydantic import BaseModel, Field
 
 from app.api.client_ip import client_ip
 from app.api.deps import SessionDep
+from app.api.registration_notice import notify_address_owner
 from app.application import audits as audits_app
 from app.application import guest as guest_app
 from app.application import purchases as purchases_app
@@ -845,6 +846,7 @@ class ClaimOut(BaseModel):
 )
 async def claim(
     payload: ClaimIn,
+    request: Request,
     capability: CapabilityDep,
     session: SessionDep,
 ) -> ClaimOut:
@@ -867,6 +869,7 @@ async def claim(
             display_name=payload.display_name,
         )
     except guest_app.ExistingUser as exc:
+        await notify_address_owner(request, payload.email)
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={"reason": "account.exists", "needs": "merge"},
