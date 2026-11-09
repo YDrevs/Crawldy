@@ -18,4 +18,8 @@ def test_production_publishes_no_schema_or_docs() -> None:
 
 @pytest.mark.parametrize("env", ["local", "staging"])
 def test_other_environments_keep_the_docs(env: str) -> None:
-    assert docs_settings(env) == {}
+    assert docs_settings(env) == {
+        "docs_url": "/docs",
+        "redoc_url": "/redoc",
+        "openapi_url": "/openapi.json",
+    }
