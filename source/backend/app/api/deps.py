@@ -193,6 +193,23 @@ OwnerDep = Annotated[ActorContext, Depends(require_role(Role.OWNER))]
 AdminDep = Annotated[ActorContext, Depends(require_role(Role.ADMIN))]
 
 
+async def require_billing_owner(actor: ActorDep) -> ActorContext:
+    """Гроші організації: власник і саме людина, не ключ API.
+
+    Ключ організації має роль ADMIN, глобальний — OWNER службової
+    організації; жоден не має права відкривати касу чи платіжний кабінет.
+    """
+    try:
+        actor.require(Role.OWNER)
+        actor.require_human()
+    except Forbidden as exc:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    return actor
+
+
+BillingOwnerDep = Annotated[ActorContext, Depends(require_billing_owner)]
+
+
 def require_platform(role: PlatformRole) -> Callable[[ActorContext], Awaitable[ActorContext]]:
     """Залежність для службових ендпойнтів.
 
@@ -260,6 +277,7 @@ __all__ = [
     "ActorDep",
     "AdminDep",
     "ApiKeyDep",
+    "BillingOwnerDep",
     "OwnerDep",
     "PlatformAdminDep",
     "SessionDep",

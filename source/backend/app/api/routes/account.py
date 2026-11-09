@@ -8,7 +8,7 @@ from typing import Annotated
 from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel, Field
 
-from app.api.deps import ActorDep, OwnerDep, SessionDep
+from app.api.deps import ActorDep, BillingOwnerDep, OwnerDep, SessionDep
 from app.application import guest as guest_app
 from app.application.catalog import localized_text
 from app.audit.i18n import Locale
@@ -260,7 +260,7 @@ async def purchase_state(
 @router.post(
     "/portal-session", response_model=PortalOut, status_code=status.HTTP_201_CREATED
 )
-async def create_portal_session(session: SessionDep, actor: ActorDep) -> PortalOut:
+async def create_portal_session(session: SessionDep, actor: BillingOwnerDep) -> PortalOut:
     """Створити свіжу сесію хостованого кабінету провайдера.
 
     POST, бо це дія зі станом: кожен виклик породжує нову тимчасову

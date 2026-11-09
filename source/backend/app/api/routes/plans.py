@@ -9,7 +9,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel
 
-from app.api.deps import ActorDep, SessionDep
+from app.api.deps import BillingOwnerDep, SessionDep
 from app.application import commerce
 from app.application.catalog import public_plan
 from app.application.locale import resolve as resolve_locale
@@ -61,7 +61,7 @@ async def list_plans(
     status_code=status.HTTP_201_CREATED,
 )
 async def open_checkout(
-    plan_code: str, session: SessionDep, actor: ActorDep
+    plan_code: str, session: SessionDep, actor: BillingOwnerDep
 ) -> PlanCheckoutOut:
     """Відкрити касу підписки на публічний тариф.
 
