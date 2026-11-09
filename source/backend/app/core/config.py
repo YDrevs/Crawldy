@@ -54,7 +54,9 @@ class Settings(BaseSettings):
     # Списком, а не прапорцями: політика мусить читатися цілком в одному
     # місці. Набір із трьох булевих налаштувань дає вісім комбінацій, з
     # яких половину ніхто ніколи не перевірить.
-    billing_refundable_failures: list[str] | None = None
+    # NoDecode: інакше pydantic-settings робить json.loads ще до валідатора,
+    # і порожнє `BILLING_REFUNDABLE_FAILURES=` з `.env.example` валить старт.
+    billing_refundable_failures: Annotated[list[str] | None, NoDecode] = None
 
     llm_enabled: bool = False
     anthropic_api_key: str | None = None
@@ -343,6 +345,15 @@ class Settings(BaseSettings):
         if any(not key.strip() for key in self.api_keys):
             raise ValueError("API_KEYS містить порожній ключ")
         return self
+
+    @field_validator("billing_refundable_failures", mode="before")
+    @classmethod
+    def _split_refundable(cls, v: object) -> object:
+        """Порожньо — політика за замовчуванням (`None`), не «нічого не повертати»."""
+        if isinstance(v, str):
+            items = [k.strip() for k in v.split(",") if k.strip()]
+            return items or None
+        return v
 
     @field_validator("api_keys", "cors_origins", mode="before")
     @classmethod
