@@ -1,6 +1,8 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { securityHeaders } from "./security-headers.mjs";
+
 /**
  * Корінь трасування задано явно.
  *
@@ -32,38 +34,13 @@ const CANONICAL_HOST = "crawldy.ai";
 const MIRROR_HOSTS = ["crawldy.com", "www.crawldy.com", "www.crawldy.ai"];
 
 /**
- * Заголовки безпеки, які можна поставити ДО хостингу.
- *
- * Критерій відбору один: заголовок має залежати лише від застосунку.
- * Те, що залежить від TLS, домену чи переліку джерел, тут свідомо
- * відсутнє, і його відсутність — не недогляд:
- *
- * - `Strict-Transport-Security` тримається на HTTPS і домені, яких ще
- *   немає. Поставлений наосліп, він або не робить нічого, або замикає
- *   браузер на схему, якої сайт не віддає.
- * - `Content-Security-Policy` вимагає перелічити джерела, а сторінки
- *   віддають інлайнові стилі й тягнуть Paddle і Turnstile. «Увімкнути
- *   CSP» без проходу по сторінках означає зламати їх мовчки; це окрема
- *   робота з вимірюванням.
- *
- * Порядок масиву — це порядок у відповіді, і він навмисно сталий:
- * інакше порівняння двох збірок показувало б різницю там, де її немає.
- *
- * `X-Frame-Options` стосується того, чи може ЧУЖИЙ сайт показати нашу
- * сторінку в рамці. Він не стосується того, що ми самі показуємо чуже:
- * накладна каса Paddle і віджет Turnstile — це їхні рамки в нашій
- * сторінці, і `DENY` на наших відповідях їх не торкається.
- *
- * Три дозволи в `Permissions-Policy` порожні, бо жодна функція продукту
- * не просить камери, мікрофона чи геолокації — перевірено пошуком по
- * всьому фронтенду, а не припущено.
+ * Заголовки безпеки — у `security-headers.mjs` (там і пояснення, чому
+ * повна CSP поки звітна, а HSTS вмикається лише змінною).
  */
-const SECURITY_HEADERS = [
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "X-Frame-Options", value: "DENY" },
-  { key: "Permissions-Policy", value: "camera=(), geolocation=(), microphone=()" },
-];
+const SECURITY_HEADERS = securityHeaders({
+  hsts: process.env.HSTS_ENABLED === "true",
+  apiUrl: process.env.NEXT_PUBLIC_API_URL,
+});
 
 /** @type {import('next').NextConfig} */
 export default {
