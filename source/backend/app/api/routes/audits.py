@@ -13,6 +13,7 @@ from app.application.visibility import history_window
 from app.audit.enums import AuditStatus, AuditTrigger, Module, Severity
 from app.audit.fetcher import origin_of
 from app.audit.i18n import FALLBACK_LOCALE, Locale
+from app.core.logging import log
 from app.core.run_enums import FailureClass
 from app.report.builder import build_report
 from app.report.docx import filename_for, render_docx
@@ -119,7 +120,10 @@ async def create_audit(payload: AuditCreate, session: SessionDep, actor: ActorDe
         # Квота повертається: аудит не виконається з нашої причини, а не
         # через сайт клієнта. Списане за роботу, якої не було, — це
         # рахунок за нашу поломку.
-        await audit_service.mark_failed(session, started.audit.id, f"черга недоступна: {exc}")
+        # Текст винятку — лише в лог: у DSN Redis є хост і пароль, а
+        # `audit.error` віддається клієнту.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await application.settle_quota(
             session, started.audit, failure=FailureClass.INTERNAL_ERROR
         )

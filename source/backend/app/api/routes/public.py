@@ -43,6 +43,7 @@ from app.billing import catalog as billing_catalog
 from app.billing.enums import PurchaseStatus
 from app.core import runtime_config as runtime
 from app.core.config import settings
+from app.core.logging import log
 from app.core.ratelimit import RateLimiter
 from app.identity.passwords import WeakPassword
 from app.schemas.audit import AuditCreate
@@ -354,7 +355,10 @@ async def start_audit(
     try:
         await enqueue_audit(started.audit.id)
     except Exception as exc:
-        await audit_service.mark_failed(session, started.audit.id, f"черга недоступна: {exc}")
+        # Текст винятку — лише в лог: у DSN Redis є хост і пароль, а
+        # `audit.error` віддається клієнту.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await session.commit()
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -734,9 +738,10 @@ async def start_paid_audit(
     try:
         await enqueue_audit(started.audit.id)
     except Exception as exc:
-        await audit_service.mark_failed(
-            session, started.audit.id, f"черга недоступна: {exc}"
-        )
+        # Текст винятку — лише в лог: у DSN Redis є хост і пароль, а
+        # `audit.error` віддається клієнту.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await session.commit()
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

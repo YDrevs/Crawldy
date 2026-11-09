@@ -87,3 +87,19 @@ def test_public_addresses_pass(ip: str) -> None:
 async def test_ssrf_guard_blocks_ipv4_mapped_loopback() -> None:
     with pytest.raises(UnsafeUrlError):
         await assert_public_host("http://[::ffff:127.0.0.1]/")
+
+
+async def test_the_refusal_does_not_name_the_internal_address(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Перелік внутрішніх IP за іменами — розвідка мережі воркера."""
+    import asyncio
+    import socket
+
+    async def fake_getaddrinfo(*_a: object, **_k: object) -> list[tuple[object, ...]]:
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("10.20.30.40", 0))]
+
+    monkeypatch.setattr(asyncio.get_running_loop(), "getaddrinfo", fake_getaddrinfo)
+    with pytest.raises(UnsafeUrlError) as exc:
+        await assert_public_host("https://internal.example/")
+    assert "10.20.30.40" not in str(exc.value)

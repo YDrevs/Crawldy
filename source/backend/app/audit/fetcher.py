@@ -177,7 +177,10 @@ async def assert_public_host(url: str) -> None:
         # IPv6 link-local приходить зі scope: `fe80::1%eth0`.
         ip = ipaddress.ip_address(str(info[4][0]).split("%", 1)[0])
         if _is_forbidden(ip):
-            raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP {ip}")
+            # Сама адреса — лише в лог: текст помилки доходить до клієнта,
+            # а перелік внутрішніх IP за іменами — розвідка мережі воркера.
+            log.warning("ssrf_blocked", host=host, ip=str(ip))
+            raise UnsafeUrlError(f"хост {host} резолвиться у приватну чи службову адресу")
 
 
 Resolver = Callable[[str, int], Awaitable[list[str]]]
@@ -229,7 +232,8 @@ class _GuardedBackend(httpcore.AsyncNetworkBackend):
         if not settings.allow_private_hosts:
             for raw in ips:
                 if _is_forbidden(ipaddress.ip_address(raw)):
-                    raise UnsafeUrlError(f"хост {host} резолвиться у приватний IP {raw}")
+                    log.warning("ssrf_blocked", host=host, ip=raw)
+                    raise UnsafeUrlError(f"хост {host} резолвиться у приватну чи службову адресу")
 
         last: Exception | None = None
         for ip in ips:

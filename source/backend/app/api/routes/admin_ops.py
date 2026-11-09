@@ -24,6 +24,7 @@ from pydantic import BaseModel, Field
 from app.api.deps import PlatformAdminDep, SessionDep, StaffDep
 from app.audit.enums import AuditStatus
 from app.audit.i18n import Locale
+from app.core.logging import log
 from app.report.builder import build_report
 from app.report.docx import filename_for, render_docx
 from app.report.docx_owner import filename_for as owner_filename
@@ -220,9 +221,11 @@ async def start_test_audit(
     try:
         await enqueue_audit(audit.id)
     except Exception as exc:
+        # DSN Redis (хост, пароль) не має їхати навіть у службовий браузер.
+        log.error("enqueue_failed", error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"черга недоступна: {exc}",
+            detail="черга недоступна — подробиці в лозі API",
         ) from exc
     return {"id": str(audit.id), "status": audit.status.value, "url": audit.url}
 
@@ -379,9 +382,11 @@ async def start_test_presence(
     try:
         await enqueue_presence(run.id)
     except Exception as exc:
+        # DSN Redis (хост, пароль) не має їхати навіть у службовий браузер.
+        log.error("enqueue_failed", error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"черга недоступна: {exc}",
+            detail="черга недоступна — подробиці в лозі API",
         ) from exc
     planned = run.policy_snapshot.get("providers", {})
     return {

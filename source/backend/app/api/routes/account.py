@@ -15,6 +15,7 @@ from app.audit.i18n import Locale
 from app.billing import credits, quota
 from app.billing import service as billing_service
 from app.billing import state as billing_state
+from app.core.logging import log
 from app.identity import service as identity
 from app.schemas.account import (
     AccountOrganizationOut,
@@ -278,10 +279,12 @@ async def create_portal_session(session: SessionDep, actor: BillingOwnerDep) -> 
         # Провайдер відмовив — це не «профілю немає». Різниця практична:
         # у першому випадку робота на нашому боці (права ключа, мережа),
         # у другому людина просто ще не платила. 502 відрізняє їх у
-        # кабінеті, і причина йде поруч: службовий екран її прочитає.
+        # кабінеті. Причина (код і текст провайдера про права НАШОГО
+        # ключа) — у лог для команди, а не клієнту.
+        log.error("portal_unavailable", organization_id=str(actor.organization_id), error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"портал провайдера не відкрився: {exc}",
+            detail="портал провайдера тимчасово не відкрився — спробуйте пізніше",
         ) from exc
     if url is None:
         raise HTTPException(
