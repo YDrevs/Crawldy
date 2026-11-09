@@ -10,14 +10,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
     && rm -rf /var/lib/apt/lists/*
 
 # Спершу лише залежності: цей шар кешується й не перезбирається на кожну
-# правку коду. Сам пакет поставити тут не можна — app/ ще не скопійований,
-# а pyproject оголошує його явно.
+# правку коду. Версії й хеші — з requirements.lock: `pyproject` має лише
+# нижні межі, і без lock кожна збірка тягла б найсвіжіше (так selectolax
+# 1.0 мовчки зламав імпорт). Пакет, чий хеш не збігся, не встановиться.
 WORKDIR /build
-COPY pyproject.toml ./
+COPY requirements.lock ./
 RUN python -m venv /opt/venv && \
-    /opt/venv/bin/pip install --upgrade pip && \
-    python -c "import tomllib; print('\n'.join(tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']))" > /tmp/requirements.txt && \
-    /opt/venv/bin/pip install -r /tmp/requirements.txt
+    /opt/venv/bin/pip install --no-deps --require-hashes -r requirements.lock
 
 
 # ── API ────────────────────────────────────────────────────────────────

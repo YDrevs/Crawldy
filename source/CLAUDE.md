@@ -61,6 +61,13 @@ python scripts/rescore_dir.py snaps/
 pytest -q                    # потребує PostgreSQL для tests/integration; без нього вони пропускаються
 ruff check app tests
 
+# залежності бекенду: образ ставить ЛИШЕ requirements.lock (версії + хеші).
+# Після зміни dependencies у pyproject — перегенерувати в Linux-контейнері
+# (тест tests/test_lockfile.py не дасть їм розійтися):
+docker run --rm -v "$PWD/backend:/src" -w /src python:3.12-slim sh -c \
+  "pip install pip-tools && pip-compile --generate-hashes --strip-extras \
+   --allow-unsafe --no-emit-index-url --output-file=requirements.lock pyproject.toml"
+
 # міграції
 alembic revision --autogenerate -m "опис"
 alembic upgrade head
