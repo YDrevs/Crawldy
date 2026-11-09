@@ -47,3 +47,14 @@ def test_every_report_filename_is_header_safe(raw: str) -> None:
         presence_docx.filename_for(raw, "uk"),
     ):
         assert SAFE.match(name), name
+
+
+@pytest.mark.parametrize("raw", HOSTILE)
+def test_llms_filename_is_header_safe(raw: str) -> None:
+    from types import SimpleNamespace
+
+    from app.report.docx import llms_filename
+
+    name = llms_filename(SimpleNamespace(target={"origin": raw}))  # type: ignore[arg-type]
+    assert SAFE.match(name), name
+    assert name.startswith("llms-") and name.endswith(".txt")

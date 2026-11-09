@@ -252,6 +252,11 @@ def filename_for(report: ReportDocument, locale: Locale) -> str:
     return f"audit-{safe}-technical-{locale.value}.docx"
 
 
+def llms_filename(report: ReportDocument) -> str:
+    """Імʼя файлу чернетки llms.txt — той самий безпечний хост, що й у docx."""
+    return f"llms-{host_part(str(report.target.get('origin', '')), fallback='site')}.txt"
+
+
 def _scores_table(document: Any, report: ReportDocument, locale: Locale) -> None:
     document.add_heading(t("section_scores_technical", locale), level=2)
 
