@@ -270,8 +270,11 @@ async def logout(request: Request, response: Response, db: SessionDep) -> Respon
     if token:
         await service.revoke_session(db, token)
         await db.commit()
-    clear_session_cookie(response)
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    # Cookie прибирається на тій відповіді, яку повертаємо: інʼєктований
+    # `response` FastAPI ігнорує, щойно маршрут віддає власний Response.
+    done = Response(status_code=status.HTTP_204_NO_CONTENT)
+    clear_session_cookie(done)
+    return done
 
 
 @router.get("/me", response_model=MeOut)
@@ -545,5 +548,6 @@ async def change_password(
             status_code=status.HTTP_403_FORBIDDEN, detail={"reason": "password.wrong_current"}
         )
     await db.commit()
-    clear_session_cookie(response)
-    return Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
+    done = Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
+    clear_session_cookie(done)
+    return done
