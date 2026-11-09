@@ -133,7 +133,54 @@ def _org_out(view: OrgView) -> OrganizationOut:
     )
 
 
-@router.post("/register", response_model=MeOut, status_code=status.HTTP_201_CREATED)
+def _limiter(request: Request) -> RateLimiter:
+    limiter = getattr(request.app.state, "rate_limiter", None)
+    if limiter is None:  # pragma: no cover — ставиться в lifespan
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="сервіс недоступний"
+        )
+    return limiter  # type: ignore[no-any-return]
+
+
+
+
+async def _per_address(request: Request, scope: str, *, limit: int, window: int) -> None:
+    decision = await _limiter(request).check(
+        f"{scope}:ip:{client_ip(request)}", limit=limit, window=window
+    )
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={"reason": f"{scope}.too_many"},
+            headers={"Retry-After": str(decision.reset_after)},
+        )
+
+
+async def _login_rate_limited(request: Request) -> None:
+    """Вхід — на адресу. Блокування акаунта бачить лише один акаунт."""
+    await _per_address(
+        request,
+        "login",
+        limit=settings.login_rate_limit,
+        window=settings.login_rate_window_seconds,
+    )
+
+
+async def _register_rate_limited(request: Request) -> None:
+    await _per_address(
+        request,
+        "register",
+        limit=settings.register_rate_limit,
+        window=settings.register_rate_window_seconds,
+    )
+
+
+@router.post(
+    "/register",
+    response_model=MeOut,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(_register_rate_limited)],
+)
 async def register(
     payload: RegisterIn, request: Request, response: Response, db: SessionDep
 ) -> MeOut:
@@ -179,7 +226,7 @@ async def register(
     )
 
 
-@router.post("/login", response_model=MeOut)
+@router.post("/login", response_model=MeOut, dependencies=[Depends(_login_rate_limited)])
 async def login(
     payload: Credentials, request: Request, response: Response, db: SessionDep
 ) -> MeOut:
@@ -334,17 +381,6 @@ async def revoke_api_key(
 # Обмеження частоти: за зразком контактної форми, з власним вікном.
 # Ділити лічильник із нею не можна — спам у форму не має закривати
 # людині вхід до акаунта.
-
-
-def _limiter(request: Request) -> RateLimiter:
-    limiter = getattr(request.app.state, "rate_limiter", None)
-    if limiter is None:  # pragma: no cover — ставиться в lifespan
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="сервіс недоступний"
-        )
-    return limiter  # type: ignore[no-any-return]
-
-
 
 
 async def _recovery_rate_limited(request: Request) -> None:

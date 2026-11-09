@@ -832,7 +832,12 @@ class ClaimOut(BaseModel):
     user_id: uuid.UUID
 
 
-@router.post("/claim", response_model=ClaimOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/claim",
+    response_model=ClaimOut,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[RateLimited],
+)
 async def claim(
     payload: ClaimIn,
     capability: CapabilityDep,

@@ -245,6 +245,13 @@ class Settings(BaseSettings):
     # чужі адреси, а один відправник глушить власну скриньку.
     recovery_rate_limit: int = 5
     recovery_rate_window_seconds: int = 3600
+    # Вхід і реєстрація — на адресу клієнта. Блокування акаунта після
+    # MAX_FAILED_LOGINS захищає один акаунт; перебір одного пароля по
+    # тисячі адрес (spraying) і масову реєстрацію бачить лише лічильник IP.
+    login_rate_limit: int = 30
+    login_rate_window_seconds: int = 900
+    register_rate_limit: int = 20
+    register_rate_window_seconds: int = 3600
 
     # Пошта для листів КОРИСТУВАЧЕВІ. Окрема від `contact_*` навмисно:
     # там одержувач зашитий у налаштування й завжди один (ми самі), а

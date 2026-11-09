@@ -15,7 +15,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.identity import passwords
@@ -180,10 +180,24 @@ async def authenticate(session: AsyncSession, *, email: str, password: str) -> U
         return None
 
     if not passwords.verify(user.password_hash, password):
-        user.failed_login_count += 1
-        if user.failed_login_count >= MAX_FAILED_LOGINS:
-            user.locked_until = _now() + LOCKOUT
-            user.failed_login_count = 0
+        # Інкремент у базі, а не в Python: паралельні невдалі спроби
+        # читали той самий лічильник і записували однакове `n + 1`, тож
+        # межу блокування можна було обходити паралельністю.
+        failed = await session.scalar(
+            update(User)
+            .where(User.id == user.id)
+            .values(failed_login_count=User.failed_login_count + 1)
+            .returning(User.failed_login_count)
+            .execution_options(synchronize_session=False)
+        )
+        if failed is not None and failed >= MAX_FAILED_LOGINS:
+            await session.execute(
+                update(User)
+                .where(User.id == user.id)
+                .values(locked_until=_now() + LOCKOUT, failed_login_count=0)
+                .execution_options(synchronize_session=False)
+            )
+        await session.refresh(user, ["failed_login_count", "locked_until"])
         return None
 
     if passwords.needs_rehash(user.password_hash):
