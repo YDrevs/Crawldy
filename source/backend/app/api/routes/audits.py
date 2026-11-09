@@ -557,7 +557,12 @@ async def set_verdict(
     історія вагань.
     """
     saved = await verdict_service.record(
-        session, issue_id, body.verdict, note=body.note, author=body.author
+        session,
+        issue_id,
+        body.verdict,
+        organization_id=actor.organization_id,
+        note=body.note,
+        author=body.author,
     )
     if saved is None:
         raise HTTPException(status_code=404, detail="знахідки не знайдено")

@@ -83,7 +83,7 @@ def test_enough_answers_make_the_share_meaningful():
 async def client(monkeypatch):
     box: dict[str, object] = {"saved": None, "summary": []}
 
-    async def fake_record(_session, issue_id, verdict, *, note="", author=""):
+    async def fake_record(_session, issue_id, verdict, *, organization_id, note="", author=""):
         if box["saved"] == "missing":
             return None
 
