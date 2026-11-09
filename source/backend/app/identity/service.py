@@ -227,12 +227,24 @@ async def create_session(
 
 
 async def resolve_session(db: AsyncSession, token: str) -> Session | None:
-    """Чинна сесія або None. Прострочена й відкликана — однаково None."""
-    stmt = select(Session).where(Session.token_hash == hash_token(token))
-    record = (await db.execute(stmt)).scalar_one_or_none()
-    if record is None or record.revoked_at is not None:
+    """Чинна сесія або None. Прострочена й відкликана — однаково None.
+
+    Власник сесії перевіряється щоразу, а не лише при вході: вимкнений
+    чи видалений користувач інакше діяв би виданою раніше cookie до
+    кінця її терміну.
+    """
+    stmt = (
+        select(Session, User)
+        .join(User, User.id == Session.user_id)
+        .where(Session.token_hash == hash_token(token))
+    )
+    row = (await db.execute(stmt)).one_or_none()
+    if row is None:
         return None
-    if record.expires_at <= _now():
+    record, user = row
+    if record.revoked_at is not None or record.expires_at <= _now():
+        return None
+    if user.deleted_at is not None or not user.status.can_sign_in:
         return None
     return record
 
