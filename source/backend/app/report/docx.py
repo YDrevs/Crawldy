@@ -33,6 +33,7 @@ from app.report.docx_brand import (
     style_document,
     style_table,
 )
+from app.report.filenames import host_part
 from app.report.i18n import locale_of, t
 from app.report.types import (
     MODULE_FIELD,
@@ -245,8 +246,7 @@ def _missing_plain(document: Any, report: ReportDocument, locale: Locale) -> Non
 
 
 def filename_for(report: ReportDocument, locale: Locale) -> str:
-    host = report.target.get("origin", "").replace("https://", "").replace("http://", "")
-    safe = "".join(c if c.isalnum() or c in "-._" else "-" for c in host) or "audit"
+    safe = host_part(str(report.target.get("origin", "")), fallback="audit")
     # Вид у назві файлу: чотири документи одного сайту не мають
     # перезаписувати один одного в теці завантажень.
     return f"audit-{safe}-technical-{locale.value}.docx"

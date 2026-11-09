@@ -19,6 +19,7 @@ from app.report.builder import build_report
 from app.report.docx import filename_for, render_docx
 from app.report.docx_owner import filename_for as owner_filename
 from app.report.docx_owner import render_owner_docx
+from app.report.filenames import host_part
 from app.report.history import compare, needs_recompute, timeline
 from app.report.owner_enrich import build_owner_extras
 from app.report.web import to_web
@@ -355,7 +356,7 @@ async def get_report(
                 status_code=409,
                 detail="немає з чого скласти llms.txt: сайт не віддав сторінок із назвами",
             )
-        host = str(document.target.get("origin", "")).replace("https://", "").strip("/")
+        host = host_part(str(document.target.get("origin", "")), fallback="")
         return Response(
             content=draft,
             media_type="text/plain; charset=utf-8",
