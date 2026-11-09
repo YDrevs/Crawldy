@@ -23,6 +23,7 @@ _PROD = {
     "mail_smtp_host": "smtp.example.com",
     "mail_sender": "crawldy@example.com",
     "public_app_url": "https://crawldy.ai",
+    "ip_hash_salt": "test-salt-of-sufficient-length",
 }
 
 

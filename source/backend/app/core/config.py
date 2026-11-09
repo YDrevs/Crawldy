@@ -196,8 +196,12 @@ class Settings(BaseSettings):
     # Сіль для хешування адрес у лічильниках. Порожня означає, що хеш
     # відновлюється перебором за пів секунди — тому в проді її задають.
     ip_hash_salt: str = ""
-    # Заголовку `X-Forwarded-For` можна вірити лише за нашим проксі.
-    # На прямому доступі він обходить лічильник одним рядком.
+    # Скільки НАШИХ проксі стоїть перед API (Caddy, балансувальник, CDN).
+    # Адреса клієнта — стільки-то записів `X-Forwarded-For` справа
+    # (`app/api/client_ip.py`). 0 — заголовок ігнорується: на прямому
+    # доступі він обходить лічильник одним рядком.
+    trusted_proxy_count: int = Field(default=0, ge=0, le=5)
+    # Застарілий прапорець: `true` означає один проксі.
     trust_proxy_headers: bool = False
 
     # ── контактна форма ────────────────────────────────────────────────
@@ -327,6 +331,15 @@ class Settings(BaseSettings):
             )
         if not self.public_app_url.lower().startswith("https://"):
             raise ValueError("PUBLIC_APP_URL у проді мусить бути https://")
+        if len(self.ip_hash_salt) < 16:
+            # Без солі хеш IPv4 відновлюється перебором за пів секунди.
+            raise ValueError("IP_HASH_SALT у проді обовʼязкова (≥16 символів)")
+        return self
+
+    @model_validator(mode="after")
+    def _legacy_proxy_flag(self) -> "Settings":
+        if self.trust_proxy_headers and self.trusted_proxy_count == 0:
+            self.trusted_proxy_count = 1
         return self
 
     @model_validator(mode="after")

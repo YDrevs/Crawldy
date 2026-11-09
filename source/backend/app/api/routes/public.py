@@ -32,6 +32,7 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends, Header, HTTPException, Request, Response, status
 from pydantic import BaseModel, Field
 
+from app.api.client_ip import client_ip
 from app.api.deps import SessionDep
 from app.application import audits as audits_app
 from app.application import guest as guest_app
@@ -103,18 +104,6 @@ def _limiter(request: Request) -> RateLimiter:
     return limiter  # type: ignore[no-any-return]
 
 
-def _client_ip(request: Request) -> str:
-    """Адреса клієнта. За проксі — перший запис `X-Forwarded-For`.
-
-    Заголовку можна вірити лише тому, що застосунок стоїть за нашим
-    проксі; на прямому доступі його треба ігнорувати, інакше лічильник
-    обходиться одним заголовком.
-    """
-    if settings.trust_proxy_headers:
-        forwarded = request.headers.get("x-forwarded-for", "")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else ""
 
 
 def _limit_for(path: str) -> int:
@@ -133,7 +122,7 @@ def _limit_for(path: str) -> int:
 async def _rate_limited(request: Request) -> None:
     """Порахувати спробу за адресою клієнта й відмовити понад норму."""
     limiter = _limiter(request)
-    ip = _client_ip(request)
+    ip = client_ip(request)
     decision = await limiter.check(
         f"public:{request.url.path}:{ip}",
         limit=_limit_for(request.url.path),
@@ -301,7 +290,7 @@ class PaymentStateOut(BaseModel):
 async def open_session(request: Request, session: SessionDep) -> GuestSessionOut:
     """Відкрити гостьову сесію: організація без учасників плюс спроможність."""
     opened = await guest_app.open_session(
-        session, ip=_client_ip(request), ip_salt=settings.ip_hash_salt
+        session, ip=client_ip(request), ip_salt=settings.ip_hash_salt
     )
     await session.commit()
     return GuestSessionOut(

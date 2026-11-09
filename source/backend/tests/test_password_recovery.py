@@ -43,6 +43,7 @@ def _settings(**overrides: object) -> Settings:
         "redis_url": "redis://localhost:6379",
         # Поза local дефолтний ключ розробки не стартує; ці тести не про ключі.
         "api_keys": "",
+        "ip_hash_salt": "test-salt-of-sufficient-length",
     }
     return Settings(**{**base, **overrides})  # type: ignore[arg-type]
 

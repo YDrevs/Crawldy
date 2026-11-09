@@ -13,6 +13,7 @@ import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
+from app.api.client_ip import client_ip
 from app.api.deps import (
     SESSION_COOKIE,
     ActorDep,
@@ -344,13 +345,6 @@ def _limiter(request: Request) -> RateLimiter:
     return limiter  # type: ignore[no-any-return]
 
 
-def _client_ip(request: Request) -> str:
-    """Те саме правило, що в контактній формі й анонімній воронці."""
-    if settings.trust_proxy_headers:
-        forwarded = request.headers.get("x-forwarded-for", "")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else ""
 
 
 async def _recovery_rate_limited(request: Request) -> None:
@@ -362,7 +356,7 @@ async def _recovery_rate_limited(request: Request) -> None:
     можна повторити.
     """
     limiter = _limiter(request)
-    keys = [f"recovery:ip:{_client_ip(request)}"]
+    keys = [f"recovery:ip:{client_ip(request)}"]
     try:
         body = await request.json()
     except Exception:  # noqa: BLE001 — некоректне тіло тут не наша турбота

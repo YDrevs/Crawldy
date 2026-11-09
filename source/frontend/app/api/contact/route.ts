@@ -30,13 +30,15 @@
  *
  * Лічильник частоти на бекенді ключується адресою. Через проксі до нього
  * доходить адреса цього сервера, тож справжня їде в `X-Forwarded-For` —
- * рівно там, де бекенд її й шукає. Коли він налаштований заголовку не
+ * лише записи наших проксі (`TRUSTED_PROXY_COUNT`, той самий підрахунок,
+ * що й на бекенді), без того, що дописав клієнт. Коли він налаштований заголовку не
  * вірити, всі безскриптові звернення потраплять в одне відро: суворіше
  * за потрібне, але не слабше — і це правильний бік помилки.
  */
 
 import { API_URL } from "../../lib/api";
 import { CONTACT_FALLBACK, type FallbackStrings } from "../../content/contact/fallback";
+import { trustedForwardedFor, trustedProxyCount } from "../../lib/forwarded";
 
 /** Сторінка живе на сервері: відповідь залежить від тіла запиту. */
 export const dynamic = "force-dynamic";
@@ -100,12 +102,13 @@ export async function POST(request: Request): Promise<Response> {
   const strings = CONTACT_FALLBACK[locale] ?? CONTACT_FALLBACK.en;
   const back = safeReturn(read("return"));
 
-  // Адреса клієнта — для лічильника частоти на бекенді. Заголовок
-  // проксі, якщо він уже є; інакше адреса зʼєднання.
-  const forwarded =
-    request.headers.get("x-forwarded-for") ??
-    request.headers.get("x-real-ip") ??
-    "";
+  // Адреса клієнта — для лічильника частоти на бекенді. Лише записи,
+  // які дописали наші проксі: клієнтський `X-Forwarded-For` як є дав би
+  // кожному запиту нове відро (див. lib/forwarded.ts).
+  const forwarded = trustedForwardedFor(
+    request.headers.get("x-forwarded-for"),
+    trustedProxyCount(process.env.TRUSTED_PROXY_COUNT),
+  );
 
   let accepted = false;
   let blocked = false;

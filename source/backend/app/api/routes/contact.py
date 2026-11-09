@@ -25,6 +25,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
 from pydantic import BaseModel, Field
 
+from app.api.client_ip import client_ip
 from app.api.deps import SessionDep
 from app.application import contact as contact_app
 from app.audit.i18n import DEFAULT_LOCALE, parse
@@ -44,17 +45,6 @@ def _limiter(request: Request) -> RateLimiter:
     return limiter  # type: ignore[no-any-return]
 
 
-def client_ip(request: Request) -> str:
-    """Адреса клієнта. За проксі — перший запис `X-Forwarded-For`.
-
-    Те саме правило, що в анонімній воронці: заголовку можна вірити лише
-    за нашим проксі, інакше лічильник обходиться одним рядком.
-    """
-    if settings.trust_proxy_headers:
-        forwarded = request.headers.get("x-forwarded-for", "")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else ""
 
 
 async def _rate_limited(request: Request) -> None:
