@@ -8,13 +8,14 @@ from typing import Annotated
 from fastapi import APIRouter, Header, HTTPException, status
 from pydantic import BaseModel, Field
 
-from app.api.deps import ActorDep, OwnerDep, SessionDep
+from app.api.deps import ActorDep, BillingOwnerDep, OwnerDep, SessionDep
 from app.application import guest as guest_app
 from app.application.catalog import localized_text
 from app.audit.i18n import Locale
 from app.billing import credits, quota
 from app.billing import service as billing_service
 from app.billing import state as billing_state
+from app.core.logging import log
 from app.identity import service as identity
 from app.schemas.account import (
     AccountOrganizationOut,
@@ -260,7 +261,7 @@ async def purchase_state(
 @router.post(
     "/portal-session", response_model=PortalOut, status_code=status.HTTP_201_CREATED
 )
-async def create_portal_session(session: SessionDep, actor: ActorDep) -> PortalOut:
+async def create_portal_session(session: SessionDep, actor: BillingOwnerDep) -> PortalOut:
     """Створити свіжу сесію хостованого кабінету провайдера.
 
     POST, бо це дія зі станом: кожен виклик породжує нову тимчасову
@@ -278,10 +279,12 @@ async def create_portal_session(session: SessionDep, actor: ActorDep) -> PortalO
         # Провайдер відмовив — це не «профілю немає». Різниця практична:
         # у першому випадку робота на нашому боці (права ключа, мережа),
         # у другому людина просто ще не платила. 502 відрізняє їх у
-        # кабінеті, і причина йде поруч: службовий екран її прочитає.
+        # кабінеті. Причина (код і текст провайдера про права НАШОГО
+        # ключа) — у лог для команди, а не клієнту.
+        log.error("portal_unavailable", organization_id=str(actor.organization_id), error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"портал провайдера не відкрився: {exc}",
+            detail="портал провайдера тимчасово не відкрився — спробуйте пізніше",
         ) from exc
     if url is None:
         raise HTTPException(

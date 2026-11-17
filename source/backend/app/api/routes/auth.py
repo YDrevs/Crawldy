@@ -13,6 +13,7 @@ import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
+from app.api.client_ip import client_ip
 from app.api.deps import (
     SESSION_COOKIE,
     ActorDep,
@@ -21,6 +22,7 @@ from app.api.deps import (
     clear_session_cookie,
     set_session_cookie,
 )
+from app.api.registration_notice import notify_address_owner
 from app.audit.i18n import parse as parse_locale
 from app.core.config import settings
 from app.core.ratelimit import RateLimiter
@@ -132,7 +134,54 @@ def _org_out(view: OrgView) -> OrganizationOut:
     )
 
 
-@router.post("/register", response_model=MeOut, status_code=status.HTTP_201_CREATED)
+def _limiter(request: Request) -> RateLimiter:
+    limiter = getattr(request.app.state, "rate_limiter", None)
+    if limiter is None:  # pragma: no cover — ставиться в lifespan
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="сервіс недоступний"
+        )
+    return limiter  # type: ignore[no-any-return]
+
+
+
+
+async def _per_address(request: Request, scope: str, *, limit: int, window: int) -> None:
+    decision = await _limiter(request).check(
+        f"{scope}:ip:{client_ip(request)}", limit=limit, window=window
+    )
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={"reason": f"{scope}.too_many"},
+            headers={"Retry-After": str(decision.reset_after)},
+        )
+
+
+async def _login_rate_limited(request: Request) -> None:
+    """Вхід — на адресу. Блокування акаунта бачить лише один акаунт."""
+    await _per_address(
+        request,
+        "login",
+        limit=settings.login_rate_limit,
+        window=settings.login_rate_window_seconds,
+    )
+
+
+async def _register_rate_limited(request: Request) -> None:
+    await _per_address(
+        request,
+        "register",
+        limit=settings.register_rate_limit,
+        window=settings.register_rate_window_seconds,
+    )
+
+
+@router.post(
+    "/register",
+    response_model=MeOut,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(_register_rate_limited)],
+)
 async def register(
     payload: RegisterIn, request: Request, response: Response, db: SessionDep
 ) -> MeOut:
@@ -149,6 +198,9 @@ async def register(
             display_name=payload.display_name,
         )
     except service.EmailTaken as exc:
+        # 409 — рішення власника (зрозуміло людині). Ціну — перевірку,
+        # чи адреса зареєстрована, — бачить власник адреси листом.
+        await notify_address_owner(request, payload.email)
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="ця пошта вже зареєстрована"
         ) from exc
@@ -178,7 +230,7 @@ async def register(
     )
 
 
-@router.post("/login", response_model=MeOut)
+@router.post("/login", response_model=MeOut, dependencies=[Depends(_login_rate_limited)])
 async def login(
     payload: Credentials, request: Request, response: Response, db: SessionDep
 ) -> MeOut:
@@ -222,8 +274,11 @@ async def logout(request: Request, response: Response, db: SessionDep) -> Respon
     if token:
         await service.revoke_session(db, token)
         await db.commit()
-    clear_session_cookie(response)
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    # Cookie прибирається на тій відповіді, яку повертаємо: інʼєктований
+    # `response` FastAPI ігнорує, щойно маршрут віддає власний Response.
+    done = Response(status_code=status.HTTP_204_NO_CONTENT)
+    clear_session_cookie(done)
+    return done
 
 
 @router.get("/me", response_model=MeOut)
@@ -335,24 +390,6 @@ async def revoke_api_key(
 # людині вхід до акаунта.
 
 
-def _limiter(request: Request) -> RateLimiter:
-    limiter = getattr(request.app.state, "rate_limiter", None)
-    if limiter is None:  # pragma: no cover — ставиться в lifespan
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="сервіс недоступний"
-        )
-    return limiter  # type: ignore[no-any-return]
-
-
-def _client_ip(request: Request) -> str:
-    """Те саме правило, що в контактній формі й анонімній воронці."""
-    if settings.trust_proxy_headers:
-        forwarded = request.headers.get("x-forwarded-for", "")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else ""
-
-
 async def _recovery_rate_limited(request: Request) -> None:
     """Два відра, не одне.
 
@@ -362,7 +399,7 @@ async def _recovery_rate_limited(request: Request) -> None:
     можна повторити.
     """
     limiter = _limiter(request)
-    keys = [f"recovery:ip:{_client_ip(request)}"]
+    keys = [f"recovery:ip:{client_ip(request)}"]
     try:
         body = await request.json()
     except Exception:  # noqa: BLE001 — некоректне тіло тут не наша турбота
@@ -515,5 +552,6 @@ async def change_password(
             status_code=status.HTTP_403_FORBIDDEN, detail={"reason": "password.wrong_current"}
         )
     await db.commit()
-    clear_session_cookie(response)
-    return Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
+    done = Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
+    clear_session_cookie(done)
+    return done

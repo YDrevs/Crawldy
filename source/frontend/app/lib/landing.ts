@@ -1,3 +1,5 @@
+import { localPath } from "./local-path";
+
 /**
  * Хто ця людина для інтерфейсу і куди її вести після входу.
  *
@@ -21,8 +23,7 @@ export function isStaff(role: string | null | undefined): boolean {
  * відкритий редиректор.
  */
 export function safeNext(raw: string | null): string {
-  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/app";
-  return raw;
+  return localPath(raw) ?? "/app";
 }
 
 /**

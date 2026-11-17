@@ -13,7 +13,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Request, status
 from pydantic import BaseModel, Field
 
-from app.api.deps import SessionDep, StaffDep
+from app.api.deps import PlatformAdminDep, SessionDep, StaffDep
 from app.services import admin_config_service as config_service
 
 router = APIRouter(prefix="/v1/admin/config", tags=["admin"])
@@ -41,7 +41,7 @@ async def payment_settings(
 
 @router.put("/payment")
 async def update_payment_settings(
-    payload: SettingsIn, request: Request, session: SessionDep, actor: StaffDep
+    payload: SettingsIn, request: Request, session: SessionDep, actor: PlatformAdminDep
 ) -> dict[str, Any]:
     errors = await config_service.save_payment(
         session, payload.values, updated_by=actor.user_id
@@ -78,7 +78,7 @@ async def ai_settings(session: SessionDep, _: StaffDep) -> dict[str, Any]:
 
 @router.put("/ai")
 async def update_ai_settings(
-    payload: AiSettingsIn, session: SessionDep, actor: StaffDep
+    payload: AiSettingsIn, session: SessionDep, actor: PlatformAdminDep
 ) -> dict[str, Any]:
     errors = await config_service.save_ai(
         session, policy=payload.policy, values=payload.values, updated_by=actor.user_id

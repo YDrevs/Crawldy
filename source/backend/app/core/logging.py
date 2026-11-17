@@ -1,7 +1,7 @@
 import logging
 import re
 import sys
-from collections.abc import MutableMapping
+from collections.abc import Mapping, MutableMapping
 from typing import Any, TextIO
 
 import structlog
@@ -44,9 +44,29 @@ class RedactSecrets(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
         # Без гейта на «=»: секрет буває і в заголовку `Bearer …`, і
         # голим префіксованим ключем, а в них знака рівності немає.
-        record.msg = redact(record.getMessage())
-        record.args = ()
+        #
+        # Аргументи чистяться поштучно, а не склеюються в повідомлення:
+        # форматер `uvicorn.access` сам розпаковує `record.args` (клієнт,
+        # метод, шлях, версія, статус), і порожній кортеж валив кожен
+        # рядок журналу доступу в трасування замість запису.
+        if isinstance(record.msg, str):
+            record.msg = redact(record.msg)
+        if isinstance(record.args, tuple):
+            record.args = tuple(_redact_arg(arg) for arg in record.args)
+        elif isinstance(record.args, Mapping):
+            record.args = {key: _redact_arg(arg) for key, arg in record.args.items()}
         return True
+
+
+def _redact_arg(arg: object) -> object:
+    """Числа лишаються числами (`%d` у форматі), решта — рядком без секретів.
+
+    Не лише `str`: httpx передає в лог `httpx.URL`, і query з ключем API
+    інакше пройшов би повз фільтр.
+    """
+    if arg is None or isinstance(arg, int | float):
+        return arg
+    return redact(str(arg))
 
 
 def _redact_event(

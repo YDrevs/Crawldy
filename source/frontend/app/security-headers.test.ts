@@ -67,6 +67,9 @@ const EXPECTED: ReadonlyArray<readonly [string, string]> = [
   ["referrer-policy", "strict-origin-when-cross-origin"],
   ["x-frame-options", "DENY"],
   ["permissions-policy", "camera=(), geolocation=(), microphone=()"],
+  // Примусова частина CSP — лише директиви, незалежні від переліку джерел.
+  // Повна політика йде як Report-Only і перевіряється в lib/security-headers.test.ts.
+  ["content-security-policy", "frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'"],
 ];
 
 interface Reply {
@@ -138,16 +141,19 @@ afterAll(() => {
 });
 
 describe("конфігурація оголошує рівно затверджений набір", () => {
-  it("headers() віддає чотири заголовки в сталому порядку на всі маршрути", async () => {
+  it("headers() віддає затверджені заголовки в сталому порядку на всі маршрути", async () => {
     const config = (await import("../next.config.mjs")).default as {
       headers: () => Promise<{ source: string; headers: { key: string; value: string }[] }[]>;
     };
     const rules = await config.headers();
     expect(rules).toHaveLength(1);
     expect(rules[0].source).toBe("/:path*");
-    expect(rules[0].headers.map((h) => [h.key.toLowerCase(), h.value])).toEqual(
-      EXPECTED.map(([k, v]) => [k, v]),
-    );
+    const declared = rules[0].headers.map((h) => [h.key.toLowerCase(), h.value]);
+    expect(declared.slice(0, EXPECTED.length)).toEqual(EXPECTED.map(([k, v]) => [k, v]));
+    // Далі — лише звітна CSP і (за HSTS_ENABLED) HSTS, нічого іншого.
+    for (const [key] of declared.slice(EXPECTED.length)) {
+      expect(["content-security-policy-report-only", "strict-transport-security"]).toContain(key);
+    }
   });
 
   it("розкриття фреймворку вимкнено", async () => {
@@ -192,7 +198,7 @@ describe.skipIf(!BUILT)("справжня відповідь next start", () => 
     "/robots.txt", "/sitemap.xml", "/this-route-does-not-exist-header-probe"];
 
   for (const route of ROUTES) {
-    it(`${route}: чотири заголовки присутні, кожен рівно один раз`, async () => {
+    it(`${route}: затверджені заголовки присутні, кожен рівно один раз`, async () => {
       await serve();
       const reply = await fetchRaw(route);
       for (const [name, value] of EXPECTED) {

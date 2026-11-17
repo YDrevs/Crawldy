@@ -41,6 +41,9 @@ def _settings(**overrides: object) -> Settings:
         "app_env": "local",
         "database_url": "postgresql+asyncpg://u:p@localhost/db",
         "redis_url": "redis://localhost:6379",
+        # Поза local дефолтний ключ розробки не стартує; ці тести не про ключі.
+        "api_keys": "",
+        "ip_hash_salt": "test-salt-of-sufficient-length",
     }
     return Settings(**{**base, **overrides})  # type: ignore[arg-type]
 

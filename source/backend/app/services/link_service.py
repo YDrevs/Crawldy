@@ -93,8 +93,17 @@ async def list_links(session: AsyncSession, audit_id: uuid.UUID) -> list[ReportL
     return list((await session.scalars(stmt)).all())
 
 
-async def revoke(session: AsyncSession, link_id: uuid.UUID) -> ReportLink | None:
-    link = await session.get(ReportLink, link_id)
+async def revoke(
+    session: AsyncSession, audit_id: uuid.UUID, link_id: uuid.UUID
+) -> ReportLink | None:
+    """Відкликати посилання ЦЬОГО аудиту.
+
+    `audit_id` входить у сам запит, а не звіряється після: раніше
+    відкликання комітилось до перевірки, і 404 приходив уже тоді, коли
+    чуже посилання було вимкнено.
+    """
+    stmt = select(ReportLink).where(ReportLink.id == link_id, ReportLink.audit_id == audit_id)
+    link = (await session.scalars(stmt)).first()
     if link is None:
         return None
     if link.revoked_at is None:

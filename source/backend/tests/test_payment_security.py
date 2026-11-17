@@ -164,12 +164,16 @@ def test_the_fake_provider_does_not_exist_in_production() -> None:
     """Фейк приймає будь-який вебхук із заголовком `x-fake-signature`.
 
     У проді це не тестовий інструмент, а спосіб отримати платний звіт
-    одним curl. Гейт у реєстрі, і перевіряється він читанням реєстру, а
-    не довірою до коментаря.
+    одним curl. Гейт у реєстрі, і перевіряється він поведінкою реєстру
+    для кожного оточення, а не довірою до коментаря. Фейк — лише local:
+    staging публічний, і там він видавав би платне так само.
     """
-    source = (BACKEND / "app/billing/registry.py").read_text(encoding="utf-8")
-    assert 'settings.app_env != "prod"' in source
-    assert "_PROVIDERS[FAKE_NAME] = _FAKE" in source
+    from app.billing import registry
+
+    for env in ("staging", "prod"):
+        providers, publishers = registry.adapters_for(env)
+        assert registry.FAKE_NAME not in providers, env
+        assert registry.FAKE_NAME not in publishers, env
 
 
 # ── подія без підпису не існує ─────────────────────────────────────────────

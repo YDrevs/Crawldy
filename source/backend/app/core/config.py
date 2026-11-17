@@ -4,6 +4,10 @@ from typing import Annotated, Literal
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
+# Глобальний ключ розробки. Він у публічному репозиторії, тож поза
+# `local` його присутність — помилка конфігурації, а не зручність.
+DEV_API_KEY = "dev-key-change-me"
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -12,8 +16,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     # NoDecode обовʼязковий: для list[str] pydantic-settings пробує json.loads
     # ще до валідаторів, і `API_KEYS=dev-key` з .env валить старт застосунку.
+    # Дефолт — лише для локальної розробки: поза `local` старт із ним
+    # відмовляє (`_no_dev_api_key_outside_local`), бо рядок публічний, а
+    # ключ діє як OWNER службової організації.
     api_keys: Annotated[list[str], NoDecode] = Field(
-        default_factory=lambda: ["dev-key-change-me"]
+        default_factory=lambda: [DEV_API_KEY]
     )
 
     # Звідки браузеру дозволено ходити в API. Точні origin'и, а не "*":
@@ -47,7 +54,9 @@ class Settings(BaseSettings):
     # Списком, а не прапорцями: політика мусить читатися цілком в одному
     # місці. Набір із трьох булевих налаштувань дає вісім комбінацій, з
     # яких половину ніхто ніколи не перевірить.
-    billing_refundable_failures: list[str] | None = None
+    # NoDecode: інакше pydantic-settings робить json.loads ще до валідатора,
+    # і порожнє `BILLING_REFUNDABLE_FAILURES=` з `.env.example` валить старт.
+    billing_refundable_failures: Annotated[list[str] | None, NoDecode] = None
 
     llm_enabled: bool = False
     anthropic_api_key: str | None = None
@@ -133,7 +142,8 @@ class Settings(BaseSettings):
     # Ширше за пʼятисекундний дефолт SDK Paddle навмисно: розбіжність
     # годинника сервера — реальний режим відмови, і виглядає він як
     # невірний підпис, тобто як атака.
-    paddle_signature_tolerance_s: int = 300
+    # Вікно захисту від повтору вебхука. ≤0 не вимикає перевірку — старт відмовляє.
+    paddle_signature_tolerance_s: int = Field(default=300, gt=0, le=86_400)
 
     # Рендеринг свідомо йде не на всіх сторінках: браузер коштує на два
     # порядки дорожче за запит, а SSR-дельта на трьох сторінках відповідає
@@ -141,6 +151,10 @@ class Settings(BaseSettings):
     render_enabled: bool = True
     render_max_pages: int = 3
     render_timeout_s: float = 30.0
+    # Sandbox Chromium. У Docker потребує профілю seccomp
+    # deploy/seccomp/chromium.json (стандартний профіль забороняє user
+    # namespaces). Вимикати лише там, де профіль не підключити.
+    render_chromium_sandbox: bool = True
 
     crawl_max_pages: int = 25
     crawl_max_depth: int = 2
@@ -187,8 +201,12 @@ class Settings(BaseSettings):
     # Сіль для хешування адрес у лічильниках. Порожня означає, що хеш
     # відновлюється перебором за пів секунди — тому в проді її задають.
     ip_hash_salt: str = ""
-    # Заголовку `X-Forwarded-For` можна вірити лише за нашим проксі.
-    # На прямому доступі він обходить лічильник одним рядком.
+    # Скільки НАШИХ проксі стоїть перед API (Caddy, балансувальник, CDN).
+    # Адреса клієнта — стільки-то записів `X-Forwarded-For` справа
+    # (`app/api/client_ip.py`). 0 — заголовок ігнорується: на прямому
+    # доступі він обходить лічильник одним рядком.
+    trusted_proxy_count: int = Field(default=0, ge=0, le=5)
+    # Застарілий прапорець: `true` означає один проксі.
     trust_proxy_headers: bool = False
 
     # ── контактна форма ────────────────────────────────────────────────
@@ -232,6 +250,13 @@ class Settings(BaseSettings):
     # чужі адреси, а один відправник глушить власну скриньку.
     recovery_rate_limit: int = 5
     recovery_rate_window_seconds: int = 3600
+    # Вхід і реєстрація — на адресу клієнта. Блокування акаунта після
+    # MAX_FAILED_LOGINS захищає один акаунт; перебір одного пароля по
+    # тисячі адрес (spraying) і масову реєстрацію бачить лише лічильник IP.
+    login_rate_limit: int = 30
+    login_rate_window_seconds: int = 900
+    register_rate_limit: int = 20
+    register_rate_window_seconds: int = 3600
 
     # Пошта для листів КОРИСТУВАЧЕВІ. Окрема від `contact_*` навмисно:
     # там одержувач зашитий у налаштування й завжди один (ми самі), а
@@ -289,6 +314,21 @@ class Settings(BaseSettings):
             return None
         return v
 
+    @field_validator("database_url", mode="after")
+    @classmethod
+    def _async_driver(cls, v: str) -> str:
+        """`postgres://…` від хостингу → `postgresql+asyncpg://…`.
+
+        Railway, Heroku й подібні віддають адресу бази без драйвера, а
+        SQLAlchemy без `+asyncpg` бере синхронний psycopg, якого в образі
+        немає. Склеювати адресу вручну зі змінних хостингу — зайве місце
+        для помилки, тож приводимо тут.
+        """
+        for prefix in ("postgres://", "postgresql://"):
+            if v.startswith(prefix):
+                return "postgresql+asyncpg://" + v[len(prefix) :]
+        return v
+
     @model_validator(mode="after")
     def _production_mail_is_configured(self) -> "Settings":
         """У проді пошта мусить бути налаштована ЯВНО.
@@ -318,7 +358,42 @@ class Settings(BaseSettings):
             )
         if not self.public_app_url.lower().startswith("https://"):
             raise ValueError("PUBLIC_APP_URL у проді мусить бути https://")
+        if len(self.ip_hash_salt) < 16:
+            # Без солі хеш IPv4 відновлюється перебором за пів секунди.
+            raise ValueError("IP_HASH_SALT у проді обовʼязкова (≥16 символів)")
         return self
+
+    @model_validator(mode="after")
+    def _legacy_proxy_flag(self) -> "Settings":
+        if self.trust_proxy_headers and self.trusted_proxy_count == 0:
+            self.trusted_proxy_count = 1
+        return self
+
+    @model_validator(mode="after")
+    def _no_dev_api_key_outside_local(self) -> "Settings":
+        """Поза `local` дефолтний ключ і порожні записи не приймаються.
+
+        Порожній `API_KEYS` поза `local` — валідний стан: глобального
+        ключа немає, працюють лише ключі організацій.
+        """
+        if self.app_env == "local":
+            return self
+        if DEV_API_KEY in self.api_keys:
+            raise ValueError(
+                f"API_KEYS містить {DEV_API_KEY}: задайте власний ключ або порожнє значення"
+            )
+        if any(not key.strip() for key in self.api_keys):
+            raise ValueError("API_KEYS містить порожній ключ")
+        return self
+
+    @field_validator("billing_refundable_failures", mode="before")
+    @classmethod
+    def _split_refundable(cls, v: object) -> object:
+        """Порожньо — політика за замовчуванням (`None`), не «нічого не повертати»."""
+        if isinstance(v, str):
+            items = [k.strip() for k in v.split(",") if k.strip()]
+            return items or None
+        return v
 
     @field_validator("api_keys", "cors_origins", mode="before")
     @classmethod

@@ -1,0 +1,6 @@
+# Залежності й збірка — лише ті, що створені в образі під Linux.
+node_modules/
+.next/
+*.tsbuildinfo
+.env
+.env.*

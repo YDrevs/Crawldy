@@ -15,7 +15,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.identity import passwords
@@ -180,10 +180,24 @@ async def authenticate(session: AsyncSession, *, email: str, password: str) -> U
         return None
 
     if not passwords.verify(user.password_hash, password):
-        user.failed_login_count += 1
-        if user.failed_login_count >= MAX_FAILED_LOGINS:
-            user.locked_until = _now() + LOCKOUT
-            user.failed_login_count = 0
+        # Інкремент у базі, а не в Python: паралельні невдалі спроби
+        # читали той самий лічильник і записували однакове `n + 1`, тож
+        # межу блокування можна було обходити паралельністю.
+        failed = await session.scalar(
+            update(User)
+            .where(User.id == user.id)
+            .values(failed_login_count=User.failed_login_count + 1)
+            .returning(User.failed_login_count)
+            .execution_options(synchronize_session=False)
+        )
+        if failed is not None and failed >= MAX_FAILED_LOGINS:
+            await session.execute(
+                update(User)
+                .where(User.id == user.id)
+                .values(locked_until=_now() + LOCKOUT, failed_login_count=0)
+                .execution_options(synchronize_session=False)
+            )
+        await session.refresh(user, ["failed_login_count", "locked_until"])
         return None
 
     if passwords.needs_rehash(user.password_hash):
@@ -227,12 +241,24 @@ async def create_session(
 
 
 async def resolve_session(db: AsyncSession, token: str) -> Session | None:
-    """Чинна сесія або None. Прострочена й відкликана — однаково None."""
-    stmt = select(Session).where(Session.token_hash == hash_token(token))
-    record = (await db.execute(stmt)).scalar_one_or_none()
-    if record is None or record.revoked_at is not None:
+    """Чинна сесія або None. Прострочена й відкликана — однаково None.
+
+    Власник сесії перевіряється щоразу, а не лише при вході: вимкнений
+    чи видалений користувач інакше діяв би виданою раніше cookie до
+    кінця її терміну.
+    """
+    stmt = (
+        select(Session, User)
+        .join(User, User.id == Session.user_id)
+        .where(Session.token_hash == hash_token(token))
+    )
+    row = (await db.execute(stmt)).one_or_none()
+    if row is None:
         return None
-    if record.expires_at <= _now():
+    record, user = row
+    if record.revoked_at is not None or record.expires_at <= _now():
+        return None
+    if user.deleted_at is not None or not user.status.can_sign_in:
         return None
     return record
 

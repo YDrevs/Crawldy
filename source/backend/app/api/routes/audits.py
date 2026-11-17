@@ -6,16 +6,17 @@ from fastapi import APIRouter, HTTPException, Query, Response, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from app.api.deps import ActorDep, ApiKeyDep, SessionDep
+from app.api.deps import ActorDep, SessionDep
 from app.application import audits as application
 from app.application.locale import resolve as resolve_locale
 from app.application.visibility import history_window
 from app.audit.enums import AuditStatus, AuditTrigger, Module, Severity
 from app.audit.fetcher import origin_of
 from app.audit.i18n import FALLBACK_LOCALE, Locale
+from app.core.logging import log
 from app.core.run_enums import FailureClass
 from app.report.builder import build_report
-from app.report.docx import filename_for, render_docx
+from app.report.docx import filename_for, llms_filename, render_docx
 from app.report.docx_owner import filename_for as owner_filename
 from app.report.docx_owner import render_owner_docx
 from app.report.history import compare, needs_recompute, timeline
@@ -119,7 +120,10 @@ async def create_audit(payload: AuditCreate, session: SessionDep, actor: ActorDe
         # Квота повертається: аудит не виконається з нашої причини, а не
         # через сайт клієнта. Списане за роботу, якої не було, — це
         # рахунок за нашу поломку.
-        await audit_service.mark_failed(session, started.audit.id, f"черга недоступна: {exc}")
+        # Текст винятку — лише в лог: у DSN Redis є хост і пароль, а
+        # `audit.error` віддається клієнту.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await application.settle_quota(
             session, started.audit, failure=FailureClass.INTERNAL_ERROR
         )
@@ -351,12 +355,11 @@ async def get_report(
                 status_code=409,
                 detail="немає з чого скласти llms.txt: сайт не віддав сторінок із назвами",
             )
-        host = str(document.target.get("origin", "")).replace("https://", "").strip("/")
         return Response(
             content=draft,
             media_type="text/plain; charset=utf-8",
             headers={
-                "Content-Disposition": f'attachment; filename="llms-{host or "site"}.txt"'
+                "Content-Disposition": f'attachment; filename="{llms_filename(document)}"'
             },
         )
 
@@ -434,18 +437,24 @@ async def create_share_link(
 
 @router.get("/{audit_id}/links", response_model=list[ShareLinkOut])
 async def list_share_links(
-    audit_id: uuid.UUID, session: SessionDep, _: ApiKeyDep
+    audit_id: uuid.UUID, session: SessionDep, actor: ActorDep
 ) -> list[ShareLinkOut]:
+    audit = await audit_service.get_audit(session, audit_id, organization_id=actor.organization_id)
+    if audit is None:
+        raise HTTPException(status_code=404, detail="аудит не знайдено")
     links = await link_service.list_links(session, audit_id)
     return [ShareLinkOut.model_validate(link) for link in links]
 
 
 @router.delete("/{audit_id}/links/{link_id}", response_model=ShareLinkOut)
 async def revoke_share_link(
-    audit_id: uuid.UUID, link_id: uuid.UUID, session: SessionDep, _: ApiKeyDep
+    audit_id: uuid.UUID, link_id: uuid.UUID, session: SessionDep, actor: ActorDep
 ) -> ShareLinkOut:
-    link = await link_service.revoke(session, link_id)
-    if link is None or link.audit_id != audit_id:
+    audit = await audit_service.get_audit(session, audit_id, organization_id=actor.organization_id)
+    if audit is None:
+        raise HTTPException(status_code=404, detail="посилання не знайдено")
+    link = await link_service.revoke(session, audit_id, link_id)
+    if link is None:
         raise HTTPException(status_code=404, detail="посилання не знайдено")
     return ShareLinkOut.model_validate(link)
 
@@ -551,7 +560,12 @@ async def set_verdict(
     історія вагань.
     """
     saved = await verdict_service.record(
-        session, issue_id, body.verdict, note=body.note, author=body.author
+        session,
+        issue_id,
+        body.verdict,
+        organization_id=actor.organization_id,
+        note=body.note,
+        author=body.author,
     )
     if saved is None:
         raise HTTPException(status_code=404, detail="знахідки не знайдено")

@@ -45,6 +45,7 @@ from app.report.docx_brand import (
     style_document,
     style_table,
 )
+from app.report.filenames import host_part
 from app.report.i18n import locale_of, t
 from app.report.owner_enrich import OwnerExtras
 from app.report.types import MODULE_FIELD, ReportDocument
@@ -130,7 +131,7 @@ def render_owner_docx(
 
 
 def filename_for(report: ReportDocument, locale: Locale, extras: OwnerExtras | None = None) -> str:
-    host = str(report.target.get("origin", "")).replace("https://", "").replace("/", "")
+    host = host_part(str(report.target.get("origin", "")), fallback="")
     # Розширений документ називається інакше: два файли про той самий
     # сайт із різним текстом не мають перезаписувати один одного.
     kind = "general-plus" if extras is not None and extras.analysed else "general"

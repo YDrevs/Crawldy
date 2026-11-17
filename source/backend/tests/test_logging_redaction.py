@@ -97,3 +97,24 @@ def test_a_reset_token_never_reaches_an_access_log(monkeypatch):
     written = captured.getvalue()
     assert "SECRET-RESET-TOKEN" not in written, "токен відновлення потрапив у журнал доступу"
     assert "token=***" in written
+
+
+def test_access_log_record_keeps_its_args_and_loses_the_token() -> None:
+    """Форматер uvicorn.access розпаковує 5 аргументів — їх не можна стерти."""
+    import logging
+
+    from uvicorn.logging import AccessFormatter
+
+    from app.core.logging import RedactSecrets
+
+    record = logging.LogRecord(
+        "uvicorn.access", logging.INFO, __file__, 1,
+        '%s - "%s %s HTTP/%s" %d',
+        ("1.2.3.4:5", "GET", "/password/reset?token=supersecretvalue", "1.1", 200),
+        None,
+    )
+    assert RedactSecrets().filter(record)
+    line = AccessFormatter('%(client_addr)s - "%(request_line)s" %(status_code)s').format(record)
+    assert "supersecretvalue" not in line
+    assert "GET /password/reset" in line
+    assert line.endswith("200 OK")

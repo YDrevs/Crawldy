@@ -32,7 +32,9 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends, Header, HTTPException, Request, Response, status
 from pydantic import BaseModel, Field
 
+from app.api.client_ip import client_ip
 from app.api.deps import SessionDep
+from app.api.registration_notice import notify_address_owner
 from app.application import audits as audits_app
 from app.application import guest as guest_app
 from app.application import purchases as purchases_app
@@ -42,6 +44,7 @@ from app.billing import catalog as billing_catalog
 from app.billing.enums import PurchaseStatus
 from app.core import runtime_config as runtime
 from app.core.config import settings
+from app.core.logging import log
 from app.core.ratelimit import RateLimiter
 from app.identity.passwords import WeakPassword
 from app.schemas.audit import AuditCreate
@@ -103,18 +106,6 @@ def _limiter(request: Request) -> RateLimiter:
     return limiter  # type: ignore[no-any-return]
 
 
-def _client_ip(request: Request) -> str:
-    """Адреса клієнта. За проксі — перший запис `X-Forwarded-For`.
-
-    Заголовку можна вірити лише тому, що застосунок стоїть за нашим
-    проксі; на прямому доступі його треба ігнорувати, інакше лічильник
-    обходиться одним заголовком.
-    """
-    if settings.trust_proxy_headers:
-        forwarded = request.headers.get("x-forwarded-for", "")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else ""
 
 
 def _limit_for(path: str) -> int:
@@ -133,7 +124,7 @@ def _limit_for(path: str) -> int:
 async def _rate_limited(request: Request) -> None:
     """Порахувати спробу за адресою клієнта й відмовити понад норму."""
     limiter = _limiter(request)
-    ip = _client_ip(request)
+    ip = client_ip(request)
     decision = await limiter.check(
         f"public:{request.url.path}:{ip}",
         limit=_limit_for(request.url.path),
@@ -301,7 +292,7 @@ class PaymentStateOut(BaseModel):
 async def open_session(request: Request, session: SessionDep) -> GuestSessionOut:
     """Відкрити гостьову сесію: організація без учасників плюс спроможність."""
     opened = await guest_app.open_session(
-        session, ip=_client_ip(request), ip_salt=settings.ip_hash_salt
+        session, ip=client_ip(request), ip_salt=settings.ip_hash_salt
     )
     await session.commit()
     return GuestSessionOut(
@@ -365,7 +356,10 @@ async def start_audit(
     try:
         await enqueue_audit(started.audit.id)
     except Exception as exc:
-        await audit_service.mark_failed(session, started.audit.id, f"черга недоступна: {exc}")
+        # Текст винятку — лише в лог: у DSN Redis є хост і пароль, а
+        # `audit.error` віддається клієнту.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await session.commit()
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -745,9 +739,10 @@ async def start_paid_audit(
     try:
         await enqueue_audit(started.audit.id)
     except Exception as exc:
-        await audit_service.mark_failed(
-            session, started.audit.id, f"черга недоступна: {exc}"
-        )
+        # Текст винятку — лише в лог: у DSN Redis є хост і пароль, а
+        # `audit.error` віддається клієнту.
+        log.error("enqueue_failed", audit_id=str(started.audit.id), error=str(exc))
+        await audit_service.mark_failed(session, started.audit.id, "черга недоступна")
         await session.commit()
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -843,9 +838,15 @@ class ClaimOut(BaseModel):
     user_id: uuid.UUID
 
 
-@router.post("/claim", response_model=ClaimOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/claim",
+    response_model=ClaimOut,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[RateLimited],
+)
 async def claim(
     payload: ClaimIn,
+    request: Request,
     capability: CapabilityDep,
     session: SessionDep,
 ) -> ClaimOut:
@@ -868,6 +869,7 @@ async def claim(
             display_name=payload.display_name,
         )
     except guest_app.ExistingUser as exc:
+        await notify_address_owner(request, payload.email)
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={"reason": "account.exists", "needs": "merge"},

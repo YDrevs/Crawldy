@@ -1,0 +1,13 @@
+# Без цього файлу `COPY . .` клав в образ локальне оточення розробника:
+# `.env` із секретами, `.venv` під Windows і кеші інструментів.
+.env
+.env.*
+!.env.example
+.venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+benchmark/

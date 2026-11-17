@@ -7,6 +7,9 @@ from dataclasses import dataclass, field
 from urllib.parse import urljoin, urlparse
 from xml.etree import ElementTree
 
+from defusedxml import ElementTree as SafeElementTree
+from defusedxml.common import DefusedXmlException
+
 from app.audit import robots as robots_rfc
 from app.audit.fetcher import Fetcher
 from app.audit.standards import AI_CRAWLERS
@@ -212,7 +215,12 @@ def _direct_loc(entry: ElementTree.Element) -> str:
 
 def _parse_sitemap(xml: str) -> ParsedSitemap:
     """XML карти → її записи, діти й медіа, кожне окремо."""
-    root = ElementTree.fromstring(xml.encode("utf-8", errors="replace"))
+    try:
+        root = SafeElementTree.fromstring(xml.encode("utf-8", errors="replace"))
+    except DefusedXmlException as exc:
+        # Сутності в карті сайту — не дані, а спроба роздути памʼять
+        # воркера. Для викликача це така сама помилка розбору.
+        raise ElementTree.ParseError(f"карта сайту з DTD-сутностями: {type(exc).__name__}") from exc
     parsed = ParsedSitemap(is_index=_local(root.tag) == "sitemapindex")
 
     for entry in root:

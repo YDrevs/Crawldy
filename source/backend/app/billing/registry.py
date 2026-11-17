@@ -31,18 +31,32 @@ _FAKE = FakeBillingProvider()
 # на процес рівно з тієї ж причини, що й фейк: передбачуваність.
 _PADDLE = PaddleProvider()
 
-_PROVIDERS: dict[str, BillingProvider] = {PADDLE_NAME: _PADDLE}
-if settings.app_env != "prod":
-    _PROVIDERS[FAKE_NAME] = _FAKE
 
 
 # Публікатори прайсів — окремий реєстр із тим самим гейтом: фейк у
 # проді не публікує нічого, як і не продає.
 _FAKE_PRICES = FakePricePublisher()
 _PADDLE_PRICES = PaddlePricePublisher()
-_PUBLISHERS: dict[str, PricePublisher] = {PADDLE_NAME: _PADDLE_PRICES}
-if settings.app_env != "prod":
-    _PUBLISHERS[FAKE_NAME] = _FAKE_PRICES
+
+
+def adapters_for(
+    app_env: str,
+) -> tuple[dict[str, BillingProvider], dict[str, PricePublisher]]:
+    """Які каси й публікатори існують у цьому оточенні.
+
+    Фейк — лише `local`. Він приймає будь-який вебхук із
+    `x-fake-signature: valid`, тож на staging (публічному, зі справжніми
+    акаунтами) він видавав би платне безкоштовно так само, як у проді.
+    """
+    providers: dict[str, BillingProvider] = {PADDLE_NAME: _PADDLE}
+    publishers: dict[str, PricePublisher] = {PADDLE_NAME: _PADDLE_PRICES}
+    if app_env == "local":
+        providers[FAKE_NAME] = _FAKE
+        publishers[FAKE_NAME] = _FAKE_PRICES
+    return providers, publishers
+
+
+_PROVIDERS, _PUBLISHERS = adapters_for(settings.app_env)
 
 
 def publisher_for(name: str) -> PricePublisher | None:

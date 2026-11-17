@@ -64,6 +64,7 @@ from app.billing.providers.base import (
     VerifiedBillingEvent,
 )
 from app.core import runtime_config as runtime
+from app.core.logging import log
 
 NAME = "paddle"
 
@@ -410,6 +411,9 @@ def _parse_signature(raw: str) -> tuple[str, str]:
     return timestamp, signature
 
 
+DEFAULT_SIGNATURE_TOLERANCE_S = 300
+
+
 def _reject_if_stale(timestamp: str) -> None:
     """Захист від повтору перехопленого запиту.
 
@@ -421,7 +425,10 @@ def _reject_if_stale(timestamp: str) -> None:
     """
     tolerance = runtime.get_int("paddle_signature_tolerance_s")
     if tolerance <= 0:
-        return
+        # Вимкнути захист від повтору налаштуванням не можна: некоректне
+        # значення — це дефолт, а не «приймати будь-яку давнину».
+        log.warning("paddle_tolerance_invalid", configured=tolerance)
+        tolerance = DEFAULT_SIGNATURE_TOLERANCE_S
     try:
         sent_at = int(timestamp)
     except ValueError as exc:

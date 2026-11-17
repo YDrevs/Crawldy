@@ -5,6 +5,7 @@ from arq import create_pool
 from arq.connections import ArqRedis, RedisSettings
 
 from app.core.config import settings
+from app.worker.serialization import deserialize, serialize
 
 _pool: ArqRedis | None = None
 
@@ -17,7 +18,11 @@ def redis_settings() -> RedisSettings:
 async def get_pool() -> ArqRedis:
     global _pool
     if _pool is None:
-        _pool = await create_pool(redis_settings())
+        # Той самий серіалізатор, що й у WorkerSettings: інакше воркер не
+        # прочитає жодного завдання.
+        _pool = await create_pool(
+            redis_settings(), job_serializer=serialize, job_deserializer=deserialize
+        )
     return _pool
 
 
@@ -91,3 +96,13 @@ async def enqueue_password_reset(*, email: str, lang: str = "") -> None:
     """
     pool = await get_pool()
     await pool.enqueue_job("send_password_reset_task", email, lang)
+
+
+async def enqueue_registration_notice(*, email: str, lang: str = "") -> None:
+    """Лист власнику адреси про спробу реєстрації на неї.
+
+    Без ідентифікатора завдання: частоту обмежує маршрут (раз на годину
+    на адресу), а не черга.
+    """
+    pool = await get_pool()
+    await pool.enqueue_job("send_registration_notice_task", email, lang)

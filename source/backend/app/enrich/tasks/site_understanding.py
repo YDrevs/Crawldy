@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.core.untrusted import UNTRUSTED_NOTICE, untrusted_block
 from app.enrich.contracts import TaskType
 from app.enrich.tasks.base import TaskSpec, require_keys
 
@@ -29,7 +30,7 @@ MAX_PAGE_CHARS = 2500
 # Схема виходу не мінялась — мінявся канонічний вхід (додано факти
 # покриття) і промпт. Версії піднімаються рівно ті, що змінилися.
 SCHEMA_VERSION = "1"
-PROMPT_VERSION = "2"
+PROMPT_VERSION = "3"
 TASK_VERSION = "2"
 
 SiteUnderstandingSchema: dict[str, Any] = {
@@ -100,7 +101,7 @@ SYSTEM = (
     "- Distinguish 'observed on the pages read' from 'site-wide'. Never claim the latter "
     "unless every known page was read.\n"
     "- Where partial coverage materially limits a conclusion, say so in that conclusion "
-    "rather than stating it with full confidence."
+    "rather than stating it with full confidence.\n\n" + UNTRUSTED_NOTICE
 )
 
 
@@ -118,7 +119,9 @@ def _coverage_line(payload: dict[str, Any]) -> str:
 def render_prompt(payload: dict[str, Any]) -> str:
     pages = payload["pages"]
     joined = "\n\n".join(
-        f"=== {page['url']}\n{page['title'] or '(no title)'}\n{page['text']}"
+        untrusted_block(
+            f"Title: {page['title'] or '(no title)'}\n{page['text']}", source=page["url"]
+        )
         for page in pages
     )
     return f"Site: {payload['origin']}\n{_coverage_line(payload)}\n\nPages:\n{joined}"
